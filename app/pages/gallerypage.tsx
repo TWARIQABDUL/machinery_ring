@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router";
+import pool from "../../db";
 import PageHeader from "../components/page-header";
 import Container from "../components/container";
 import FilterChip from "../components/filter-chip";
@@ -13,24 +15,28 @@ export function meta({}: Route.MetaArgs) {
 
 const CATEGORIES = ["All", "Equipment", "Training", "Field days", "Demonstration farms"];
 
-// Static for now — will read from the `gallery_items` table once the Gallery admin exists.
-const PHOTOS = [
-  {
-    tag: "Equipment",
-    caption: "Participants gather around agricultural machinery during an MR Rwanda activity.",
-    src: "/images/hero-photo.jpg",
-  },
-  { tag: "Equipment", caption: "Photo pending — explaining agricultural equipment during a Machinery Ring Rwanda display." },
-  { tag: "Training", caption: "Photo pending — participants listen to a practical explanation beside processing equipment." },
-  { tag: "Field days", caption: "Photo pending — field day in Mwendo, September 2024." },
-  { tag: "Field days", caption: "Photo pending — field day in Kagomasi, September 2024." },
-  { tag: "Field days", caption: "Photo pending — Mwendo and Kagomasi field days, January 2026." },
-  { tag: "Training", caption: "Photo pending — women's leadership and communication training, January 2026." },
-  { tag: "Training", caption: "Photo pending — Microsoft Word and Excel training, March 2026." },
-  { tag: "Demonstration farms", caption: "Photo pending — demonstration farm activity in Gashora Sector." },
-];
+const CATEGORY_LABELS: Record<string, string> = {
+  equipment: "Equipment",
+  training: "Training",
+  field_days: "Field days",
+  demonstration_farms: "Demonstration farms",
+};
 
-export default function GalleryPage() {
+export async function loader() {
+  const { rows } = await pool.query(
+    "SELECT image_path, caption, category FROM gallery_items WHERE is_published = true ORDER BY sort_order, created_at DESC"
+  );
+  return {
+    photos: rows.map((row) => ({
+      tag: CATEGORY_LABELS[row.category as string] ?? "Gallery",
+      caption: row.caption || "Photo from a Machinery Ring Rwanda activity.",
+      src: row.image_path as string,
+    })),
+  };
+}
+
+export default function GalleryPage({ loaderData }: Route.ComponentProps) {
+  const { photos } = loaderData;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -55,34 +61,40 @@ export default function GalleryPage() {
 
       <section className="bg-white">
         <Container className="py-10">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {PHOTOS.map((photo, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setOpenIndex(i)}
-                aria-label={`Open photo: ${photo.caption}`}
-                className="group relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-brand-200 bg-brand-100 text-left"
-              >
-                {photo.src && (
+          {photos.length === 0 ? (
+            <p className="rounded-2xl border border-line bg-[#F7F9F7] px-6 py-12 text-center text-[14.5px] text-muted">
+              Photos are added here as they're confirmed from Ring activities — check back soon, or{" "}
+              <Link to="/contact" className="font-semibold text-brand-700 hover:text-brand-900">
+                contact us
+              </Link>{" "}
+              if you have one to share.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {photos.map((photo, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setOpenIndex(i)}
+                  aria-label={`Open photo: ${photo.caption}`}
+                  className="group relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-brand-200 bg-brand-100 text-left"
+                >
                   <img
                     src={photo.src}
                     alt={photo.caption}
                     className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   />
-                )}
-                <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-3.5 py-3">
-                  <StatusBadge tone="overlay" size="sm">{photo.tag}</StatusBadge>
-                  <span className="text-xs leading-[1.4] text-white">{photo.caption}</span>
-                </div>
-                <span className="absolute inset-0 bg-transparent transition group-hover:bg-[rgba(0,0,0,0.1)]" />
-              </button>
-            ))}
-          </div>
-          <p className="mt-6 text-[13px] text-muted-2">
-            Only one photo above is a supplied image; the rest are placeholders marked pending until real photographs
-            are confirmed for use.
-          </p>
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-3.5 py-3">
+                    <StatusBadge tone="overlay" size="sm">
+                      {photo.tag}
+                    </StatusBadge>
+                    <span className="text-xs leading-[1.4] text-white">{photo.caption}</span>
+                  </div>
+                  <span className="absolute inset-0 bg-transparent transition group-hover:bg-[rgba(0,0,0,0.1)]" />
+                </button>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
 
@@ -94,7 +106,7 @@ export default function GalleryPage() {
 
       {openIndex !== null && (
         <GalleryLightbox
-          photos={PHOTOS}
+          photos={photos}
           index={openIndex}
           onClose={() => setOpenIndex(null)}
           onNavigate={setOpenIndex}
