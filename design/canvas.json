@@ -1,0 +1,16 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 3400, "title": "Home — Desktop" },
+    { "file": "Mobile.dc.html", "x": 1600, "y": 0, "w": 390, "h": 3000, "title": "Home — Mobile" },
+    { "file": "AboutUs.dc.html", "x": 0, "y": 3550, "w": 1440, "h": 4200, "title": "About Us" },
+    { "file": "Services.dc.html", "x": 1560, "y": 3550, "w": 1440, "h": 3400, "title": "Services" },
+    { "file": "OurWork.dc.html", "x": 3120, "y": 3550, "w": 1440, "h": 4400, "title": "Our Work" },
+    { "file": "Contact.dc.html", "x": 4680, "y": 3550, "w": 1440, "h": 3200, "title": "Contact" },
+    { "file": "Gallery.dc.html", "x": 0, "y": 8100, "w": 1440, "h": 2500, "title": "Gallery" },
+    { "file": "Blog.dc.html", "x": 1560, "y": 8100, "w": 1440, "h": 2300, "title": "Blog" }
+  ],
+  "annotations": [
+    { "id": "note-brief", "x": 0, "y": -170, "w": 640, "text": "Machinery Ring Rwanda — real website content, adapted from docs/Machinery_Ring_Rwanda_Website_Content.docx.\n\nNav: Home, About Us, Services, Our Work, Gallery, Blog, Contact — plus a persistent \"Request a service\" button. Gallery and Blog were added back at the user's request; the doc's own appendix lists them as outside the original launch scope, so their content stays honest: mostly placeholder photos and the few real dated updates from the brief, clearly marked.\n\nRow 1: Home — desktop (1440) + mobile (390).\nRow 2: About Us, Services, Our Work, Contact (desktop).\nRow 3: Gallery, Blog (desktop)." }
+  ],
+  "launch": { "view": "canvas" }
+}

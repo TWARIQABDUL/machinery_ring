@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #F7F9F7; color: #1F2A24; font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.55; }
+    h1, h2, h3 { font-family: 'Plus Jakarta Sans', system-ui, 'Segoe UI', Roboto, sans-serif; margin: 0; line-height: 1.18; letter-spacing: -0.02em; color: #12261B; }
+    p { margin: 0; text-wrap: pretty; }
+    a { color: #15803D; text-decoration: none; }
+    a:hover { color: #0F3D24; }
+    .m { padding: 0 20px; }
+    .arrowlink { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; }
+
+    @keyframes gf-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes gf-pop  { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes gf-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } }
+    .gf-rise { animation: gf-rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .gf-pop  { animation: gf-pop 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .gf-pulse { animation: gf-pulse 2.4s ease-in-out infinite; }
+
+    @keyframes gf-slide { 0% { opacity: 0; } 4% { opacity: 1; } 29% { opacity: 1; } 33% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes gf-dot { 0% { background: rgba(255,255,255,0.4); } 4% { background: #ffffff; } 29% { background: #ffffff; } 33% { background: rgba(255,255,255,0.4); } 100% { background: rgba(255,255,255,0.4); } }
+    .gf-slide { position: absolute; inset: 0; opacity: 0; animation: gf-slide 13.5s ease-in-out infinite; }
+    .gf-slide:nth-child(1) { animation-delay: 0s; }
+    .gf-slide:nth-child(2) { animation-delay: 4.5s; }
+    .gf-slide:nth-child(3) { animation-delay: 9s; }
+    .slide-caption { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 14px 12px; background: linear-gradient(to top, rgba(9,38,22,0.82), rgba(9,38,22,0)); color: #ffffff; font-size: 11.5px; font-weight: 500; line-height: 1.4; }
+    .slide-caption .pending { display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.4); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 999px; margin-right: 7px; vertical-align: 1px; }
+    .gf-dot { width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.4); display: inline-block; animation: gf-dot 13.5s ease-in-out infinite; }
+    .gf-dot:nth-child(1) { animation-delay: 0s; }
+    .gf-dot:nth-child(2) { animation-delay: 4.5s; }
+    .gf-dot:nth-child(3) { animation-delay: 9s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gf-rise, .gf-pop, .gf-pulse { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .gf-slide { animation: none !important; opacity: 0 !important; }
+      .gf-slide:first-child { opacity: 1 !important; }
+      .gf-dot { animation: none !important; background: rgba(255,255,255,0.4) !important; }
+      .gf-dot:first-child { background: #ffffff !important; }
+    }
+  </style>
+</helmet>
+
+<div style="width:390px;">
+
+  <!-- Header -->
+  <header style="background:#ffffff; border-bottom:1px solid #E2E9E3;">
+    <div class="m" style="display:flex; align-items:center; justify-content:space-between; height:60px;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <span style="width:30px; height:30px; border-radius:999px; background:#1B7A3D; display:flex; align-items:center; justify-content:center; color:#ffffff; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:11px;">MR</span>
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:14.5px; color:#12261B;">Machinery Ring <span style="color:#1B7A3D;">Rwanda</span></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a href="#" style="background:#1B7A3D; color:#ffffff; font-weight:600; font-size:12.5px; padding:8px 12px; border-radius:8px; white-space:nowrap;">Request</a>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12261B" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section style="background:#ffffff;">
+    <div class="m" style="padding-top:30px; padding-bottom:36px; display:flex; flex-direction:column; gap:16px;">
+      <span class="gf-rise" style="align-self:flex-start; display:flex; align-items:center; gap:7px; background:#E8F3EC; color:#15803D; font-weight:600; font-size:12px; padding:6px 12px; border-radius:999px; animation-delay:0.04s;">
+        <span class="gf-pulse" style="width:6px; height:6px; border-radius:999px; background:#1B7A3D;"></span>Gashora Sector, Bugesera
+      </span>
+      <h1 class="gf-rise" style="font-size:27px; font-weight:800; line-height:1.15; animation-delay:0.12s;">Access agricultural machinery through farmer cooperation</h1>
+      <p class="gf-rise" style="font-size:15px; color:#4A5A50; animation-delay:0.22s;">Machinery Ring Rwanda brings farmers together to access machinery, practical training and coordinated services &mdash; so no household has to buy and maintain every machine it needs.</p>
+      <div class="gf-pop" style="position:relative; aspect-ratio:3/2; margin-top:2px; border-radius:16px; overflow:hidden; animation-delay:0.3s; box-shadow:0 20px 44px -26px rgba(15,61,36,0.35);">
+
+        <div class="gf-slide" style="background:#0F3D24;">
+          <img src="hero-photo.jpg" alt="Farmers and cooperative staff gather around agricultural machinery at an MR Rwanda field event" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <div class="slide-caption"><span>Participants gather around agricultural machinery during an MR Rwanda activity.</span></div>
+        </div>
+
+        <div class="gf-slide" style="background:#DCEBE0; display:flex; align-items:center; justify-content:center;">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" stroke-width="1.3"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5Z"/><path d="M12 6v13"/></svg>
+          <div class="slide-caption"><span class="pending">Photo pending</span>Farmers receiving hands&#8209;on training in machinery use.</div>
+        </div>
+
+        <div class="gf-slide" style="background:#DCEBE0; display:flex; align-items:center; justify-content:center;">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" stroke-width="1.3"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.2"/></svg>
+          <div class="slide-caption"><span class="pending">Photo pending</span>A local Ring field day in Gashora Sector.</div>
+        </div>
+
+        <div style="position:absolute; left:0; right:0; bottom:10px; display:flex; justify-content:center; gap:5px;">
+          <span class="gf-dot"></span><span class="gf-dot"></span><span class="gf-dot"></span>
+        </div>
+
+      </div>
+      <div class="gf-rise" style="display:flex; flex-direction:column; gap:10px; margin-top:4px; animation-delay:0.4s;">
+        <a href="#" style="background:#1B7A3D; color:#ffffff; font-weight:600; font-size:15px; padding:14px; border-radius:10px; text-align:center;">Request a service</a>
+        <a href="#" style="background:#ffffff; color:#15803D; border:1.5px solid #BCD9C6; font-weight:600; font-size:15px; padding:14px; border-radius:10px; text-align:center;">See our services</a>
+      </div>
+      <div class="gf-rise" style="display:flex; align-items:center; gap:8px; animation-delay:0.5s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>
+        <span style="font-size:13px; color:#5A6B60;"><strong style="color:#12261B;">817 registered farmers</strong> across 5 local Rings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How we support farmers -->
+  <section style="background:#F7F9F7;">
+    <div class="m" style="padding-top:44px; padding-bottom:44px; display:flex; flex-direction:column; gap:18px;">
+      <span style="color:#15803D; font-weight:700; font-size:12px; letter-spacing:0.09em; text-transform:uppercase;">How we support farmers</span>
+      <h2 style="font-size:23px; font-weight:800;">Machinery, learning and organisation &mdash; together</h2>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:4px;">
+
+        <div style="background:#ffffff; border:1px solid #E2E9E3; border-radius:14px; padding:20px; display:flex; gap:14px; align-items:flex-start;">
+          <div style="width:40px; height:40px; flex-shrink:0; border-radius:11px; background:#E8F3EC; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="17" r="4"/><circle cx="18" cy="18" r="3"/><path d="M11 17h4M7 13V8h4l2.2 5M11 8h4l1.2 4.2"/></svg></div>
+          <div style="display:flex; flex-direction:column; gap:4px;"><h3 style="font-size:15.5px; font-weight:700;">Agricultural services</h3><p style="font-size:13.5px; color:#5A6B60;">Planting support, maize shelling and rice threshing, confirmed for each request.</p></div>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid #E2E9E3; border-radius:14px; padding:20px; display:flex; gap:14px; align-items:flex-start;">
+          <div style="width:40px; height:40px; flex-shrink:0; border-radius:11px; background:#E8F3EC; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5Z"/><path d="M12 6v13"/></svg></div>
+          <div style="display:flex; flex-direction:column; gap:4px;"><h3 style="font-size:15.5px; font-weight:700;">Practical learning</h3><p style="font-size:13.5px; color:#5A6B60;">Training and demonstrations on machinery use, farming and post&#8209;harvest handling.</p></div>
+        </div>
+
+        <div style="background:#ffffff; border:1px solid #E2E9E3; border-radius:14px; padding:20px; display:flex; gap:14px; align-items:flex-start;">
+          <div style="width:40px; height:40px; flex-shrink:0; border-radius:11px; background:#E8F3EC; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.3 20c.3-2.7 2-4.7 4.7-5.1"/></svg></div>
+          <div style="display:flex; flex-direction:column; gap:4px;"><h3 style="font-size:15.5px; font-weight:700;">Farmer organisation</h3><p style="font-size:13.5px; color:#5A6B60;">Support for local leadership, group coordination and women&#8217;s participation.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore more -->
+  <section style="background:#ffffff;">
+    <div class="m" style="padding-bottom:44px; display:flex; flex-direction:column; gap:12px;">
+      <a href="#" style="display:flex; align-items:center; justify-content:space-between; gap:14px; background:#F1F7F2; border:1px solid #E2E9E3; border-radius:14px; padding:20px;">
+        <div style="display:flex; flex-direction:column; gap:4px;"><h3 style="font-size:15.5px; font-weight:700; color:#12261B;">Explore our services</h3><p style="font-size:13px; color:#5A6B60;">What&#8217;s available now and what&#8217;s in development.</p></div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#" style="display:flex; align-items:center; justify-content:space-between; gap:14px; background:#F1F7F2; border:1px solid #E2E9E3; border-radius:14px; padding:20px;">
+        <div style="display:flex; flex-direction:column; gap:4px;"><h3 style="font-size:15.5px; font-weight:700; color:#12261B;">See our work</h3><p style="font-size:13px; color:#5A6B60;">The mechanisation project, demo farms and field updates.</p></div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Where we stand today -->
+  <section style="background:#0F3D24; color:#ffffff;">
+    <div class="m" style="padding-top:40px; padding-bottom:36px; display:flex; flex-direction:column; gap:22px;">
+      <span style="color:#9FD3AE; font-weight:700; font-size:12px; letter-spacing:0.09em; text-transform:uppercase;">Where we stand today</span>
+      <h2 style="color:#ffffff; font-size:21px; font-weight:800;">Five local Rings, growing together</h2>
+      <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:18px;">
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:27px;">817</span><span style="color:#A9CFB6; font-size:12.5px;">registered farmers</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:27px;">5</span><span style="color:#A9CFB6; font-size:12.5px;">local Rings in Gashora</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:27px;">25</span><span style="color:#A9CFB6; font-size:12.5px;">training events held</span></div>
+        <div style="display:flex; flex-direction:column; gap:3px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:27px;">900+</span><span style="color:#A9CFB6; font-size:12.5px;">attendances</span></div>
+      </div>
+      <p style="color:#8FBF9F; font-size:11.5px;">Project records presented August 2026.</p>
+    </div>
+  </section>
+
+  <!-- Tell us what you need -->
+  <section style="background:#E8F3EC;">
+    <div class="m" style="padding-top:38px; padding-bottom:38px; display:flex; flex-direction:column; gap:14px;">
+      <h2 style="font-size:20px; font-weight:800;">Tell us what you need</h2>
+      <p style="color:#4A5A50; font-size:14px;">Share your location, crop, required service and preferred timing. We will discuss availability, cost and next steps.</p>
+      <a href="#" style="background:#1B7A3D; color:#ffffff; font-weight:600; font-size:14.5px; padding:13px; border-radius:10px; text-align:center;">Request a service</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0F3D24; color:#8FB8A0; font-size:13.5px;">
+    <div class="m" style="padding-top:40px; padding-bottom:26px; display:flex; flex-direction:column; gap:22px;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <span style="width:28px; height:28px; border-radius:999px; background:#1B7A3D; display:flex; align-items:center; justify-content:center; color:#ffffff; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:10px;">MR</span>
+        <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:15px; color:#ffffff;">Machinery Ring Rwanda</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <div style="display:flex; flex-direction:column; gap:9px;"><span style="color:#ffffff; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">Services</span><a href="#" style="color:#8FB8A0;">Planting</a><a href="#" style="color:#8FB8A0;">Shelling &amp; threshing</a><a href="#" style="color:#8FB8A0;">Training</a></div>
+        <div style="display:flex; flex-direction:column; gap:9px;"><span style="color:#ffffff; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.06em;">About</span><a href="#" style="color:#8FB8A0;">Who we are</a><a href="#" style="color:#8FB8A0;">Our local Rings</a><a href="#" style="color:#8FB8A0;">Our team</a></div>
+      </div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#" style="color:#8FB8A0; font-weight:600; font-size:12.5px;">Our Work</a>
+        <a href="#" style="color:#8FB8A0; font-weight:600; font-size:12.5px;">Gallery</a>
+        <a href="#" style="color:#8FB8A0; font-weight:600; font-size:12.5px;">Blog</a>
+      </div>
+      <p style="color:#8FBF9F; line-height:1.7; font-size:13px;">Gashora Sector, Bugesera District, Rwanda<br>+250 781 707 587 &middot; simeon.musabende@machineryrings.org</p>
+      <div style="padding-top:16px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#8FBF9F;">
+        <span>&copy; 2026 Machinery Ring Rwanda</span>
+        <div style="display:flex; gap:12px;"><span style="color:#ffffff;">EN</span><span>RW</span></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

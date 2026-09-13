@@ -3,13 +3,158 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Machinery Ring Rwanda brand palette (white + green) */
+  --color-brand-50: #E8F3EC;
+  --color-brand-100: #DCEBE0;
+  --color-brand-200: #CBE0D1;
+  --color-brand-600: #1B7A3D;
+  --color-brand-700: #15803D;
+  --color-brand-900: #0F3D24;
+  --color-ink: #12261B;
+  --color-ink-soft: #33413A;
+  --color-muted: #5A6B60;
+  --color-muted-2: #8A978F;
+  --color-line: #E2E9E3;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background: #ffffff;
+  color: var(--color-ink);
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+/*
+ * Auto-advancing hero photo tray: 3 slides fan out front/middle/back like a
+ * spread hand of cards — each further one nudged right and down and rotated
+ * a little more. Every cycle, the back-most card slides and un-rotates into
+ * the front slot (with a small springy overshoot) while the current front
+ * fans back out through middle to the back of the tray. All 3 slides share
+ * one timeline, phase-shifted by a third each via animation-delay, so the
+ * rotation looks continuous.
+ */
+@keyframes hero-slide-stack {
+  0%   { transform: translate(-3px, -4px) rotate(-1.5deg) scale(1.04); opacity: 1;    z-index: 3; animation-timing-function: ease-out; }
+  4%   { transform: translate(0, 0)       rotate(0deg)    scale(1);    opacity: 1;    z-index: 3; }
+  26%  { transform: translate(0, 0)       rotate(0deg)    scale(1);    opacity: 1;    z-index: 3; }
+  37%  { transform: translate(18px, 16px) rotate(5deg)    scale(0.94); opacity: 0.85; z-index: 2; }
+  48%  { transform: translate(18px, 16px) rotate(5deg)    scale(0.94); opacity: 0.85; z-index: 2; }
+  60%  { transform: translate(34px, 30px) rotate(9deg)    scale(0.88); opacity: 0.6;  z-index: 1; }
+  92%  { transform: translate(34px, 30px) rotate(9deg)    scale(0.88); opacity: 0.6;  z-index: 1; animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+  100% { transform: translate(-3px, -4px) rotate(-1.5deg) scale(1.04); opacity: 1;    z-index: 3; }
+}
+@keyframes hero-dot-fade {
+  0% { background: #ffffff; }
+  26% { background: #ffffff; }
+  37% { background: rgba(255, 255, 255, 0.4); }
+  100% { background: rgba(255, 255, 255, 0.4); }
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform-origin: 50% 65%;
+  animation: hero-slide-stack 13.5s ease-in-out infinite;
+}
+/* Negative delays jump straight into the timeline so the fan is fully in place from the first frame, instead of filling in over the first 9s. */
+.hero-slide:nth-child(1) { animation-delay: 0s; }
+.hero-slide:nth-child(2) { animation-delay: -9s; }
+.hero-slide:nth-child(3) { animation-delay: -4.5s; }
+.hero-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  animation: hero-dot-fade 13.5s ease-in-out infinite;
+}
+.hero-dot:nth-child(1) { animation-delay: 0s; }
+.hero-dot:nth-child(2) { animation-delay: 4.5s; }
+.hero-dot:nth-child(3) { animation-delay: 9s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide { animation: none !important; opacity: 0 !important; transform: none !important; }
+  .hero-slide:first-child { opacity: 1 !important; z-index: 3 !important; }
+  .hero-dot { animation: none !important; background: rgba(255, 255, 255, 0.4) !important; }
+  .hero-dot:first-child { background: #ffffff !important; }
+}
+
+/* Services page slider: 4 stacked slides. */
+@keyframes svc-slide-fade {
+  0% { opacity: 0; }
+  3% { opacity: 1; }
+  22% { opacity: 1; }
+  25% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes svc-dot-fade {
+  0% { background: rgba(255, 255, 255, 0.4); }
+  3% { background: #ffffff; }
+  22% { background: #ffffff; }
+  25% { background: rgba(255, 255, 255, 0.4); }
+  100% { background: rgba(255, 255, 255, 0.4); }
+}
+.svc-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: svc-slide-fade 16s ease-in-out infinite;
+}
+.svc-slide:nth-child(1) { animation-delay: 0s; }
+.svc-slide:nth-child(2) { animation-delay: 4s; }
+.svc-slide:nth-child(3) { animation-delay: 8s; }
+.svc-slide:nth-child(4) { animation-delay: 12s; }
+.svc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  animation: svc-dot-fade 16s ease-in-out infinite;
+}
+.svc-dot:nth-child(1) { animation-delay: 0s; }
+.svc-dot:nth-child(2) { animation-delay: 4s; }
+.svc-dot:nth-child(3) { animation-delay: 8s; }
+.svc-dot:nth-child(4) { animation-delay: 12s; }
+
+/* Partners marquee: one duplicated row scrolling continuously. */
+.marquee-mask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: max-content;
+  animation: marquee-scroll 24s linear infinite;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-slide { animation: none !important; opacity: 0 !important; }
+  .svc-slide:first-child { opacity: 1 !important; }
+  .svc-dot { animation: none !important; background: rgba(255, 255, 255, 0.4) !important; }
+  .svc-dot:first-child { background: #ffffff !important; }
+  .marquee-track { animation: none !important; }
+}
+
+/* Gallery lightbox: the centre photo pops in fresh each time you navigate. */
+@keyframes lightbox-pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+.lightbox-pop {
+  animation: lightbox-pop 0.22s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-pop { animation: none; }
 }

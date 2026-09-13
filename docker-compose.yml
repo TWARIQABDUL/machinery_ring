@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mrrwanda-dev-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mrrwanda
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: mrrwanda_dev
+    ports:
+      # Host 5433 -> container 5432, since a local Postgres is already on 5432.
+      - "5433:5432"
+    volumes:
+      - mrrwanda_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mrrwanda -d mrrwanda_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mrrwanda_db_data:

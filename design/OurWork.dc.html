@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #F7F9F7; color: #1F2A24; font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', system-ui, 'Segoe UI', Roboto, sans-serif; margin: 0; line-height: 1.15; letter-spacing: -0.02em; color: #12261B; }
+    p { margin: 0; text-wrap: pretty; }
+    a { color: #15803D; text-decoration: none; }
+    a:hover { color: #0F3D24; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 44px; }
+    .dark-links a { color: #BFE0CA; }
+    .dark-links a:hover { color: #ffffff; }
+    .navlink { color: #33413A !important; }
+    .navlink:hover { color: #1B7A3D !important; }
+    .navlink-on { color: #1B7A3D !important; font-weight: 700 !important; }
+    .arrowlink { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; }
+  </style>
+</helmet>
+
+<div>
+
+  <!-- ===== Utility bar ===== -->
+  <div class="dark-links" style="background:#0F3D24; color:#CDE4D5; font-size:13px;">
+    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; height:40px; flex-wrap:wrap; gap:6px;">
+      <div style="display:flex; align-items:center; gap:22px;">
+        <span style="display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8FB8A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l3 5-2 2c1 2 3 4 5 5l2-2 5 3-1 3c-9 1-16-6-15-15Z"/></svg>+250 781 707 587</span>
+        <span style="display:flex; align-items:center; gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8FB8A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>simeon.musabende@machineryrings.org</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span style="display:flex; align-items:center; gap:6px; color:#8FB8A0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8FB8A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.2"/></svg>Gashora Sector, Bugesera District</span>
+        <span style="opacity:.35;">|</span>
+        <div style="display:flex; gap:11px; color:#8FB8A0;"><span style="color:#ffffff; font-weight:600;">EN</span><span>RW</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header style="background:#ffffff; border-bottom:1px solid #E2E9E3;">
+    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; height:78px; gap:20px;">
+      <div style="display:flex; align-items:center; gap:11px;">
+        <span style="width:38px; height:38px; border-radius:999px; background:#1B7A3D; display:flex; align-items:center; justify-content:center; color:#ffffff; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:13px; letter-spacing:-0.02em; flex-shrink:0;">MR</span>
+        <span style="font-family:'Plus Jakarta Sans', system-ui, sans-serif; font-weight:800; font-size:18px; color:#12261B; letter-spacing:-0.02em; white-space:nowrap;">Machinery Ring <span style="color:#1B7A3D;">Rwanda</span></span>
+      </div>
+      <nav style="display:flex; align-items:center; gap:22px; font-size:14.5px; font-weight:500; white-space:nowrap;">
+        <a class="navlink" href="#">Home</a>
+        <a class="navlink" href="#">About Us</a>
+        <a class="navlink" href="#">Services</a>
+        <a class="navlink-on" href="#">Our Work</a>
+        <a class="navlink" href="#">Gallery</a>
+        <a class="navlink" href="#">Blog</a>
+        <a class="navlink" href="#">Contact</a>
+      </nav>
+      <a href="#" style="background:#1B7A3D; color:#ffffff; font-weight:600; font-size:14.5px; padding:11px 19px; border-radius:9px; white-space:nowrap;">Request a service</a>
+    </div>
+  </header>
+
+  <!-- ===== Page header ===== -->
+  <section style="background:#F1F7F2; border-bottom:1px solid #E7EFE9;">
+    <div class="wrap" style="padding:52px 44px 48px; display:flex; flex-direction:column; gap:14px;">
+      <span style="font-size:13px; color:#8A978F;"><a href="#" style="color:#8A978F;">Home</a> &nbsp;/&nbsp; Our Work</span>
+      <h1 style="font-size:40px; font-weight:800; max-width:16em;">Our Work</h1>
+      <p style="font-size:16.5px; color:#4A5A50; max-width:42em;">Our work combines farmer organisation, machinery access and practical learning. Local Rings help bring requests together, while training and field activities support the skills needed to use and manage equipment.</p>
+    </div>
+  </section>
+
+  <!-- ===== The project ===== -->
+  <section style="background:#ffffff;">
+    <div class="wrap" style="padding:64px 44px; display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px;">
+      <div>
+        <span style="color:#15803D; font-weight:700; font-size:13px; letter-spacing:0.09em; text-transform:uppercase;">The Kenya and Rwanda mechanisation project</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <p style="font-size:17px; color:#33413A; line-height:1.7;">The project &ldquo;Sustainable mechanization of value chains through innovative, gender&#8209;sensitive business models &mdash; Machinery Rings in Kenya and Rwanda&rdquo; runs from November 2023 to October 2026. Work in Rwanda began in 2024, focusing on local Rings, agricultural services, training and demonstration activities in Gashora.</p>
+        <p style="font-size:14px; color:#8A978F;">Implemented by the Machinery Ring Foundation, with support from GIZ Rwanda and sequa gGmbH under German Development Cooperation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Demonstration farms ===== -->
+  <section style="background:#F7F9F7;">
+    <div class="wrap" style="padding:64px 44px; display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <span style="color:#15803D; font-weight:700; font-size:13px; letter-spacing:0.09em; text-transform:uppercase;">Demonstration farms and practical learning</span>
+        <p style="font-size:16px; color:#33413A; line-height:1.7;">Demonstration farms give farmers opportunities to examine equipment and farming practices under local conditions. Activities connect seasonal crop management with machinery suitability, soil management and post&#8209;harvest learning. Field experience also helps identify where equipment or service arrangements need improvement.</p>
+      </div>
+      <div style="aspect-ratio:4/3; background:#DCEBE0; border:1px solid #CBE0D1; border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#94B8A0" stroke-width="1.4"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 20"/></svg>
+        <span style="color:#6E8C79; font-size:13px; text-align:center; max-width:22em; padding:0 16px;">Photo &mdash; Participants listen to a practical explanation beside agricultural processing equipment.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Women's participation ===== -->
+  <section style="background:#ffffff;">
+    <div class="wrap" style="padding:64px 44px; display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px;">
+      <div>
+        <span style="color:#15803D; font-weight:700; font-size:13px; letter-spacing:0.09em; text-transform:uppercase;">Women&#8217;s participation</span>
+      </div>
+      <p style="font-size:17px; color:#33413A; line-height:1.7;">We support women&#8217;s participation through savings&#8209;group activities, financial literacy, leadership and digital&#8209;skills training. This work includes group management, savings and loan practices, and links with local financial institutions. These activities help women take part in the organisational and business work of their farmer groups.</p>
+    </div>
+  </section>
+
+  <!-- ===== Our recorded reach ===== -->
+  <section style="background:#0F3D24; color:#ffffff;">
+    <div class="wrap" style="padding:64px 44px; display:flex; flex-direction:column; gap:32px;">
+      <div style="display:flex; flex-direction:column; gap:10px; max-width:34em;">
+        <span style="color:#9FD3AE; font-weight:700; font-size:13px; letter-spacing:0.09em; text-transform:uppercase;">Our recorded reach</span>
+        <h2 style="color:#ffffff; font-size:30px; font-weight:800;">Where the Rings stand today</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:24px;">
+        <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:36px;">817</span><span style="color:#A9CFB6; font-size:14px;">registered farmers</span></div>
+        <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:36px;">5</span><span style="color:#A9CFB6; font-size:14px;">local Rings</span></div>
+        <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:36px;">25</span><span style="color:#A9CFB6; font-size:14px;">training events, 2024&ndash;2026</span></div>
+        <div style="display:flex; flex-direction:column; gap:4px;"><span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:36px;">900+</span><span style="color:#A9CFB6; font-size:14px;">participant attendances</span></div>
+      </div>
+      <p style="color:#8FBF9F; font-size:13px; max-width:44em;">Project records presented in August 2026 report 817 registered farmers across five local Rings. Records for 2024&ndash;2026 report 25 training events and more than 900 participant attendances. Attendances include people joining more than one session.</p>
+    </div>
+  </section>
+
+  <!-- ===== Field updates ===== -->
+  <section style="background:#F7F9F7;">
+    <div class="wrap" style="padding:64px 44px;">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:36px;">
+        <div style="display:flex; flex-direction:column; gap:12px; max-width:34em;">
+          <span style="color:#15803D; font-weight:700; font-size:13px; letter-spacing:0.09em; text-transform:uppercase;">Field updates</span>
+          <h2 style="font-size:28px; font-weight:800;">Recent activity across the Rings</h2>
+        </div>
+        <a href="#" class="arrowlink" style="font-size:14.5px;">Read more on the Blog <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:grid; grid-template-columns:170px 1fr; gap:24px; padding:22px 0; border-top:1px solid #E2E9E3;">
+          <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:15px; color:#1B7A3D;">September 2024</span>
+          <p style="font-size:15px; color:#33413A;">Field days took place in Mwendo on 4 September and Kagomasi on 5 September as part of the programme of machinery demonstrations and farmer engagement.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:170px 1fr; gap:24px; padding:22px 0; border-top:1px solid #E2E9E3;">
+          <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:15px; color:#1B7A3D;">January 2026</span>
+          <p style="font-size:15px; color:#33413A;">Further field&#8209;day activities took place in Mwendo and Kagomasi on 8&ndash;9 January, continuing practical learning through the local Ring network.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:170px 1fr; gap:24px; padding:22px 0; border-top:1px solid #E2E9E3; border-bottom:1px solid #E2E9E3;">
+          <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:15px; color:#1B7A3D;">Jan&ndash;Mar 2026</span>
+          <p style="font-size:15px; color:#33413A;">Women&#8217;s leadership and communication training in January was followed by Microsoft Word and Excel training in March, supporting participation and practical organisational skills.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section style="background:#E8F3EC;">
+    <div class="wrap" style="padding:56px 44px; display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <h2 style="font-size:24px; font-weight:800;">Want to be part of the next update?</h2>
+        <p style="color:#4A5A50; font-size:15px;">Contact us about joining a local Ring or requesting a service.</p>
+      </div>
+      <a href="#" style="background:#1B7A3D; color:#ffffff; font-weight:600; font-size:15px; padding:13px 24px; border-radius:10px;">Contact us</a>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="dark-links" style="background:#0F3D24; color:#A9CFB6; font-size:14px;">
+    <div class="wrap" style="padding:64px 44px 0;">
+      <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr 1.2fr; gap:40px;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="width:32px; height:32px; border-radius:999px; background:#1B7A3D; display:flex; align-items:center; justify-content:center; color:#ffffff; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:11px;">MR</span>
+            <span style="font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:16px; color:#ffffff;">Machinery Ring Rwanda</span>
+          </div>
+          <p style="color:#8FB8A0; max-width:24em; font-size:13.5px;">Farmers accessing agricultural machinery, practical training and coordinated services through cooperation in Gashora Sector, Bugesera District.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:11px;">
+          <span style="color:#ffffff; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em;">Services</span>
+          <a href="#">Maize &amp; bean planting</a><a href="#">Shelling &amp; threshing</a><a href="#">Training &amp; advisory</a><a href="#">Machinery care</a><a href="#">Land preparation</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:11px;">
+          <span style="color:#ffffff; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em;">About</span>
+          <a href="#">Who we are</a><a href="#">Our local Rings</a><a href="#">Our team</a><a href="#">Our partners</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:11px;">
+          <span style="color:#ffffff; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em;">Our Work</span>
+          <a href="#">The project</a><a href="#">Demonstration farms</a><a href="#">Field updates</a><a href="#">Gallery</a><a href="#">Blog</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="color:#ffffff; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.06em;">Get in touch</span>
+          <p style="color:#8FBF9F; font-size:13.5px; line-height:1.7;">Gashora Sector, Bugesera District, Rwanda<br>+250 781 707 587<br>simeon.musabende@machineryrings.org</p>
+        </div>
+      </div>
+      <div style="margin-top:48px; padding:22px 0; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#8FBF9F; flex-wrap:wrap; gap:12px;">
+        <span>&copy; 2026 Machinery Ring Rwanda.</span>
+        <div style="display:flex; gap:18px;"><a href="#">Privacy</a><span style="color:#ffffff;">EN</span><span>RW</span></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>
