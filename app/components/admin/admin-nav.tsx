@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { cn } from "../../lib/cn";
+
+const STORAGE_KEY = "mr-admin-sidebar-collapsed";
 
 const TABS = [
   {
@@ -55,18 +58,73 @@ const TABS = [
   },
 ];
 
-/** The switcher between admin sections: a sticky sidebar from md up, a scrollable pill row below it. */
+/** The switcher between admin sections: a collapsible sticky sidebar from md up, a scrollable pill row below it. */
 export default function AdminNav() {
+  const [collapsed, setCollapsed] = useState(false);
+
+  // Read the remembered state after mount only, so server-rendered markup
+  // (always expanded) matches the client's first render and hydration is safe.
+  useEffect(() => {
+    try {
+      setCollapsed(localStorage.getItem(STORAGE_KEY) === "1");
+    } catch {
+      // localStorage unavailable — just stay expanded
+    }
+  }, []);
+
+  function toggleCollapsed() {
+    setCollapsed((current) => {
+      const next = !current;
+      try {
+        localStorage.setItem(STORAGE_KEY, next ? "1" : "0");
+      } catch {
+        // ignore — nothing to persist to
+      }
+      return next;
+    });
+  }
+
   return (
     <>
       {/* Desktop sidebar */}
-      <nav className="hidden shrink-0 flex-col gap-1 rounded-2xl border border-line bg-white p-3 md:sticky md:top-8 md:flex md:w-56">
+      <nav
+        className={cn(
+          "hidden shrink-0 flex-col gap-1 rounded-2xl border border-line bg-white p-3 transition-[width] duration-200 md:sticky md:top-8 md:flex",
+          collapsed ? "md:w-[64px]" : "md:w-56"
+        )}
+      >
+        <button
+          type="button"
+          onClick={toggleCollapsed}
+          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+          title={collapsed ? "Expand navigation" : "Collapse navigation"}
+          className={cn(
+            "mb-1 flex h-8 w-8 items-center justify-center rounded-lg text-muted-2 hover:bg-brand-50 hover:text-brand-700",
+            collapsed ? "mx-auto" : "self-end"
+          )}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={cn("transition-transform", collapsed && "rotate-180")}
+          >
+            <path d="M15 6l-6 6 6 6" />
+          </svg>
+        </button>
+
         {TABS.map((tab) => (
-          <NavLink key={tab.to} to={tab.to} end={tab.end} className="group">
+          <NavLink key={tab.to} to={tab.to} end={tab.end} className="group" title={collapsed ? tab.label : undefined}>
             {({ isActive }) => (
               <span
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-semibold transition",
+                  collapsed && "justify-center px-0",
                   isActive ? "bg-brand-600 text-white" : "text-ink-soft group-hover:bg-brand-50"
                 )}
               >
@@ -83,7 +141,7 @@ export default function AdminNav() {
                 >
                   {tab.icon}
                 </svg>
-                {tab.label}
+                {!collapsed && tab.label}
               </span>
             )}
           </NavLink>

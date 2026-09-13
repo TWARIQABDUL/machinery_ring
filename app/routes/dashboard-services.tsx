@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, useActionData } from "react-router";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
@@ -79,6 +79,16 @@ export default function DashboardServices({ loaderData }: Route.ComponentProps) 
   const { services } = loaderData;
   const actionData = useActionData() as ActionResult;
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  // Once a create/update/delete succeeds, collapse whichever form was open
+  // instead of leaving it sitting there showing values that are now stale.
+  useEffect(() => {
+    if (actionData && "success" in actionData && actionData.success) {
+      setShowCreateForm(false);
+      setEditingId(null);
+    }
+  }, [actionData]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -91,13 +101,24 @@ export default function DashboardServices({ loaderData }: Route.ComponentProps) 
         <p className="rounded-lg bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700">{actionData.error}</p>
       )}
 
-      <Panel title="Add a service">
-        <ServiceForm />
-      </Panel>
+      <Panel
+        title={`All services (${services.length})`}
+        action={
+          !showCreateForm && (
+            <button type="button" onClick={() => setShowCreateForm(true)} className={btnPrimary}>
+              + Add service
+            </button>
+          )
+        }
+      >
+        {showCreateForm && (
+          <div className="mb-6 border-b border-line pb-6">
+            <ServiceForm onCancel={() => setShowCreateForm(false)} />
+          </div>
+        )}
 
-      <Panel title={`All services (${services.length})`}>
-        {services.length === 0 ? (
-          <p className="text-[14px] text-muted-2">No services yet — add the first one above.</p>
+        {services.length === 0 && !showCreateForm ? (
+          <p className="text-[14px] text-muted-2">No services yet — click "Add service" above.</p>
         ) : (
           <div className="flex flex-col divide-y divide-line">
             {services.map((service) =>
