@@ -1,3 +1,4 @@
+import pool from "../../db";
 import PageHeader from "../components/page-header";
 import Container from "../components/container";
 import LabeledSection from "../components/labeled-section";
@@ -5,14 +6,25 @@ import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
 import InitialsAvatar from "../components/initials-avatar";
 import ArrowLink from "../components/arrow-link";
+import WhatsAppIcon from "../components/whatsapp-icon";
 import type { Route } from "./+types/aboutpage";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "About Us — Machinery Ring Rwanda" }];
 }
 
-// Static for now — will read from the `rings` table once the Rings admin exists.
-const RINGS = ["Kagomasi", "Biryogo", "Nyabagendwa", "Kabuye", "Mwendo"];
+type RingRow = { id: number; name: string; whatsapp_invite_link: string };
+
+// The seed data's placeholder link, before an admin sets a real one — a Ring
+// with this link still shows on the page, just without a live join button.
+const PENDING_LINK_MARKER = "INVITE-LINK-PENDING";
+
+export async function loader() {
+  const { rows } = await pool.query<RingRow>(
+    "SELECT id, name, whatsapp_invite_link FROM rings WHERE is_active = true ORDER BY sort_order, name"
+  );
+  return { rings: rows };
+}
 
 const TEAM = [
   {
@@ -50,7 +62,9 @@ const JOIN_CARDS = [
   },
 ];
 
-export default function AboutPage() {
+export default function AboutPage({ loaderData }: Route.ComponentProps) {
+  const { rings } = loaderData;
+
   return (
     <div>
       <PageHeader
@@ -96,27 +110,48 @@ export default function AboutPage() {
       </LabeledSection>
 
       {/* Our local Rings */}
-      <section className="bg-[#F7F9F7]">
-        <Container className="py-16">
-          <SectionHeading
-            eyebrow="Our local Rings"
-            title="Our established network in Gashora Sector, Bugesera District"
-            description="Local boards and trained farmer facilitators support communication, group activities and service coordination in each Ring."
-            className="mb-9"
-          />
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {RINGS.map((ring) => (
-              <div key={ring} className="flex flex-col items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-5.5 text-center">
-                <IconBadge size="sm">
-                  <path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" />
-                  <circle cx="12" cy="9.5" r="2.2" />
-                </IconBadge>
-                <span className="text-[14.5px] font-bold text-ink">{ring}</span>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {rings.length > 0 && (
+        <section className="bg-[#F7F9F7]">
+          <Container className="py-16">
+            <SectionHeading
+              eyebrow="Our local Rings"
+              title="Our established network in Gashora Sector, Bugesera District"
+              description="Local boards and trained farmer facilitators support communication, group activities and service coordination in each Ring. Join a Ring's WhatsApp group below, or contact us if you're not sure which one covers your area."
+              className="mb-9"
+            />
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              {rings.map((ring) => {
+                const hasLiveLink = !ring.whatsapp_invite_link.includes(PENDING_LINK_MARKER);
+                return (
+                  <div
+                    key={ring.id}
+                    className="flex flex-col items-center gap-2.5 rounded-2xl border border-line bg-white px-4 py-5.5 text-center"
+                  >
+                    <IconBadge size="sm">
+                      <path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" />
+                      <circle cx="12" cy="9.5" r="2.2" />
+                    </IconBadge>
+                    <span className="text-[14.5px] font-bold text-ink">{ring.name}</span>
+                    {hasLiveLink ? (
+                      <a
+                        href={ring.whatsapp_invite_link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-brand-700 hover:text-brand-900"
+                      >
+                        <WhatsAppIcon size={14} />
+                        Join on WhatsApp
+                      </a>
+                    ) : (
+                      <span className="text-[12px] text-muted-2">Join link coming soon</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Our team */}
       <section className="bg-[#F7F9F7]">
