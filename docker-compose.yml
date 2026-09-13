@@ -18,5 +18,25 @@ services:
       timeout: 5s
       retries: 10
 
+  minio:
+    image: minio/minio:latest
+    container_name: mrrwanda-dev-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: mrrwanda
+      MINIO_ROOT_PASSWORD: devpassword123
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000" # S3 API — what the app's uploads talk to
+      - "9001:9001" # Web console — http://localhost:9001
+    volumes:
+      - mrrwanda_minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
 volumes:
   mrrwanda_db_data:
+  mrrwanda_minio_data:
