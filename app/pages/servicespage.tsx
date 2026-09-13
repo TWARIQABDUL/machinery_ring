@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import pool from "../../db";
 import PageHeader from "../components/page-header";
 import Container from "../components/container";
 import IconBadge from "../components/icon-badge";
@@ -10,54 +11,52 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Services — Machinery Ring Rwanda" }];
 }
 
-// Static for now — will read from the `services` table once the Services admin exists.
-const AVAILABLE_SERVICES = [
-  {
-    name: "Maize and bean planting",
-    body: "Planting support uses available planting equipment, including hand-held planters. The team discusses field readiness, crop requirements and the appropriate equipment for the task. Seed, fertiliser and other input arrangements are agreed separately.",
-    tellUs: "your crop, field location, area in hectares and preferred planting period.",
-    icon: <path d="M12 21v-9M12 13c1-4 4-6 7-6-1 4-4 6-7 6ZM12 15c-1-3-3.5-5-6.5-5 1 3 3.5 5 6.5 5Z" />,
-  },
-  {
-    name: "Maize shelling and rice threshing",
-    body: "These services separate maize grain from the cob or rice grain from the harvested crop. Requests are assessed against crop readiness, machine suitability and operator availability. We agree the working area, handling arrangements and any transport charges before scheduling.",
-    tellUs: "crop, estimated quantity in kilograms or tonnes, location and preferred date.",
-    icon: <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />,
-  },
-  {
-    name: "Training and agricultural advisory support",
-    body: "Our practical learning activities cover machinery use, crop establishment, soil health, spraying practices, post-harvest handling and farm-business skills. Farmers and groups can enquire about training or advisory support for a specific need.",
-    tellUs: "the topic or skill you need support with, and your group size.",
-    icon: <path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5ZM12 6v13" />,
-  },
-  {
-    name: "Machinery operation and maintenance learning",
-    body: "We support operators and farmer groups with practical learning on equipment operation, routine checks, cleaning and maintenance.",
-    tellUs: "the machine type and the support needed.",
-    icon: <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8Z" />,
-  },
-];
+// One shared icon for every card — the `services` table doesn't carry a
+// per-service icon, so we use a single consistent "service" mark instead of
+// inventing a specific one per row.
+const SERVICE_ICON = (
+  <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8Z" />
+);
 
-const DEVELOPING_SERVICES = [
-  {
-    name: "Land preparation",
-    body: "Depends on securing a suitable tractor, compatible implements and an operator. Farmers may register their interest, but dates can only be agreed once delivery capacity is confirmed.",
-  },
-  {
-    name: "Irrigation",
-    body: "Currently centres on demonstrations and practical learning rather than delivered irrigation work.",
-  },
-  {
-    name: "Rice transplanting",
-    body: "An area of service development. Contact us to discuss the support available for your location and task.",
-  },
-  {
-    name: "Cassava and maize processing",
-    body: "An area of service development. Contact us to discuss the support available for your location and task.",
-  },
-];
+type ServiceRow = {
+  slug: string;
+  name: string;
+  description: string | null;
+  status: "available" | "in_development";
+  price: string | null;
+  price_unit: string | null;
+};
 
-export default function ServicesPage() {
+export async function loader() {
+  const { rows } = await pool.query<ServiceRow>(
+    "SELECT slug, name, description, status, price, price_unit FROM services WHERE is_published = true ORDER BY sort_order, name"
+  );
+  return {
+    available: rows.filter((row) => row.status === "available"),
+    developing: rows.filter((row) => row.status === "in_development"),
+  };
+}
+
+function formatPrice(row: ServiceRow) {
+  if (!row.price) return null;
+  return `RWF ${Number(row.price).toLocaleString()}${row.price_unit ? ` ${row.price_unit}` : ""}`;
+}
+
+/**
+ * The slider's CSS (app.css `.svc-slide`) is tuned for a fixed 4-slot cycle,
+ * so we always feed it exactly 4 slides: capped at 4 if there are more,
+ * repeated from the top if there are fewer, so it never sits on dead air.
+ */
+function buildSliderSlides<T>(items: T[], slotCount = 4): T[] {
+  if (items.length === 0) return [];
+  if (items.length >= slotCount) return items.slice(0, slotCount);
+  return Array.from({ length: slotCount }, (_, i) => items[i % items.length]);
+}
+
+export default function ServicesPage({ loaderData }: Route.ComponentProps) {
+  const { available, developing } = loaderData;
+  const sliderSlides = buildSliderSlides(available);
+
   return (
     <div>
       <PageHeader
@@ -66,76 +65,90 @@ export default function ServicesPage() {
         intro="We coordinate agricultural services and practical support through our local network. Tell us what you need so we can check the equipment, operator, location and timing before confirming the work and price."
       />
 
-      {/* Services slider */}
-      <section className="bg-white">
-        <Container className="pt-12">
-          <div className="relative aspect-[21/9] overflow-hidden rounded-2xl shadow-[0_24px_50px_-30px_rgba(15,61,36,0.3)]">
-            {AVAILABLE_SERVICES.map((service) => (
-              <div key={service.name} className="svc-slide bg-brand-100">
-                <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                  {service.icon}
-                </svg>
-                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.85)] to-transparent px-6.5 pb-4.5 pt-8 text-white">
-                  <StatusBadge tone="overlay" size="sm">Photo pending</StatusBadge>
-                  <h3 className="text-lg font-bold text-white">{service.name}</h3>
-                  <p className="text-[13.5px] text-[#E7F2EA]">{service.tellUs}</p>
+      {sliderSlides.length > 0 && (
+        <section className="bg-white">
+          <Container className="pt-12">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-2xl shadow-[0_24px_50px_-30px_rgba(15,61,36,0.3)]">
+              {sliderSlides.map((service, i) => (
+                <div key={i} className="svc-slide bg-brand-100">
+                  <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
+                    {SERVICE_ICON}
+                  </svg>
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.85)] to-transparent px-6.5 pb-4.5 pt-8 text-white">
+                    <StatusBadge tone="overlay" size="sm">
+                      Photo pending
+                    </StatusBadge>
+                    <h3 className="text-lg font-bold text-white">{service.name}</h3>
+                    {service.description && (
+                      <p className="line-clamp-2 text-[13.5px] text-[#E7F2EA]">{service.description}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-            <div className="absolute inset-x-0 bottom-3.5 flex justify-center gap-1.5">
-              {AVAILABLE_SERVICES.map((service) => (
-                <span key={service.name} className="svc-dot" />
               ))}
+              <div className="absolute inset-x-0 bottom-3.5 flex justify-center gap-1.5">
+                {sliderSlides.map((_, i) => (
+                  <span key={i} className="svc-dot" />
+                ))}
+              </div>
             </div>
-          </div>
-        </Container>
-      </section>
+          </Container>
+        </section>
+      )}
 
       {/* Available now */}
-      <section className="bg-white">
-        <Container className="py-14">
-          <div className="mb-9 flex items-center gap-2.5">
-            <StatusBadge tone="solid">Available now</StatusBadge>
-            <span className="text-sm text-muted">Requests assessed and confirmed individually</span>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {AVAILABLE_SERVICES.map((service) => (
-              <div key={service.name} className="flex flex-col gap-3.5 rounded-2xl border border-line bg-white p-7">
-                <IconBadge>{service.icon}</IconBadge>
-                <h3 className="text-lg font-bold text-ink">{service.name}</h3>
-                <p className="text-[15px] text-muted">{service.body}</p>
-                <div className="rounded-[10px] border border-line bg-[#F7F9F7] px-4 py-3.5 text-[13.5px] text-muted">
-                  <strong className="text-ink">Tell us:</strong> {service.tellUs}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {available.length > 0 && (
+        <section className="bg-white">
+          <Container className="py-14">
+            <div className="mb-9 flex items-center gap-2.5">
+              <StatusBadge tone="solid">Available now</StatusBadge>
+              <span className="text-sm text-muted">Requests assessed and confirmed individually</span>
+            </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {available.map((service) => {
+                const price = formatPrice(service);
+                return (
+                  <div key={service.slug} className="flex flex-col gap-3.5 rounded-2xl border border-line bg-white p-7">
+                    <IconBadge>{SERVICE_ICON}</IconBadge>
+                    <h3 className="text-lg font-bold text-ink">{service.name}</h3>
+                    {service.description && <p className="text-[15px] text-muted">{service.description}</p>}
+                    {price && (
+                      <span className="w-fit rounded-full bg-brand-50 px-3 py-1 text-[13px] font-semibold text-brand-700">
+                        {price}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Services being developed */}
-      <section className="bg-[#F7F9F7]">
-        <Container className="py-14">
-          <div className="mb-7 flex items-center gap-2.5">
-            <StatusBadge tone="amber">In development</StatusBadge>
-            <span className="text-sm text-muted">Register interest — dates depend on confirmed capacity</span>
-          </div>
-          <div className="flex flex-col">
-            {DEVELOPING_SERVICES.map((service, i) => (
-              <div
-                key={service.name}
-                className={cn(
-                  "grid grid-cols-1 gap-3 border-t border-line py-5 sm:grid-cols-[220px_1fr] sm:gap-6",
-                  i === DEVELOPING_SERVICES.length - 1 && "border-b"
-                )}
-              >
-                <h3 className="text-base font-bold text-ink">{service.name}</h3>
-                <p className="text-[14.5px] text-muted">{service.body}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      {developing.length > 0 && (
+        <section className="bg-[#F7F9F7]">
+          <Container className="py-14">
+            <div className="mb-7 flex items-center gap-2.5">
+              <StatusBadge tone="amber">In development</StatusBadge>
+              <span className="text-sm text-muted">Register interest — dates depend on confirmed capacity</span>
+            </div>
+            <div className="flex flex-col">
+              {developing.map((service, i) => (
+                <div
+                  key={service.slug}
+                  className={cn(
+                    "grid grid-cols-1 gap-3 border-t border-line py-5 sm:grid-cols-[220px_1fr] sm:gap-6",
+                    i === developing.length - 1 && "border-b"
+                  )}
+                >
+                  <h3 className="text-base font-bold text-ink">{service.name}</h3>
+                  {service.description && <p className="text-[14.5px] text-muted">{service.description}</p>}
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Prices and confirmation */}
       <section className="bg-white">
