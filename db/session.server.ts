@@ -12,3 +12,19 @@ export const sessionStorage = createCookieSessionStorage({
 });
 
 export const { getSession, commitSession, destroySession } = sessionStorage;
+
+/**
+ * Guards every admin loader AND action. A layout route's loader alone is not
+ * enough: React Router only runs the matching leaf route's action on a POST
+ * (parent loaders re-run afterwards, just to render the response) — so a
+ * nested route's own action must check the session itself, or it stays
+ * reachable by an unauthenticated request even while its page appears
+ * protected. Throws a redirect to /login when there is no session.
+ */
+export async function requireUserSession(request: Request) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("userId")) {
+    throw redirect("/login");
+  }
+  return session;
+}

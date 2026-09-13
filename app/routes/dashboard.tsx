@@ -1,15 +1,12 @@
-import { Form, Outlet, redirect } from "react-router";
-import { getSession } from "../../db/session.server";
+import { Form, Outlet } from "react-router";
+import { requireUserSession } from "../../db/session.server";
 import Container from "../components/container";
 import BrandMark from "../components/brand-mark";
 import AdminNav from "../components/admin/admin-nav";
 import type { Route } from "./+types/dashboard";
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  if (!session.has("userId")) {
-    return redirect("/login");
-  }
+  await requireUserSession(request);
   return null;
 }
 

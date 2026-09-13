@@ -3,13 +3,12 @@ import PageHeader from "../components/page-header";
 import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import InitialsAvatar from "../components/initials-avatar";
+import { buildServiceRequestWhatsAppUrl } from "../lib/whatsapp";
 import type { Route } from "./+types/contactpage";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Contact — Machinery Ring Rwanda" }];
 }
-
-const WHATSAPP_NUMBER = "250781707587"; // +250 781 707 587, in wa.me format (no leading +/0s)
 
 export async function loader() {
   const { rows: services } = await pool.query(
@@ -96,22 +95,20 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
 
   const location = [village, cell, sector, district].filter(Boolean).join(", ");
   const membershipLine =
-    membershipStatus === "member" ? ringName : membershipStatus === "non_member" ? "Non-member" : "Unsure";
+    membershipStatus === "member" ? ringName ?? "Member" : membershipStatus === "non_member" ? "Non-member" : "Unsure";
 
-  const messageLines = [
-    `Service request #${requestId} — Machinery Ring Rwanda website`,
-    `Name: ${fullName}`,
-    `Phone: ${phone}`,
-    location ? `Location: ${location}` : null,
-    `Ring / membership: ${membershipLine}`,
-    serviceName ? `Service: ${serviceName}` : null,
-    crop ? `Crop: ${crop}` : null,
-    areaOrQuantity ? `Area or quantity: ${areaOrQuantity}` : null,
-    preferredTiming ? `Preferred timing: ${preferredTiming}` : null,
-    additionalInfo ? `Notes: ${additionalInfo}` : null,
-  ].filter(Boolean);
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageLines.join("\n"))}`;
+  const whatsappUrl = buildServiceRequestWhatsAppUrl({
+    id: requestId,
+    fullName,
+    phone,
+    location,
+    membershipLine,
+    serviceName,
+    crop,
+    areaOrQuantity,
+    preferredTiming,
+    additionalInfo,
+  });
 
   return { success: true, whatsappUrl };
 }
