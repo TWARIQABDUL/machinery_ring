@@ -3,6 +3,7 @@ import { Form, useActionData } from "react-router";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { slugify } from "../lib/slugify";
+import { saveUploadedImage, deletePublicImage } from "../lib/uploads.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
@@ -17,6 +18,7 @@ type ServiceRow = {
   status: "available" | "in_development";
   price: string | null;
   price_unit: string | null;
+  image_path: string | null;
   is_published: boolean;
   sort_order: number;
 };
@@ -37,7 +39,9 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
 
   if (intent === "delete") {
     const id = Number(get("id"));
+    const { rows } = await pool.query("SELECT image_path FROM services WHERE id = $1", [id]);
     await pool.query("DELETE FROM services WHERE id = $1", [id]);
+    if (rows[0]) await deletePublicImage(rows[0].image_path);
     return { success: true };
   }
 
@@ -51,20 +55,25 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
   const priceUnit = get("price_unit") || null;
   const isPublished = formData.get("is_published") ? true : false;
   const sortOrder = Number(get("sort_order")) || 0;
+  const uploadedImage = await saveUploadedImage(formData.get("image"), "services");
 
   try {
     if (intent === "update") {
       const id = Number(get("id"));
+      const { rows } = await pool.query("SELECT image_path FROM services WHERE id = $1", [id]);
+      const imagePath = uploadedImage ?? rows[0]?.image_path ?? null;
+
       await pool.query(
-        `UPDATE services SET name=$1, slug=$2, description=$3, status=$4, price=$5, price_unit=$6, is_published=$7, sort_order=$8, updated_at=NOW()
-         WHERE id=$9`,
-        [name, slug, description, status, price, priceUnit, isPublished, sortOrder, id]
+        `UPDATE services SET name=$1, slug=$2, description=$3, status=$4, price=$5, price_unit=$6, image_path=$7, is_published=$8, sort_order=$9, updated_at=NOW()
+         WHERE id=$10`,
+        [name, slug, description, status, price, priceUnit, imagePath, isPublished, sortOrder, id]
       );
+      if (uploadedImage && rows[0]?.image_path) await deletePublicImage(rows[0].image_path);
     } else {
       await pool.query(
-        `INSERT INTO services (name, slug, description, status, price, price_unit, is_published, sort_order)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-        [name, slug, description, status, price, priceUnit, isPublished, sortOrder]
+        `INSERT INTO services (name, slug, description, status, price, price_unit, image_path, is_published, sort_order)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+        [name, slug, description, status, price, priceUnit, uploadedImage, isPublished, sortOrder]
       );
     }
   } catch (err: any) {
@@ -128,22 +137,29 @@ export default function DashboardServices({ loaderData }: Route.ComponentProps) 
                 </div>
               ) : (
                 <div key={service.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[15px] font-bold text-ink">{service.name}</span>
-                      <StatusBadge tone={service.status === "available" ? "solid" : "amber"} size="sm">
-                        {service.status === "available" ? "Available" : "In development"}
-                      </StatusBadge>
-                      {!service.is_published && (
-                        <StatusBadge tone="neutral" size="sm">
-                          Unpublished
+                  <div className="flex items-center gap-3.5">
+                    {service.image_path ? (
+                      <img src={service.image_path} alt="" className="h-12 w-16 shrink-0 rounded-lg object-cover" />
+                    ) : (
+                      <div className="h-12 w-16 shrink-0 rounded-lg bg-[#F7F9F7]" />
+                    )}
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[15px] font-bold text-ink">{service.name}</span>
+                        <StatusBadge tone={service.status === "available" ? "solid" : "amber"} size="sm">
+                          {service.status === "available" ? "Available" : "In development"}
                         </StatusBadge>
-                      )}
+                        {!service.is_published && (
+                          <StatusBadge tone="neutral" size="sm">
+                            Unpublished
+                          </StatusBadge>
+                        )}
+                      </div>
+                      <span className="text-[13px] text-muted-2">
+                        /{service.slug}
+                        {service.price ? ` · RWF ${Number(service.price).toLocaleString()}${service.price_unit ? ` ${service.price_unit}` : ""}` : " · price not set"}
+                      </span>
                     </div>
-                    <span className="text-[13px] text-muted-2">
-                      /{service.slug}
-                      {service.price ? ` · RWF ${Number(service.price).toLocaleString()}${service.price_unit ? ` ${service.price_unit}` : ""}` : " · price not set"}
-                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button type="button" onClick={() => setEditingId(service.id)} className={btnSm}>
@@ -166,7 +182,7 @@ export default function DashboardServices({ loaderData }: Route.ComponentProps) 
 
 function ServiceForm({ service, onCancel }: { service?: ServiceRow; onCancel?: () => void }) {
   return (
-    <Form method="post" className="flex flex-col gap-4">
+    <Form method="post" encType="multipart/form-data" className="flex flex-col gap-4">
       {service && <input type="hidden" name="id" value={service.id} />}
       <input type="hidden" name="intent" value={service ? "update" : "create"} />
 
@@ -182,6 +198,20 @@ function ServiceForm({ service, onCancel }: { service?: ServiceRow; onCancel?: (
       </div>
 
       <TextAreaField label="Description" name="description" rows={3} defaultValue={service?.description ?? undefined} />
+
+      {service?.image_path && (
+        <div className="flex items-center gap-3">
+          <img src={service.image_path} alt="" className="h-16 w-24 rounded-lg object-cover" />
+          <span className="text-[12.5px] text-muted-2">Current photo — upload a new one below to replace it.</span>
+        </div>
+      )}
+      <TextField
+        label="Photo"
+        name="image"
+        type="file"
+        accept="image/*"
+        hint={service ? "Shown on the Services page slider. Leave blank to keep the current photo." : "Shown on the Services page slider. Optional."}
+      />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SelectField label="Status" name="status" defaultValue={service?.status ?? "available"}>

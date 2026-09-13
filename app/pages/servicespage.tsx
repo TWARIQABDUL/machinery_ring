@@ -25,11 +25,12 @@ type ServiceRow = {
   status: "available" | "in_development";
   price: string | null;
   price_unit: string | null;
+  image_path: string | null;
 };
 
 export async function loader() {
   const { rows } = await pool.query<ServiceRow>(
-    "SELECT slug, name, description, status, price, price_unit FROM services WHERE is_published = true ORDER BY sort_order, name"
+    "SELECT slug, name, description, status, price, price_unit, image_path FROM services WHERE is_published = true ORDER BY sort_order, name"
   );
   return {
     available: rows.filter((row) => row.status === "available"),
@@ -71,13 +72,19 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
             <div className="relative aspect-[21/9] overflow-hidden rounded-2xl shadow-[0_24px_50px_-30px_rgba(15,61,36,0.3)]">
               {sliderSlides.map((service, i) => (
                 <div key={i} className="svc-slide bg-brand-100">
-                  <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                    {SERVICE_ICON}
-                  </svg>
+                  {service.image_path ? (
+                    <img src={service.image_path} alt={service.name} className="absolute inset-0 h-full w-full object-cover" />
+                  ) : (
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
+                      {SERVICE_ICON}
+                    </svg>
+                  )}
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.85)] to-transparent px-6.5 pb-4.5 pt-8 text-white">
-                    <StatusBadge tone="overlay" size="sm">
-                      Photo pending
-                    </StatusBadge>
+                    {!service.image_path && (
+                      <StatusBadge tone="overlay" size="sm">
+                        Photo pending
+                      </StatusBadge>
+                    )}
                     <h3 className="text-lg font-bold text-white">{service.name}</h3>
                     {service.description && (
                       <p className="line-clamp-2 text-[13.5px] text-[#E7F2EA]">{service.description}</p>
