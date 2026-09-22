@@ -101,7 +101,7 @@ export default function DashboardGallery({ loaderData }: Route.ComponentProps) {
 
       <Panel title={`All photos (${photos.length})`}>
         {photos.length === 0 ? (
-          <p className="text-[14px] text-muted-2">No photos yet — upload the first one above.</p>
+          <p className="text-[14px] text-muted-2">No photos yet. Upload the first one above.</p>
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {photos.map((photo) =>

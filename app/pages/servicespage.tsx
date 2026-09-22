@@ -8,7 +8,7 @@ import { cn } from "../lib/cn";
 import type { Route } from "./+types/servicespage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Services — Machinery Ring Rwanda" }];
+  return [{ title: "Services | Machinery Ring Rwanda" }];
 }
 
 // One shared icon for every card — the `services` table doesn't carry a
@@ -137,7 +137,7 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
           <Container className="py-14">
             <div className="mb-7 flex items-center gap-2.5">
               <StatusBadge tone="amber">In development</StatusBadge>
-              <span className="text-sm text-muted">Register interest — dates depend on confirmed capacity</span>
+              <span className="text-sm text-muted">Register interest. Dates depend on confirmed capacity.</span>
             </div>
             <div className="flex flex-col">
               {developing.map((service, i) => (

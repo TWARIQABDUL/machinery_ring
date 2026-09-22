@@ -73,7 +73,7 @@ export default function DashboardRings({ loaderData }: Route.ComponentProps) {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-extrabold text-ink">Rings</h1>
-        <p className="text-[14.5px] text-muted">Local Rings farmers can select on the Contact form — name and WhatsApp group invite link.</p>
+        <p className="text-[14.5px] text-muted">Local Rings farmers can select on the Contact form. Name and WhatsApp group invite link.</p>
       </div>
 
       {actionData && "error" in actionData && (
@@ -86,7 +86,7 @@ export default function DashboardRings({ loaderData }: Route.ComponentProps) {
 
       <Panel title={`All Rings (${rings.length})`}>
         {rings.length === 0 ? (
-          <p className="text-[14px] text-muted-2">No Rings yet — add the first one above.</p>
+          <p className="text-[14px] text-muted-2">No Rings yet. Add the first one above.</p>
         ) : (
           <div className="flex flex-col divide-y divide-line">
             {rings.map((ring) =>
@@ -152,7 +152,7 @@ function RingForm({ ring, onCancel }: { ring?: RingRow; onCancel?: () => void })
         defaultValue={ring?.whatsapp_invite_link}
       />
 
-      <CheckboxField label="Active — selectable on the Contact form" name="is_active" defaultChecked={ring?.is_active ?? true} />
+      <CheckboxField label="Active (selectable on the Contact form)" name="is_active" defaultChecked={ring?.is_active ?? true} />
 
       <div className="flex gap-3">
         <button type="submit" className={btnPrimary}>

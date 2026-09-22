@@ -10,7 +10,7 @@ import GalleryLightbox from "../components/gallery-lightbox";
 import type { Route } from "./+types/gallerypage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Gallery — Machinery Ring Rwanda" }];
+  return [{ title: "Gallery | Machinery Ring Rwanda" }];
 }
 
 const CATEGORIES = ["All", "Equipment", "Training", "Field days", "Demonstration farms"];
@@ -63,7 +63,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
         <Container className="py-10">
           {photos.length === 0 ? (
             <p className="rounded-2xl border border-line bg-[#F7F9F7] px-6 py-12 text-center text-[14.5px] text-muted">
-              Photos are added here as they're confirmed from Ring activities — check back soon, or{" "}
+              Photos are added here as they're confirmed from Ring activities. Check back soon, or{" "}
               <Link to="/contact" className="font-semibold text-brand-700 hover:text-brand-900">
                 contact us
               </Link>{" "}
@@ -100,7 +100,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
 
       <CtaBand
         title="Have a photo from a Ring activity?"
-        description="Contact us to share photos from field days, training or your own farm — with your permission, we'll add them here."
+        description="Contact us to share photos from field days, training or your own farm. With your permission, we will add them here."
         actions={[{ label: "Contact us", to: "/contact" }]}
       />
 

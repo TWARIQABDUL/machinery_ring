@@ -10,7 +10,7 @@ import WhatsAppIcon from "../components/whatsapp-icon";
 import type { Route } from "./+types/aboutpage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "About Us — Machinery Ring Rwanda" }];
+  return [{ title: "About Us | Machinery Ring Rwanda" }];
 }
 
 type RingRow = { id: number; name: string; whatsapp_invite_link: string };
@@ -42,7 +42,7 @@ const TEAM = [
   {
     initials: "CM",
     name: "Chloella Munezero",
-    role: "Technical Expert — Financial Reporting, M&E",
+    role: "Technical Expert, Financial Reporting and M&E",
     bio: "Supports financial administration, activity monitoring and reporting, plus support for women's savings groups, financial literacy and organisational skills.",
   },
 ];
@@ -175,7 +175,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
             ))}
           </div>
           <p className="mt-5 text-[12.5px] text-muted-2">
-            Portraits shown are placeholders — each falls back to initials until a photo is supplied.
+            Portraits shown are placeholders. Each falls back to initials until a photo is supplied.
           </p>
         </Container>
       </section>

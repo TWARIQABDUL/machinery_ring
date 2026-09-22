@@ -9,7 +9,7 @@ import type { Route } from "./+types/homepage";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Machinery Ring Rwanda — Access agricultural machinery through farmer cooperation" },
+    { title: "Machinery Ring Rwanda | Access agricultural machinery through farmer cooperation" },
     {
       name: "description",
       content:
@@ -39,7 +39,7 @@ const SUPPORT_PILLARS = [
 ];
 
 const EXPLORE_LINKS = [
-  { to: "/services", title: "Explore our services", body: "Planting, shelling, threshing, training and more — available now and being developed." },
+  { to: "/services", title: "Explore our services", body: "Planting, shelling, threshing, training and more. Available now and being developed." },
   { to: "/our-work", title: "See our work", body: "The Kenya–Rwanda mechanisation project, demonstration farms and field updates." },
   { to: "/gallery", title: "Browse the gallery", body: "Photos from field days, training and equipment demonstrations." },
   { to: "/blog", title: "Read the blog", body: "Updates from local Rings, field days and training." },
@@ -68,7 +68,7 @@ export default function HomePage() {
             </h1>
             <p className="max-w-[32em] text-lg text-muted">
               Machinery Ring Rwanda brings farmers together to access agricultural machinery, practical training and
-              coordinated services &mdash; so no household has to buy and maintain every machine it needs.
+              coordinated services, so no household has to buy and maintain every machine it needs.
             </p>
             <div className="flex flex-wrap gap-3.5">
               <Link
@@ -114,25 +114,31 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="hero-slide flex items-center justify-center overflow-hidden rounded-2xl bg-brand-100 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                  <path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5Z" />
-                  <path d="M12 6v13" />
-                </svg>
-                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5 text-[13px] text-white">
-                  <StatusBadge tone="overlay" size="sm">Photo pending</StatusBadge>
-                  Farmers receiving hands&#8209;on training in machinery use and maintenance.
+              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
+                <img
+                  src="https://images.pexels.com/photos/27229388/pexels-photo-27229388.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="A farmer operating a combine harvester through a field at harvest time"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
+                  <span className="text-[13px] font-medium text-white">
+                    Machinery at work during harvest season.
+                  </span>
                 </div>
               </div>
 
-              <div className="hero-slide flex items-center justify-center overflow-hidden rounded-2xl bg-brand-100 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                  <path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" />
-                  <circle cx="12" cy="9.5" r="2.2" />
-                </svg>
-                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5 text-[13px] text-white">
-                  <StatusBadge tone="overlay" size="sm">Photo pending</StatusBadge>
-                  A local Ring field day in Gashora Sector.
+              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
+                <img
+                  src="https://images.pexels.com/photos/26380845/pexels-photo-26380845.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="Tractors working across a field during a cooperative harvest day"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
+                  <span className="text-[13px] font-medium text-white">
+                    Cooperative harvest activity, tractors working across the field.
+                  </span>
                 </div>
               </div>
 
@@ -151,7 +157,7 @@ export default function HomePage() {
         <Container className="py-16 md:py-20">
           <SectionHeading
             eyebrow="How we support farmers"
-            title="Machinery, learning and organisation — together"
+            title="Machinery, learning and organisation. Together."
             className="mb-10 max-w-[40em]"
           />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

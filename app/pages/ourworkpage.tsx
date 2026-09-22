@@ -9,7 +9,7 @@ import { cn } from "../lib/cn";
 import type { Route } from "./+types/ourworkpage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Our Work — Machinery Ring Rwanda" }];
+  return [{ title: "Our Work | Machinery Ring Rwanda" }];
 }
 
 const STATS = [
@@ -45,7 +45,7 @@ export default function OurWorkPage() {
 
       <LabeledSection label="The Kenya and Rwanda mechanisation project">
         <p className="text-[17px] leading-[1.7] text-ink-soft">
-          The project "Sustainable mechanization of value chains through innovative, gender-sensitive business models —
+          The project "Sustainable mechanization of value chains through innovative, gender-sensitive business models:
           Machinery Rings in Kenya and Rwanda" runs from November 2023 to October 2026. Work in Rwanda began in 2024,
           focusing on local Rings, agricultural services, training and demonstration activities in Gashora.
         </p>

@@ -8,7 +8,7 @@ import { buildServiceRequestWhatsAppUrl } from "../lib/whatsapp";
 import type { Route } from "./+types/contactpage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Contact — Machinery Ring Rwanda" }];
+  return [{ title: "Contact | Machinery Ring Rwanda" }];
 }
 
 export async function loader() {
@@ -196,7 +196,7 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
                   Send these details on WhatsApp
                 </a>
                 <p className="text-center text-[13px] text-muted-2">
-                  Optional — opens WhatsApp with the details above pre-filled to Simeon's number. Your request is
+                  Optional. Opens WhatsApp with the details above pre-filled to Simeon's number. Your request is
                   already saved either way.
                 </p>
               </div>

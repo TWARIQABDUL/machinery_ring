@@ -190,16 +190,16 @@ export default function DashboardRequests({ loaderData }: Route.ComponentProps) 
 
                   <div className="grid grid-cols-1 gap-x-6 gap-y-1 rounded-lg bg-[#F7F9F7] px-4 py-3 text-[13.5px] text-ink-soft sm:grid-cols-2">
                     <span>
-                      <strong className="text-ink">Service:</strong> {req.service_name ?? "—"}
+                      <strong className="text-ink">Service:</strong> {req.service_name ?? "-"}
                     </span>
                     <span>
-                      <strong className="text-ink">Crop:</strong> {req.crop ?? "—"}
+                      <strong className="text-ink">Crop:</strong> {req.crop ?? "-"}
                     </span>
                     <span>
-                      <strong className="text-ink">Area / quantity:</strong> {req.area_or_quantity ?? "—"}
+                      <strong className="text-ink">Area / quantity:</strong> {req.area_or_quantity ?? "-"}
                     </span>
                     <span>
-                      <strong className="text-ink">Preferred timing:</strong> {req.preferred_timing ?? "—"}
+                      <strong className="text-ink">Preferred timing:</strong> {req.preferred_timing ?? "-"}
                     </span>
                     {req.additional_info && (
                       <span className="sm:col-span-2">

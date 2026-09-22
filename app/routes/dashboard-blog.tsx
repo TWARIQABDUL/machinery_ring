@@ -105,7 +105,7 @@ export default function DashboardBlog({ loaderData }: Route.ComponentProps) {
 
       <Panel title={`All posts (${posts.length})`}>
         {posts.length === 0 ? (
-          <p className="text-[14px] text-muted-2">No posts yet — write the first one above.</p>
+          <p className="text-[14px] text-muted-2">No posts yet. Write the first one above.</p>
         ) : (
           <div className="flex flex-col divide-y divide-line">
             {posts.map((post) =>

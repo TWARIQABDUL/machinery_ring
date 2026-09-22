@@ -5,7 +5,7 @@ import PendingPhoto from "../components/pending-photo";
 import type { Route } from "./+types/blogpage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Blog — Machinery Ring Rwanda" }];
+  return [{ title: "Blog | Machinery Ring Rwanda" }];
 }
 
 // Static for now — will read from the `blog_posts` table once the Blog admin exists.
@@ -37,7 +37,7 @@ export default function BlogPage() {
       <PageHeader
         crumb="Blog"
         title="Blog"
-        intro="Updates from local Rings, field days and training — drawn from our recorded activity in Gashora Sector, Bugesera District."
+        intro="Updates from local Rings, field days and training, drawn from our recorded activity in Gashora Sector, Bugesera District."
       />
 
       {/* Featured post */}
