@@ -1,12 +1,11 @@
+import { Link } from "react-router";
 import pool from "../../db";
-import PageHeader from "../components/page-header";
 import Container from "../components/container";
-import LabeledSection from "../components/labeled-section";
 import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
-import InitialsAvatar from "../components/initials-avatar";
-import ArrowLink from "../components/arrow-link";
 import WhatsAppIcon from "../components/whatsapp-icon";
+import ArrowLink from "../components/arrow-link";
+import CtaBand from "../components/cta-band";
 import type { Route } from "./+types/aboutpage";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,9 +13,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 type RingRow = { id: number; name: string; whatsapp_invite_link: string };
-
-// The seed data's placeholder link, before an admin sets a real one — a Ring
-// with this link still shows on the page, just without a live join button.
 const PENDING_LINK_MARKER = "INVITE-LINK-PENDING";
 
 export async function loader() {
@@ -26,33 +22,72 @@ export async function loader() {
   return { rings: rows };
 }
 
+
+const HOW_IT_WORKS = [
+  {
+    num: "01",
+    title: "Share what you need",
+    body: "Farmers bring requests to their local Ring — the crop, the service and the timing. The Ring coordinates who can provide it and when.",
+  },
+  {
+    num: "02",
+    title: "Equipment meets the work",
+    body: "Machinery owners offer services to fellow members at agreed rates that cover real costs. No single household needs to buy every machine.",
+  },
+  {
+    num: "03",
+    title: "Skills follow the access",
+    body: "Training, demonstrations and field days help farmers use equipment well and manage seasonal work more effectively.",
+  },
+];
+
+const MISSION_POINTS = [
+  "Coordinate machinery access and service delivery across local Rings",
+  "Develop practical farming, post-harvest and business skills",
+  "Strengthen local leadership, group structure and coordination",
+];
+
+const APPROACH_POINTS = [
+  "Farmer priorities shape which services are developed first",
+  "Equipment access and practical training work together",
+  "Women's participation is built into every programme, not added on",
+];
+
 const TEAM = [
   {
     initials: "SM",
     name: "Simeon Musabende Umunyempuhwe",
     role: "Project Manager",
     bio: "Coordinates implementation, farmer support, service planning and partner engagement. Works with local Rings and institutions to turn farmers' needs into practical activities.",
+    featured: true,
   },
   {
     initials: "EN",
     name: "Eric Niyonzima",
     role: "Assistant Project Manager & ICT Personnel",
     bio: "Supports field coordination, local boards, service planning and recordkeeping, including using digital tools to organise information and support communication.",
+    featured: false,
   },
   {
     initials: "CM",
     name: "Chloella Munezero",
     role: "Technical Expert, Financial Reporting and M&E",
     bio: "Supports financial administration, activity monitoring and reporting, plus support for women's savings groups, financial literacy and organisational skills.",
+    featured: false,
   },
 ];
 
-const PARTNERS = ["Machinery Ring Foundation", "GIZ Rwanda", "sequa gGmbH", "German Development Cooperation"];
+const PARTNERS = [
+  "Machinery Ring Foundation",
+  "GIZ Rwanda",
+  "sequa gGmbH",
+  "German Development Cooperation",
+];
 
 const JOIN_CARDS = [
   {
     title: "Joining a Machinery Ring",
-    body: "Contact our team or a local Ring representative to learn about membership, the applicable conditions and available services. Farmers can also coordinate requests with neighbours so that work and machinery movements can be planned together. Non-members may enquire about services and the terms that apply to them.",
+    body: "Contact our team or a local Ring representative to learn about membership, the applicable conditions and available services. Non-members may also enquire about services and the terms that apply to them.",
     linkLabel: "Contact us",
   },
   {
@@ -62,54 +97,194 @@ const JOIN_CARDS = [
   },
 ];
 
+function Check({ dark = false }: { dark?: boolean }) {
+  return (
+    <span
+      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${dark ? "bg-brand-700" : "bg-brand-100"}`}
+    >
+      <svg
+        width="10"
+        height="10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={dark ? "#A9CFB6" : "#1B7A3D"}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M20 6L9 17l-5-5" />
+      </svg>
+    </span>
+  );
+}
+
 export default function AboutPage({ loaderData }: Route.ComponentProps) {
   const { rings } = loaderData;
 
   return (
     <div>
-      <PageHeader
-        crumb="About Us"
-        title="About Machinery Ring Rwanda"
-        intro="We work with local farmer groups to coordinate service needs, develop practical skills and strengthen the organisation required to manage agricultural activities."
-      />
+      {/* ── Full-bleed image hero ── */}
+      <section className="relative min-h-[580px] overflow-hidden bg-brand-900">
+        <img
+          src="https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          referrerPolicy="no-referrer"
+        />
+        {/* Diagonal gradient: dark on left, fades to image on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/95 via-brand-900/75 to-brand-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent" />
 
-      <LabeledSection label="Who we are">
-        <p className="text-[17px] leading-[1.7] text-ink-soft">
-          Machinery Ring Rwanda supports farmers in accessing agricultural machinery and related services through
-          cooperation. We work with local farmer groups to coordinate service needs, develop practical skills and
-          strengthen the organisation required to manage agricultural activities.
-        </p>
-      </LabeledSection>
-
-      {/* What is a Machinery Ring */}
-      <section className="bg-brand-50/60">
-        <Container className="py-16">
-          <div className="flex flex-col gap-3 rounded-2xl border border-line border-l-4 border-l-brand-600 bg-white p-9">
-            <span className="text-[13px] font-bold uppercase tracking-wide text-brand-700">What is a Machinery Ring</span>
-            <p className="text-[17px] leading-[1.75] text-[#28352E]">
-              A Machinery Ring (MR) is a local, farmer-led self-help organisation that helps members access agricultural
-              machinery and related services through cooperation. Farmers who own machinery can offer services to other
-              members at agreed rates that cover the cost of providing them. A farmer may provide one service while
-              hiring another from a fellow member. This approach improves equipment use and gives farmers access to
-              mechanisation without each farmer having to purchase their own machinery.
+        <Container className="relative z-10 flex min-h-[580px] flex-col justify-end pb-16 md:justify-center md:py-24">
+          <div className="flex max-w-[28em] flex-col gap-5">
+            <span className="text-[13px] text-[#8FBF9F]">
+              <Link to="/" className="hover:text-white">
+                Home
+              </Link>
+              &nbsp;/&nbsp;About Us
+            </span>
+            <h1 className="font-display text-4xl font-extrabold leading-tight text-white md:text-[50px]">
+              Farmer-led machinery cooperation in Rwanda
+            </h1>
+            <p className="text-[16.5px] leading-[1.7] text-[#CDE8D6]">
+              We work with local farmer groups to coordinate machinery access, practical skills and the organisation
+              needed to manage agricultural activities — together.
             </p>
+            <div className="flex flex-wrap gap-3.5 pt-1">
+              <Link
+                to="/contact"
+                className="rounded-lg bg-brand-600 px-6 py-3.5 text-base font-semibold text-white hover:bg-brand-500"
+              >
+                Get in touch
+              </Link>
+              <Link
+                to="/our-work"
+                className="rounded-lg border border-white/25 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20"
+              >
+                See our work
+              </Link>
+            </div>
           </div>
         </Container>
       </section>
 
-      <LabeledSection label="Our development in Rwanda">
-        <p className="text-[17px] leading-[1.7] text-ink-soft">
-          Implementation in Rwanda began in 2024 through a project supporting the Machinery Ring approach in Kenya and
-          Rwanda. Activities have included establishing local Rings, introducing equipment, organising farmer training
-          and developing demonstration farms. Machinery Ring Rwanda obtained legal recognition in 2025.
-        </p>
-        <p className="text-[17px] leading-[1.7] text-ink-soft">
-          Our purpose is to strengthen farmers' access to suitable machinery, practical knowledge and coordinated
-          services. Local participation helps shape which services are needed and how they can be organised.
-        </p>
-      </LabeledSection>
+      {/* ── Centered pull-quote ── */}
+      <section className="bg-white">
+        <Container className="py-14 md:py-16">
+          <p className="mx-auto max-w-[46em] text-center text-[18px] leading-[1.8] text-ink-soft md:text-[20px]">
+            <strong className="text-brand-700">817 farmers</strong> across five local Rings are changing how
+            agricultural machinery is accessed in Rwanda — through{" "}
+            <strong className="text-ink">cooperation, not individual ownership.</strong> No single household needs
+            to buy every machine it needs.
+          </p>
+        </Container>
+      </section>
 
-      {/* Our local Rings */}
+
+      {/* ── How a Machinery Ring works — numbered steps ── */}
+      <section className="bg-white">
+        <Container className="py-16 md:py-20">
+          <SectionHeading
+            eyebrow="What is a Machinery Ring"
+            title="How it works in three steps"
+            description="A Machinery Ring is a local, farmer-led self-help organisation. Members share equipment access so every farm benefits from mechanisation without every farm owning every machine."
+            className="mb-12 max-w-[40em]"
+          />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {HOW_IT_WORKS.map((step) => (
+              <div key={step.num} className="flex flex-col gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-7">
+                <span className="font-display text-[52px] font-extrabold leading-none text-brand-100">
+                  {step.num}
+                </span>
+                <h3 className="text-[17px] font-bold text-ink">{step.title}</h3>
+                <p className="text-[14.5px] leading-[1.7] text-muted">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Mission + Approach — side-by-side dual text columns ── */}
+      <section className="bg-brand-900">
+        <Container className="py-16 md:py-20">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
+            {/* Left: Our mission */}
+            <div className="flex flex-col gap-5">
+              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">Our mission</span>
+              <h2 className="font-display text-[28px] font-extrabold leading-tight text-white">
+                Strengthen access to machinery, skills and coordination
+              </h2>
+              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">
+                Our purpose is to ensure farmers in Gashora have reliable access to the equipment, knowledge and
+                organisational support they need to farm productively.
+              </p>
+              <ul className="flex flex-col gap-3 pt-1">
+                {MISSION_POINTS.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <Check dark />
+                    <span className="text-[14.5px] text-[#CDE8D6]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Right: Our approach */}
+            <div className="flex flex-col gap-5 md:border-l md:border-white/10 md:pl-16">
+              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">Our approach</span>
+              <h2 className="font-display text-[28px] font-extrabold leading-tight text-white">
+                Local participation shapes every activity
+              </h2>
+              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">
+                Services and programmes are built around what local Rings and farmers say they need, not the other
+                way around. Coordination means listening first.
+              </p>
+              <ul className="flex flex-col gap-3 pt-1">
+                {APPROACH_POINTS.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <Check dark />
+                    <span className="text-[14.5px] text-[#CDE8D6]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Our development — heading + wide landscape image ── */}
+      <section className="bg-white">
+        <Container className="py-16 md:py-20">
+          <div className="mb-8 flex flex-col gap-3 max-w-[36em]">
+            <span className="text-[13px] font-bold uppercase tracking-wide text-brand-700">
+              Our development in Rwanda
+            </span>
+            <h2 className="font-display text-[30px] font-extrabold leading-tight text-ink">
+              Growing from 2024 through a Kenya–Rwanda project
+            </h2>
+            <p className="text-[15.5px] leading-[1.75] text-ink-soft">
+              Implementation in Rwanda began in 2024, focusing on establishing local Rings, introducing equipment,
+              organising training and developing demonstration farms. Machinery Ring Rwanda obtained legal recognition
+              in 2025. Local participation helps shape which services are developed and how they are organised.
+            </p>
+          </div>
+          {/* Full-width wide image */}
+          <div className="relative overflow-hidden rounded-2xl">
+            <img
+              src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              alt="Farmers working together in the field — activities that form the basis of Ring work in Rwanda"
+              className="aspect-[21/9] w-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/70 to-transparent px-7 pb-5 pt-12">
+              <span className="text-[13px] font-medium text-white">
+                Field activities across Gashora Sector — the foundation of practical Ring work.
+              </span>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Our local Rings ── */}
       {rings.length > 0 && (
         <section className="bg-[#F7F9F7]">
           <Container className="py-16">
@@ -117,7 +292,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               eyebrow="Our local Rings"
               title="Our established network in Gashora Sector, Bugesera District"
               description="Local boards and trained farmer facilitators support communication, group activities and service coordination in each Ring. Join a Ring's WhatsApp group below, or contact us if you're not sure which one covers your area."
-              className="mb-9"
+              className="mb-9 max-w-[44em]"
             />
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
               {rings.map((ring) => {
@@ -153,70 +328,77 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
         </section>
       )}
 
-      {/* Our team */}
-      <section className="bg-[#F7F9F7]">
-        <Container className="pb-16">
+      {/* ── Team — featured card + two compact cards ── */}
+      <section className="bg-white">
+        <Container className="py-16">
           <SectionHeading
             eyebrow="Our team"
             title="Coordinating activities and supporting local Rings"
-            description="The project team coordinates activities, supports local Rings and works with technical and development partners. Local Ring boards help organise members and communicate farmers' priorities."
-            className="mb-10"
+            description="The project team coordinates activities, supports local Rings and works with technical and development partners."
+            className="mb-10 max-w-[40em]"
           />
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {TEAM.map((person) => (
-              <div key={person.initials} className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5">
-                <InitialsAvatar initials={person.initials} variant="photo-frame" />
-                <div>
-                  <h3 className="text-[17px] font-bold text-ink">{person.name}</h3>
-                  <span className="text-[13px] font-semibold text-brand-700">{person.role}</span>
-                </div>
-                <p className="text-sm text-muted">{person.bio}</p>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
+            {/* Featured card — horizontal, large */}
+            <div className="flex gap-6 overflow-hidden rounded-2xl border border-line bg-[#F7F9F7] p-7">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-brand-900">
+                <span className="font-display text-2xl font-extrabold text-white">{TEAM[0].initials}</span>
               </div>
-            ))}
+              <div className="flex flex-col gap-2">
+                <div>
+                  <h3 className="text-[17px] font-bold text-ink">{TEAM[0].name}</h3>
+                  <span className="text-[13px] font-semibold text-brand-700">{TEAM[0].role}</span>
+                </div>
+                <p className="text-[13.5px] leading-[1.7] text-muted">{TEAM[0].bio}</p>
+              </div>
+            </div>
+            {/* Two compact stacked cards */}
+            <div className="flex flex-col gap-4">
+              {TEAM.slice(1).map((person) => (
+                <div key={person.initials} className="flex gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-5">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-900">
+                    <span className="font-display text-sm font-extrabold text-white">{person.initials}</span>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <div>
+                      <h3 className="text-[14.5px] font-bold text-ink">{person.name}</h3>
+                      <span className="text-[12px] font-semibold text-brand-700">{person.role}</span>
+                    </div>
+                    <p className="text-[13px] leading-[1.6] text-muted">{person.bio}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="mt-5 text-[12.5px] text-muted-2">
-            Portraits shown are placeholders. Each falls back to initials until a photo is supplied.
-          </p>
         </Container>
       </section>
 
-      {/* Our partners */}
-      <section className="bg-white">
+      {/* ── Our partners ── */}
+      <section className="bg-[#F7F9F7]">
         <Container className="py-16">
           <SectionHeading
             eyebrow="Our partners"
             title="Who we work with"
-            description="The Machinery Ring Foundation led the implementation of the Kenya–Rwanda project in Rwanda, with support from GIZ Rwanda and sequa gGmbH under German Development Cooperation. Farmers and local leaders help identify priorities and coordinate participation."
-            className="max-w-[40em]"
+            description="The Machinery Ring Foundation led the implementation of the Kenya–Rwanda project in Rwanda, with support from GIZ Rwanda and sequa gGmbH under German Development Cooperation."
+            className="mb-8 max-w-[42em]"
           />
-        </Container>
-        <div className="marquee-mask mt-8">
-          <div className="marquee-track px-6">
-            {[...PARTNERS, ...PARTNERS].map((partner, i) => (
+          <div className="flex flex-wrap gap-3">
+            {PARTNERS.map((partner) => (
               <div
-                key={`${partner}-${i}`}
-                aria-hidden={i >= PARTNERS.length}
-                className="flex h-20 min-w-[220px] items-center justify-center rounded-xl border border-line bg-[#F7F9F7] px-5 text-center text-[13px] font-semibold text-muted"
+                key={partner}
+                className="rounded-xl border border-line bg-white px-6 py-3.5 text-[14px] font-semibold text-ink"
               >
                 {partner}
               </div>
             ))}
           </div>
-        </div>
-        <Container className="pt-5">
-          <p className="text-[13.5px] text-muted-2">
-            Cooperation with technical and local institutions supports specific activities, including
-            business-development training and links between savings groups and local financial services. Logos shown
-            are placeholders pending approved partner artwork.
-          </p>
         </Container>
       </section>
 
-      {/* Joining / Work with us */}
-      <section className="bg-brand-50">
+      {/* ── Joining / Work with us ── */}
+      <section className="bg-white">
         <Container className="grid gap-6 py-14 md:grid-cols-2">
           {JOIN_CARDS.map((card) => (
-            <div key={card.title} className="flex flex-col gap-3 rounded-2xl border border-[#DDEBE1] bg-white p-8">
+            <div key={card.title} className="flex flex-col gap-3 rounded-2xl border border-line bg-[#F7F9F7] p-8">
               <h3 className="text-lg font-bold text-ink">{card.title}</h3>
               <p className="text-[14.5px] text-muted">{card.body}</p>
               <ArrowLink to="/contact" className="mt-1.5">
@@ -226,6 +408,15 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           ))}
         </Container>
       </section>
+
+      <CtaBand
+        title="Ready to get involved?"
+        description="Contact us about joining a local Ring, requesting a service, or working with us on farmer training and development."
+        actions={[
+          { label: "Contact us", to: "/contact" },
+          { label: "See our services", to: "/services", variant: "secondary" },
+        ]}
+      />
     </div>
   );
 }
