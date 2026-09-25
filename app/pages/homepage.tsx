@@ -2,14 +2,12 @@ import { Link } from "react-router";
 import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
-import StatusBadge from "../components/status-badge";
-import Stat from "../components/stat";
 import CtaBand from "../components/cta-band";
 import type { Route } from "./+types/homepage";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Machinery Ring Rwanda — Access agricultural machinery through farmer cooperation" },
+    { title: "Machinery Ring Rwanda | Access agricultural machinery through farmer cooperation" },
     {
       name: "description",
       content:
@@ -31,7 +29,7 @@ const SUPPORT_PILLARS = [
   },
   {
     title: "Farmer organisation",
-    body: "Support for local leadership, group coordination and women's participation.",
+    body: "Support for local leadership, group coordination and women's participation across the five local Rings.",
     icon: (
       <path d="M9 8a3.2 3.2 0 1 0 0 6.4A3.2 3.2 0 0 0 9 8ZM3 20c0-3.6 2.7-6 6-6s6 2.4 6 6M17.5 9a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8ZM15.3 20c.3-2.7 2-4.7 4.7-5.1" />
     ),
@@ -39,10 +37,34 @@ const SUPPORT_PILLARS = [
 ];
 
 const EXPLORE_LINKS = [
-  { to: "/services", title: "Explore our services", body: "Planting, shelling, threshing, training and more — available now and being developed." },
-  { to: "/our-work", title: "See our work", body: "The Kenya–Rwanda mechanisation project, demonstration farms and field updates." },
-  { to: "/gallery", title: "Browse the gallery", body: "Photos from field days, training and equipment demonstrations." },
-  { to: "/blog", title: "Read the blog", body: "Updates from local Rings, field days and training." },
+  {
+    to: "/services",
+    title: "Explore our services",
+    body: "Planting, shelling, threshing, training and more.",
+    image: "https://images.pexels.com/photos/12835164/pexels-photo-12835164.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Crops growing on productive agricultural land",
+  },
+  {
+    to: "/our-work",
+    title: "See our work",
+    body: "The Kenya–Rwanda project, demonstration farms and field updates.",
+    image: "https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Farmers working together in the field",
+  },
+  {
+    to: "/gallery",
+    title: "Browse the gallery",
+    body: "Photos from field days, training and equipment demonstrations.",
+    image: "https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Lush green agricultural fields",
+  },
+  {
+    to: "/blog",
+    title: "Read the blog",
+    body: "Updates from local Rings, field days and training.",
+    image: "https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Women farmers harvesting in the field",
+  },
 ];
 
 const STATS = [
@@ -55,7 +77,7 @@ const STATS = [
 export default function HomePage() {
   return (
     <div>
-      {/* Hero */}
+      {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-white">
         <Container className="grid gap-14 py-16 md:grid-cols-2 md:items-center md:py-20">
           <div className="flex flex-col gap-5">
@@ -68,7 +90,7 @@ export default function HomePage() {
             </h1>
             <p className="max-w-[32em] text-lg text-muted">
               Machinery Ring Rwanda brings farmers together to access agricultural machinery, practical training and
-              coordinated services &mdash; so no household has to buy and maintain every machine it needs.
+              coordinated services, so no household has to buy and maintain every machine it needs.
             </p>
             <div className="flex flex-wrap gap-3.5">
               <Link
@@ -84,55 +106,65 @@ export default function HomePage() {
                 See our services
               </Link>
             </div>
-            <div className="flex items-center gap-2.5 pt-1">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
-                <circle cx="10" cy="7" r="4" />
-              </svg>
-              <span className="text-[14.5px] text-muted">
-                <strong className="text-ink">817 registered farmers</strong> across 5 local Rings{" "}
-                <Link to="/our-work" className="text-brand-700 hover:text-brand-900">
-                  &middot; see our work &rarr;
-                </Link>
-              </span>
-            </div>
           </div>
 
+          {/* Sliding image stack */}
           <div className="relative py-6 pr-6 md:pr-12">
             <div className="absolute right-0 top-2 h-[92%] w-[82%] rounded-[22px] bg-brand-50" />
             <div className="relative aspect-[3/2]">
               <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
                 <img
-                  src="/images/hero-photo.jpg"
-                  alt="Farmers and cooperative staff gather around agricultural machinery at an MR Rwanda field event"
+                  src="https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="Lush green fields stretching across the hills — the kind of landscape Machinery Ring Rwanda farmers work every season"
                   className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
                   <span className="text-[13px] font-medium text-white">
-                    Participants gather around agricultural machinery during an MR Rwanda activity.
+                    Green fields across the growing season — the landscape MR Rwanda farmers work together.
                   </span>
                 </div>
               </div>
 
-              <div className="hero-slide flex items-center justify-center overflow-hidden rounded-2xl bg-brand-100 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                  <path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5Z" />
-                  <path d="M12 6v13" />
-                </svg>
-                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5 text-[13px] text-white">
-                  <StatusBadge tone="overlay" size="sm">Photo pending</StatusBadge>
-                  Farmers receiving hands&#8209;on training in machinery use and maintenance.
+              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
+                <img
+                  src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="Farmers working together in the field during a cooperative farming activity"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
+                  <span className="text-[13px] font-medium text-white">
+                    Farmers working together — the cooperative model MR Rwanda is built on.
+                  </span>
                 </div>
               </div>
 
-              <div className="hero-slide flex items-center justify-center overflow-hidden rounded-2xl bg-brand-100 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                  <path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" />
-                  <circle cx="12" cy="9.5" r="2.2" />
-                </svg>
-                <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5 text-[13px] text-white">
-                  <StatusBadge tone="overlay" size="sm">Photo pending</StatusBadge>
-                  A local Ring field day in Gashora Sector.
+              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
+                <img
+                  src="https://images.pexels.com/photos/12835164/pexels-photo-12835164.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="Crops growing on a plantation, showing productive agricultural land under cultivation"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
+                  <span className="text-[13px] font-medium text-white">
+                    Productive land under cultivation — supported by shared machinery access.
+                  </span>
+                </div>
+              </div>
+
+              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
+                <img
+                  src="https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                  alt="Women farmers harvesting crops together in verdant fields"
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
+                  <span className="text-[13px] font-medium text-white">
+                    Women farmers at harvest — a priority focus of our participation and training work.
+                  </span>
                 </div>
               </div>
 
@@ -140,73 +172,134 @@ export default function HomePage() {
                 <span className="hero-dot" />
                 <span className="hero-dot" />
                 <span className="hero-dot" />
+                <span className="hero-dot" />
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* How we support farmers */}
-      <section className="bg-[#F7F9F7]">
-        <Container className="py-16 md:py-20">
-          <SectionHeading
-            eyebrow="How we support farmers"
-            title="Machinery, learning and organisation — together"
-            className="mb-10 max-w-[40em]"
-          />
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {SUPPORT_PILLARS.map((pillar) => (
-              <div key={pillar.title} className="flex flex-col gap-3.5 rounded-2xl border border-line bg-white p-7">
-                <IconBadge>{pillar.icon}</IconBadge>
-                <h3 className="text-lg font-bold text-ink">{pillar.title}</h3>
-                <p className="text-[15px] text-muted">{pillar.body}</p>
+      {/* ── Stats strip ── */}
+      <section className="border-y border-line bg-[#F7F9F7]">
+        <Container>
+          <div className="grid grid-cols-2 divide-x divide-line md:grid-cols-4">
+            {STATS.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`flex flex-col gap-1 py-8 ${i === 0 ? "pr-6" : i === STATS.length - 1 ? "pl-6" : "px-6"}`}
+              >
+                <span className="font-display text-[30px] font-extrabold text-brand-700">{stat.value}</span>
+                <span className="text-[13px] text-muted">{stat.label}</span>
               </div>
             ))}
           </div>
         </Container>
       </section>
 
-      {/* Explore more */}
+      {/* ── How we support farmers ── */}
       <section className="bg-white">
-        <Container className="pb-16 md:pb-20">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {EXPLORE_LINKS.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-line bg-brand-50 px-6.5 py-6"
-              >
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-[17px] font-bold text-ink">{item.title}</h3>
-                  <p className="text-[13.5px] text-muted">{item.body}</p>
+        <Container className="py-16 md:py-20">
+          <SectionHeading
+            eyebrow="How we support farmers"
+            title="Machinery, learning and organisation. Together."
+            className="mb-10 max-w-[40em]"
+          />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
+            {/* Large image card */}
+            <div className="relative min-h-[320px] overflow-hidden rounded-2xl md:min-h-0">
+              <img
+                src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280"
+                alt="Farmers working together in the field"
+                className="absolute inset-0 h-full w-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-900/85 via-brand-900/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-3 p-7">
+                <p className="text-[22px] font-bold leading-snug text-white">
+                  Farmers working together, every season
+                </p>
+                <Link
+                  to="/our-work"
+                  className="inline-flex w-fit items-center gap-1.5 border-b border-white/40 pb-0.5 text-sm font-semibold text-white"
+                >
+                  See our work
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Stacked pillar cards */}
+            <div className="flex flex-col gap-4">
+              {SUPPORT_PILLARS.map((pillar) => (
+                <div
+                  key={pillar.title}
+                  className="flex flex-col gap-2.5 rounded-2xl border border-line bg-[#F7F9F7] p-6"
+                >
+                  <IconBadge size="sm">{pillar.icon}</IconBadge>
+                  <h3 className="text-base font-bold text-ink">{pillar.title}</h3>
+                  <p className="text-[13.5px] text-muted">{pillar.body}</p>
                 </div>
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1B7A3D" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </Link>
-            ))}
+              ))}
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Where we stand today */}
-      <section className="bg-brand-900 text-white">
-        <Container className="flex flex-col gap-8 py-16">
+      {/* ── Explore ── */}
+      <section className="bg-[#F7F9F7]">
+        <Container className="py-16 md:py-20">
           <SectionHeading
-            eyebrow="Where we stand today"
-            title="Five local Rings, growing together"
-            tone="dark"
-            action={{ to: "/our-work", label: "See our work" }}
-            className="max-w-[32em]"
+            eyebrow="Explore"
+            title="Everything Machinery Ring Rwanda does"
+            className="mb-10 max-w-[38em]"
           />
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {STATS.map((stat) => (
-              <Stat key={stat.label} value={stat.value} label={stat.label} />
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {EXPLORE_LINKS.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="group relative overflow-hidden rounded-2xl"
+              >
+                <img
+                  src={item.image}
+                  alt={item.imageAlt}
+                  className="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(9,38,22,0.88)] via-[rgba(9,38,22,0.35)] to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-6">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-[17px] font-bold text-white">{item.title}</h3>
+                    <p className="text-[13px] text-[#CDE8D6]">{item.body}</p>
+                  </div>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="shrink-0 opacity-70 transition-opacity group-hover:opacity-100"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </div>
+              </Link>
             ))}
           </div>
-          <p className="text-[12.5px] text-[#8FBF9F]">
-            Project records presented August 2026. Attendances include people joining more than one session.
-          </p>
         </Container>
       </section>
 

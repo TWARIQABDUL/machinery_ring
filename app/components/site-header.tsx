@@ -3,6 +3,35 @@ import { NavLink } from "react-router";
 import Container from "./container";
 import BrandMark from "./brand-mark";
 
+function LanguageSelect() {
+  const [lang, setLang] = useState("en");
+
+  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    const val = e.target.value;
+    setLang(val);
+    const gSelect = document.querySelector<HTMLSelectElement>(".goog-te-combo");
+    if (gSelect) {
+      gSelect.value = val;
+      gSelect.dispatchEvent(new Event("change"));
+    }
+  }
+
+  return (
+    <>
+      <div id="google_translate_element" className="hidden" />
+      <select
+        value={lang}
+        onChange={handleChange}
+        aria-label="Select language"
+        className="cursor-pointer appearance-none rounded border border-[rgba(255,255,255,0.18)] bg-transparent px-2.5 py-1 text-[12.5px] font-semibold text-[#CDE4D5] hover:border-[rgba(255,255,255,0.35)] hover:text-white focus:outline-none"
+      >
+        <option value="en" style={{ background: "#0F3D24" }}>EN / English</option>
+        <option value="rw" style={{ background: "#0F3D24" }}>RW / Kinyarwanda</option>
+      </select>
+    </>
+  );
+}
+
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/about", label: "About Us" },
@@ -43,10 +72,7 @@ export default function SiteHeader() {
               Gashora Sector, Bugesera District
             </span>
             <span className="opacity-35">|</span>
-            <div className="flex gap-2.5 text-[#8FB8A0]">
-              <span className="font-semibold text-white">EN</span>
-              <span>RW</span>
-            </div>
+            <LanguageSelect />
           </div>
         </Container>
       </div>

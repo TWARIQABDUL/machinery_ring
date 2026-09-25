@@ -8,7 +8,7 @@ import { cn } from "../lib/cn";
 import type { Route } from "./+types/servicespage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Services — Machinery Ring Rwanda" }];
+  return [{ title: "Services | Machinery Ring Rwanda" }];
 }
 
 // One shared icon for every card — the `services` table doesn't carry a
@@ -43,6 +43,25 @@ function formatPrice(row: ServiceRow) {
   return `RWF ${Number(row.price).toLocaleString()}${row.price_unit ? ` ${row.price_unit}` : ""}`;
 }
 
+const FALLBACK_IMAGES = [
+  {
+    src: "https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    alt: "Green fields — agricultural land ready for machinery services",
+  },
+  {
+    src: "https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    alt: "Farmers working together in the field",
+  },
+  {
+    src: "https://images.pexels.com/photos/12835164/pexels-photo-12835164.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    alt: "Crops growing on productive agricultural land",
+  },
+  {
+    src: "https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    alt: "Women farmers harvesting in verdant fields",
+  },
+];
+
 /**
  * The slider's CSS (app.css `.svc-slide`) is tuned for a fixed 4-slot cycle,
  * so we always feed it exactly 4 slides: capped at 4 if there are more,
@@ -72,19 +91,13 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
             <div className="relative aspect-[21/9] overflow-hidden rounded-2xl shadow-[0_24px_50px_-30px_rgba(15,61,36,0.3)]">
               {sliderSlides.map((service, i) => (
                 <div key={i} className="svc-slide bg-brand-100">
-                  {service.image_path ? (
-                    <img src={service.image_path} alt={service.name} className="absolute inset-0 h-full w-full object-cover" />
-                  ) : (
-                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#B9D6C2" strokeWidth="1.3">
-                      {SERVICE_ICON}
-                    </svg>
-                  )}
+                  <img
+                    src={service.image_path ?? FALLBACK_IMAGES[i % FALLBACK_IMAGES.length].src}
+                    alt={service.image_path ? service.name : FALLBACK_IMAGES[i % FALLBACK_IMAGES.length].alt}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
                   <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-1.5 bg-gradient-to-t from-[rgba(9,38,22,0.85)] to-transparent px-6.5 pb-4.5 pt-8 text-white">
-                    {!service.image_path && (
-                      <StatusBadge tone="overlay" size="sm">
-                        Photo pending
-                      </StatusBadge>
-                    )}
                     <h3 className="text-lg font-bold text-white">{service.name}</h3>
                     {service.description && (
                       <p className="line-clamp-2 text-[13.5px] text-[#E7F2EA]">{service.description}</p>
@@ -137,7 +150,7 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
           <Container className="py-14">
             <div className="mb-7 flex items-center gap-2.5">
               <StatusBadge tone="amber">In development</StatusBadge>
-              <span className="text-sm text-muted">Register interest — dates depend on confirmed capacity</span>
+              <span className="text-sm text-muted">Register interest. Dates depend on confirmed capacity.</span>
             </div>
             <div className="flex flex-col">
               {developing.map((service, i) => (

@@ -127,7 +127,7 @@ export default function DashboardServices({ loaderData }: Route.ComponentProps) 
         )}
 
         {services.length === 0 && !showCreateForm ? (
-          <p className="text-[14px] text-muted-2">No services yet — click "Add service" above.</p>
+          <p className="text-[14px] text-muted-2">No services yet. Click "Add service" above.</p>
         ) : (
           <div className="flex flex-col divide-y divide-line">
             {services.map((service) =>
@@ -202,7 +202,7 @@ function ServiceForm({ service, onCancel }: { service?: ServiceRow; onCancel?: (
       {service?.image_path && (
         <div className="flex items-center gap-3">
           <img src={service.image_path} alt="" className="h-16 w-24 rounded-lg object-cover" />
-          <span className="text-[12.5px] text-muted-2">Current photo — upload a new one below to replace it.</span>
+          <span className="text-[12.5px] text-muted-2">Current photo. Upload a new one below to replace it.</span>
         </div>
       )}
       <TextField

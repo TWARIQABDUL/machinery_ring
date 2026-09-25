@@ -51,6 +51,34 @@ const SERVICES = [
   },
 ];
 
+const GALLERY_ITEMS = [
+  {
+    image_path: "https://images.pexels.com/photos/32047262/pexels-photo-32047262.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    caption: "Aerial view of farmland showing the patchwork of cooperative fields across the region.",
+    category: "field_days",
+  },
+  {
+    image_path: "https://images.pexels.com/photos/27229388/pexels-photo-27229388.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    caption: "A farmer operating a combine harvester during a busy harvest season.",
+    category: "equipment",
+  },
+  {
+    image_path: "https://images.pexels.com/photos/26380845/pexels-photo-26380845.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    caption: "Tractors working side by side during a cooperative harvest day.",
+    category: "field_days",
+  },
+  {
+    image_path: "https://images.pexels.com/photos/37044006/pexels-photo-37044006.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    caption: "Aerial view of a tractor preparing land ahead of the planting season.",
+    category: "equipment",
+  },
+  {
+    image_path: "https://images.pexels.com/photos/18135422/pexels-photo-18135422.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    caption: "A tractor at work on a demonstration farm, showing land preparation in practice.",
+    category: "demonstration_farms",
+  },
+];
+
 async function seed() {
   const client = new Client({
     user: process.env.DB_USER,
@@ -82,6 +110,17 @@ async function seed() {
     );
   }
   console.log(`Seeded ${SERVICES.length} services (skipping any that already exist)`);
+
+  for (let i = 0; i < GALLERY_ITEMS.length; i++) {
+    const item = GALLERY_ITEMS[i];
+    await client.query(
+      `INSERT INTO gallery_items (image_path, caption, category, is_published, sort_order)
+       VALUES ($1, $2, $3, true, $4)
+       ON CONFLICT DO NOTHING`,
+      [item.image_path, item.caption, item.category, i + 1]
+    );
+  }
+  console.log(`Seeded ${GALLERY_ITEMS.length} gallery items (skipping any that already exist)`);
 
   await client.end();
 }
