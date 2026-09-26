@@ -1,16 +1,27 @@
 import type { ReactNode } from "react";
 import { cn } from "../lib/cn";
 
-/** A selectable filter pill, e.g. the Gallery category row. Visual only for now — no filtering wired yet. */
-export default function FilterChip({ active, children }: { active?: boolean; children: ReactNode }) {
+export default function FilterChip({
+  active,
+  onClick,
+  children,
+}: {
+  active?: boolean;
+  onClick?: () => void;
+  children: ReactNode;
+}) {
   return (
-    <span
+    <button
+      type="button"
+      onClick={onClick}
       className={cn(
-        "rounded-full border px-4 py-2 text-[13px] font-medium",
-        active ? "border-brand-600 bg-brand-600 text-white" : "border-[#D6E3D9] bg-white text-ink-soft"
+        "rounded-full border px-4 py-2 text-[13px] font-medium transition-colors",
+        active
+          ? "border-brand-600 bg-brand-600 text-white"
+          : "border-[#D6E3D9] bg-white text-ink-soft hover:border-brand-600 hover:text-brand-700"
       )}
     >
       {children}
-    </span>
+    </button>
   );
 }

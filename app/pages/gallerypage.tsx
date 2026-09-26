@@ -38,6 +38,11 @@ export async function loader() {
 export default function GalleryPage({ loaderData }: Route.ComponentProps) {
   const { photos } = loaderData;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filtered = activeCategory === "All"
+    ? photos
+    : photos.filter((p) => p.tag === activeCategory);
 
   return (
     <div>
@@ -51,7 +56,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
         <Container className="pt-8">
           <div className="flex flex-wrap gap-2.5">
             {CATEGORIES.map((cat) => (
-              <FilterChip key={cat} active={cat === "All"}>
+              <FilterChip key={cat} active={cat === activeCategory} onClick={() => setActiveCategory(cat)}>
                 {cat}
               </FilterChip>
             ))}
@@ -61,7 +66,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
 
       <section className="bg-white">
         <Container className="py-10">
-          {photos.length === 0 ? (
+          {filtered.length === 0 ? (
             <p className="rounded-2xl border border-line bg-[#F7F9F7] px-6 py-12 text-center text-[14.5px] text-muted">
               Photos are added here as they're confirmed from Ring activities. Check back soon, or{" "}
               <Link to="/contact" className="font-semibold text-brand-700 hover:text-brand-900">
@@ -71,7 +76,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {photos.map((photo, i) => (
+              {filtered.map((photo, i) => (
                 <button
                   key={i}
                   type="button"
@@ -106,7 +111,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
 
       {openIndex !== null && (
         <GalleryLightbox
-          photos={photos}
+          photos={filtered}
           index={openIndex}
           onClose={() => setOpenIndex(null)}
           onNavigate={setOpenIndex}

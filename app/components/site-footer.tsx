@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import Container from "./container";
-import BrandMark from "./brand-mark";
 
 const FOOTER_COLUMNS = [
   {
@@ -35,13 +34,12 @@ const FOOTER_COLUMNS = [
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-brand-900 text-[14px] text-[#A9CFB6]">
+    <footer className="bg-navy text-[14px] text-[#A9CFB6]">
       <Container className="pt-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex flex-col gap-4 lg:col-span-1">
-            <div className="flex items-center gap-2.5">
-              <BrandMark size="sm" />
-              <span className="font-display text-base font-extrabold text-white">Machinery Ring Rwanda</span>
+            <div className="inline-block rounded-lg bg-white px-3 py-2">
+              <img src="/logo.png" alt="Maschinenring Foundation Rwanda" className="h-8 w-auto" />
             </div>
             <p className="max-w-[24em] text-[13.5px] text-[#8FB8A0]">
               Farmers accessing agricultural machinery, practical training and coordinated services through cooperation in
@@ -74,10 +72,21 @@ export default function SiteFooter() {
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 py-6 text-[13px] text-[#8FBF9F]">
           <span>&copy; {new Date().getFullYear()} Machinery Ring Rwanda.</span>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <Link to="/contact" className="hover:text-white">
               Privacy
             </Link>
+            <a
+              href="https://www.linkedin.com/company/109160918/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-[#8FBF9F] hover:text-white"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
             <span className="font-semibold text-white">EN</span>
             <span>RW</span>
           </div>

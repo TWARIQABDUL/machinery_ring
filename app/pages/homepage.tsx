@@ -180,16 +180,16 @@ export default function HomePage() {
       </section>
 
       {/* ── Stats strip ── */}
-      <section className="border-y border-line bg-[#F7F9F7]">
+      <section className="bg-navy">
         <Container>
-          <div className="grid grid-cols-2 divide-x divide-line md:grid-cols-4">
+          <div className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
             {STATS.map((stat, i) => (
               <div
                 key={stat.label}
                 className={`flex flex-col gap-1 py-8 ${i === 0 ? "pr-6" : i === STATS.length - 1 ? "pl-6" : "px-6"}`}
               >
-                <span className="font-display text-[30px] font-extrabold text-brand-700">{stat.value}</span>
-                <span className="text-[13px] text-muted">{stat.label}</span>
+                <span className="font-display text-[30px] font-extrabold text-brand-600">{stat.value}</span>
+                <span className="text-[13px] text-[#A9CFB6]">{stat.label}</span>
               </div>
             ))}
           </div>
