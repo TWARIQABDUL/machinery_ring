@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
 
-  /* Machinery Ring Rwanda brand palette (white + green) */
-  --color-brand-50: #E8F3EC;
-  --color-brand-100: #DCEBE0;
-  --color-brand-200: #CBE0D1;
-  --color-brand-600: #1B7A3D;
-  --color-brand-700: #15803D;
-  --color-brand-900: #0F3D24;
+  /* Machinery Ring Rwanda brand palette */
+  --color-brand-50: #EBF5EB;
+  --color-brand-100: #D6EDD6;
+  --color-brand-200: #B8DDB8;
+  --color-brand-600: #3A9A3A;
+  --color-brand-700: #2E852E;
+  --color-brand-900: #1E6B1E;
+  --color-navy: #1A2B45;
+  --color-navy-dark: #111E33;
   --color-ink: #12261B;
   --color-ink-soft: #33413A;
   --color-muted: #5A6B60;

@@ -63,7 +63,7 @@ export default function OurWorkPage() {
       {/* ── Split-panel hero ── */}
       <section className="grid min-h-[560px] md:grid-cols-2">
         {/* Left: solid dark panel */}
-        <div className="flex flex-col justify-center gap-6 bg-brand-900 px-8 py-16 md:px-14 md:py-24">
+        <div className="flex flex-col justify-center gap-6 bg-navy px-8 py-16 md:px-14 md:py-24">
           <span className="text-[13px] text-[#8FBF9F]">
             <Link to="/" className="hover:text-white">
               Home
@@ -105,20 +105,20 @@ export default function OurWorkPage() {
       </section>
 
       {/* ── Large stats — huge numbers ── */}
-      <section className="bg-[#F7F9F7]">
+      <section className="bg-navy">
         <Container className="py-14 md:py-16">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-10">
             {STATS.map((stat) => (
               <div key={stat.label} className="flex flex-col gap-3">
-                <span className="font-display text-[52px] font-extrabold leading-none text-brand-700 md:text-[64px]">
+                <span className="font-display text-[52px] font-extrabold leading-none text-brand-600 md:text-[64px]">
                   {stat.value}
                 </span>
                 <div className="h-[3px] w-10 rounded-full bg-brand-600" />
-                <span className="text-[13.5px] text-muted">{stat.label}</span>
+                <span className="text-[13.5px] text-[#A9CFB6]">{stat.label}</span>
               </div>
             ))}
           </div>
-          <p className="mt-10 text-[12.5px] text-muted-2">
+          <p className="mt-10 text-[12.5px] text-white/40">
             Project records presented in August 2026. Attendances include people joining more than one session.
           </p>
         </Container>
@@ -141,16 +141,14 @@ export default function OurWorkPage() {
               organising farmer training and running demonstration farms.
             </p>
             <div className="flex flex-wrap justify-center gap-3 pt-1">
-              {["Machinery Ring Foundation", "GIZ Rwanda", "sequa gGmbH", "German Development Cooperation"].map(
-                (p) => (
-                  <span
-                    key={p}
-                    className="rounded-xl border border-line bg-[#F7F9F7] px-5 py-2.5 text-[13px] font-semibold text-ink"
-                  >
-                    {p}
-                  </span>
-                )
-              )}
+              {["GIZ Rwanda"].map((p) => (
+                <span
+                  key={p}
+                  className="rounded-xl border border-line bg-[#F7F9F7] px-5 py-2.5 text-[13px] font-semibold text-ink"
+                >
+                  {p}
+                </span>
+              ))}
             </div>
           </div>
         </Container>

@@ -213,9 +213,9 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
           <SectionHeading eyebrow="Common questions" title="Before you get in touch" className="mb-9" />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {FAQS.map((faq) => (
-              <div key={faq.q} className="flex flex-col gap-2 rounded-2xl border border-line bg-white p-6">
-                <h3 className="text-base font-bold text-ink">{faq.q}</h3>
-                <p className="text-[14.5px] text-muted">{faq.a}</p>
+              <div key={faq.q} className="flex flex-col gap-2 rounded-2xl bg-navy p-6">
+                <h3 className="text-base font-bold text-white">{faq.q}</h3>
+                <p className="text-[14.5px] text-[#A9CFB6]">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -334,10 +334,7 @@ function RequestForm({
 
       <label className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-muted">
         <input type="checkbox" name="consent" required className="mt-0.5 h-[18px] w-[18px] shrink-0 rounded border-[#B9CBBE] accent-brand-600" />
-        I agree that Machinery Ring Rwanda may use these details to contact me and handle this request.{" "}
-        <em className="not-italic text-muted-2">
-          [Add a short privacy explanation describing who receives this information and how it is used.]
-        </em>
+        I agree that Machinery Ring Rwanda may use these details to contact me and handle this request. Your details will be shared only with the Machinery Ring Rwanda team and used solely to respond to and follow up on your request.
       </label>
 
       <button type="submit" className="mt-1 rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700">

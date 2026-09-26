@@ -78,10 +78,7 @@ const TEAM = [
 ];
 
 const PARTNERS = [
-  "Machinery Ring Foundation",
   "GIZ Rwanda",
-  "sequa gGmbH",
-  "German Development Cooperation",
 ];
 
 const JOIN_CARDS = [
@@ -193,12 +190,12 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((step) => (
-              <div key={step.num} className="flex flex-col gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-7">
-                <span className="font-display text-[52px] font-extrabold leading-none text-brand-100">
+              <div key={step.num} className="flex flex-col gap-4 rounded-2xl bg-navy p-7">
+                <span className="font-display text-[52px] font-extrabold leading-none text-white/20">
                   {step.num}
                 </span>
-                <h3 className="text-[17px] font-bold text-ink">{step.title}</h3>
-                <p className="text-[14.5px] leading-[1.7] text-muted">{step.body}</p>
+                <h3 className="text-[17px] font-bold text-white">{step.title}</h3>
+                <p className="text-[14.5px] leading-[1.7] text-[#A9CFB6]">{step.body}</p>
               </div>
             ))}
           </div>
@@ -206,7 +203,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       </section>
 
       {/* ── Mission + Approach — side-by-side dual text columns ── */}
-      <section className="bg-brand-900">
+      <section className="bg-navy">
         <Container className="py-16 md:py-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             {/* Left: Our mission */}
@@ -378,7 +375,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           <SectionHeading
             eyebrow="Our partners"
             title="Who we work with"
-            description="The Machinery Ring Foundation led the implementation of the Kenya–Rwanda project in Rwanda, with support from GIZ Rwanda and sequa gGmbH under German Development Cooperation."
+            description="The Machinery Ring Foundation Rwanda is supported by GIZ Rwanda under the German Development Cooperation."
             className="mb-8 max-w-[42em]"
           />
           <div className="flex flex-wrap gap-3">

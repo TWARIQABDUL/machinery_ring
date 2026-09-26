@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router";
 import Container from "./container";
-import BrandMark from "./brand-mark";
 
 function LanguageSelect() {
   const [lang, setLang] = useState("en");
@@ -25,8 +24,8 @@ function LanguageSelect() {
         aria-label="Select language"
         className="cursor-pointer appearance-none rounded border border-[rgba(255,255,255,0.18)] bg-transparent px-2.5 py-1 text-[12.5px] font-semibold text-[#CDE4D5] hover:border-[rgba(255,255,255,0.35)] hover:text-white focus:outline-none"
       >
-        <option value="en" style={{ background: "#0F3D24" }}>EN / English</option>
-        <option value="rw" style={{ background: "#0F3D24" }}>RW / Kinyarwanda</option>
+        <option value="en" style={{ background: "#1A2B45" }}>EN / English</option>
+        <option value="rw" style={{ background: "#1A2B45" }}>RW / Kinyarwanda</option>
       </select>
     </>
   );
@@ -54,7 +53,7 @@ export default function SiteHeader() {
   return (
     <div>
       {/* Utility bar */}
-      <div className="bg-brand-900 text-[#CDE4D5] text-[13px]">
+      <div className="bg-navy text-[#CDE4D5] text-[13px]">
         <Container className="flex flex-wrap items-center justify-between gap-1.5 py-2.5">
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2">
@@ -80,11 +79,8 @@ export default function SiteHeader() {
       {/* Header */}
       <header className="relative border-b border-line bg-white">
         <Container className="flex items-center justify-between gap-5 py-4">
-          <NavLink to="/" className="flex items-center gap-2.5" onClick={() => setMenuOpen(false)}>
-            <BrandMark size="lg" />
-            <span className="whitespace-nowrap font-display text-lg font-extrabold tracking-tight text-ink">
-              Machinery Ring <span className="text-brand-600">Rwanda</span>
-            </span>
+          <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
+            <img src="/logo.png" alt="Maschinenring Foundation Rwanda" className="h-12 w-auto" />
           </NavLink>
 
           <nav className="hidden items-center gap-5 whitespace-nowrap text-[14.5px] font-medium lg:flex">
