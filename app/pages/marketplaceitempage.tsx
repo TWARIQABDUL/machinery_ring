@@ -5,7 +5,9 @@ import Container from "../components/container";
 import StatusBadge from "../components/status-badge";
 import WhatsAppIcon from "../components/whatsapp-icon";
 import SubmitButton from "../components/submit-button";
+import { useT } from "../lib/i18n";
 import { buildMarketplaceInquiryWhatsAppUrl } from "../lib/whatsapp";
+import { cached } from "../lib/cache.server";
 import { cn } from "../lib/cn";
 import type { Route } from "./+types/marketplaceitempage";
 
@@ -32,22 +34,27 @@ type ItemRow = {
 type MediaItem = { id: number; media_type: "image" | "video"; media_path: string };
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const { rows } = await pool.query<ItemRow>(
-    "SELECT id, slug, name, description, category, condition, price, price_unit, image_path, status FROM marketplace_items WHERE slug = $1 AND is_published = true",
-    [params.slug]
-  );
-  const item = rows[0];
-  if (!item) throw data("Item not found", { status: 404 });
+  const result = await cached(`marketplace-item:${params.slug}`, 60_000, async () => {
+    const { rows } = await pool.query<ItemRow>(
+      "SELECT id, slug, name, description, category, condition, price, price_unit, image_path, status FROM marketplace_items WHERE slug = $1 AND is_published = true",
+      [params.slug]
+    );
+    const item = rows[0];
+    if (!item) return null;
 
-  const { rows: mediaRows } = await pool.query<MediaItem>(
-    "SELECT id, media_type, media_path FROM marketplace_item_media WHERE item_id = $1 ORDER BY is_primary DESC, sort_order, id",
-    [item.id]
-  );
-  // Items uploaded before the gallery feature existed have no media rows —
-  // fall back to the single legacy image so they still display something.
-  const media: MediaItem[] = mediaRows.length > 0 ? mediaRows : item.image_path ? [{ id: 0, media_type: "image", media_path: item.image_path }] : [];
+    const { rows: mediaRows } = await pool.query<MediaItem>(
+      "SELECT id, media_type, media_path FROM marketplace_item_media WHERE item_id = $1 ORDER BY is_primary DESC, sort_order, id",
+      [item.id]
+    );
+    // Items uploaded before the gallery feature existed have no media rows —
+    // fall back to the single legacy image so they still display something.
+    const media: MediaItem[] = mediaRows.length > 0 ? mediaRows : item.image_path ? [{ id: 0, media_type: "image", media_path: item.image_path }] : [];
 
-  return { item, media };
+    return { item, media };
+  });
+
+  if (!result) throw data("Item not found", { status: 404 });
+  return result;
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {
@@ -124,6 +131,7 @@ export default function MarketplaceItemPage({ loaderData, actionData }: Route.Co
   const values = result && !result.success ? result.values : {};
   const [activeIndex, setActiveIndex] = useState(0);
   const active = media[activeIndex];
+  const t = useT();
 
   return (
     <div>
@@ -243,14 +251,14 @@ export default function MarketplaceItemPage({ loaderData, actionData }: Route.Co
                     <p className="rounded-lg bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700">{result.error}</p>
                   )}
                   <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-                    <input name="full_name" required placeholder="Full name" defaultValue={values.full_name} className={inputClass} />
-                    <input name="phone" required placeholder="Telephone number" defaultValue={values.phone} className={inputClass} />
+                    <input name="full_name" required placeholder={t("form.fullName")} defaultValue={values.full_name} className={inputClass} />
+                    <input name="phone" required placeholder={t("form.phone")} defaultValue={values.phone} className={inputClass} />
                   </div>
                   <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                    <input name="district" placeholder="District" defaultValue={values.district} className={inputClass} />
-                    <input name="sector" placeholder="Sector" defaultValue={values.sector} className={inputClass} />
-                    <input name="cell" placeholder="Cell" defaultValue={values.cell} className={inputClass} />
-                    <input name="village" placeholder="Village" defaultValue={values.village} className={inputClass} />
+                    <input name="district" placeholder={t("form.district")} defaultValue={values.district} className={inputClass} />
+                    <input name="sector" placeholder={t("form.sector")} defaultValue={values.sector} className={inputClass} />
+                    <input name="cell" placeholder={t("form.cell")} defaultValue={values.cell} className={inputClass} />
+                    <input name="village" placeholder={t("form.village")} defaultValue={values.village} className={inputClass} />
                   </div>
                   <input name="quantity" placeholder="Quantity needed (optional)" defaultValue={values.quantity} className={inputClass} />
                   <textarea

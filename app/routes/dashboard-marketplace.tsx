@@ -5,6 +5,7 @@ import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { slugify } from "../lib/slugify";
 import { saveUploadedFiles, deletePublicImage, type UploadedMedia } from "../lib/uploads.server";
+import { invalidateCache } from "../lib/cache.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
@@ -133,6 +134,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     await pool.query("DELETE FROM marketplace_items WHERE id = $1", [id]); // cascades media rows
     for (const row of mediaRows) await deletePublicImage(row.media_path);
     if (itemRows[0]?.image_path) await deletePublicImage(itemRows[0].image_path);
+    invalidateCache();
     return { success: true };
   }
 
@@ -157,6 +159,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
         await pool.query("UPDATE marketplace_items SET image_path = NULL WHERE id = $1", [itemId]);
       }
     }
+    invalidateCache();
     return { success: true };
   }
 
@@ -173,6 +176,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
       await pool.query("UPDATE marketplace_item_media SET is_primary = true WHERE id = $1", [mediaId]);
       await pool.query("UPDATE marketplace_items SET image_path = $1 WHERE id = $2", [media.media_path, itemId]);
     }
+    invalidateCache();
     return { success: true };
   }
 
@@ -184,6 +188,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     const uploaded = await saveUploadedFiles(files, "marketplace");
     if (uploaded.length === 0) return { error: "Please choose at least one photo or video to add." };
     await insertMediaBatch(itemId, uploaded, primaryIndex);
+    invalidateCache();
     return { success: true };
   }
 
@@ -227,6 +232,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     throw err;
   }
 
+  invalidateCache();
   return { success: true };
 }
 

@@ -4,6 +4,7 @@ import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { slugify } from "../lib/slugify";
 import { saveUploadedImage, deletePublicImage } from "../lib/uploads.server";
+import { invalidateCache } from "../lib/cache.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
@@ -43,6 +44,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     const { rows } = await pool.query("SELECT image_path FROM services WHERE id = $1", [id]);
     await pool.query("DELETE FROM services WHERE id = $1", [id]);
     if (rows[0]) await deletePublicImage(rows[0].image_path);
+    invalidateCache();
     return { success: true };
   }
 
@@ -82,6 +84,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     throw err;
   }
 
+  invalidateCache();
   return { success: true };
 }
 

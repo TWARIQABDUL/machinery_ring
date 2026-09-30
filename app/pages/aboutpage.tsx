@@ -6,6 +6,8 @@ import IconBadge from "../components/icon-badge";
 import WhatsAppIcon from "../components/whatsapp-icon";
 import ArrowLink from "../components/arrow-link";
 import CtaBand from "../components/cta-band";
+import { useT, type StringKey } from "../lib/i18n";
+import { cached } from "../lib/cache.server";
 import type { Route } from "./+types/aboutpage";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,82 +18,33 @@ type RingRow = { id: number; name: string; whatsapp_invite_link: string };
 const PENDING_LINK_MARKER = "INVITE-LINK-PENDING";
 
 export async function loader() {
-  const { rows } = await pool.query<RingRow>(
-    "SELECT id, name, whatsapp_invite_link FROM rings WHERE is_active = true ORDER BY sort_order, name"
-  );
-  return { rings: rows };
+  const rings = await cached("rings:active", 60_000, async () => {
+    const { rows } = await pool.query<RingRow>(
+      "SELECT id, name, whatsapp_invite_link FROM rings WHERE is_active = true ORDER BY sort_order, name"
+    );
+    return rows;
+  });
+  return { rings };
 }
 
-
-const HOW_IT_WORKS = [
-  {
-    num: "01",
-    title: "Share what you need",
-    body: "Farmers bring requests to their local Ring — the crop, the service and the timing. The Ring coordinates who can provide it and when.",
-  },
-  {
-    num: "02",
-    title: "Equipment meets the work",
-    body: "Machinery owners offer services to fellow members at agreed rates that cover real costs. No single household needs to buy every machine.",
-  },
-  {
-    num: "03",
-    title: "Skills follow the access",
-    body: "Training, demonstrations and field days help farmers use equipment well and manage seasonal work more effectively.",
-  },
+const HOW_IT_WORKS: { num: string; titleKey: StringKey; bodyKey: StringKey }[] = [
+  { num: "01", titleKey: "about.step1.title", bodyKey: "about.step1.body" },
+  { num: "02", titleKey: "about.step2.title", bodyKey: "about.step2.body" },
+  { num: "03", titleKey: "about.step3.title", bodyKey: "about.step3.body" },
 ];
 
-const MISSION_POINTS = [
-  "Coordinate machinery access and service delivery across local Rings",
-  "Develop practical farming, post-harvest and business skills",
-  "Strengthen local leadership, group structure and coordination",
+const MISSION_POINTS: StringKey[] = ["about.mission1", "about.mission2", "about.mission3"];
+const APPROACH_POINTS: StringKey[] = ["about.approach1", "about.approach2", "about.approach3"];
+
+const TEAM: { initials: string; name: string; role: string; bioKey: StringKey }[] = [
+  { initials: "SM", name: "Simeon Musabende Umunyempuhwe", role: "Project Manager", bioKey: "about.team1.bio" },
+  { initials: "EN", name: "Eric Niyonzima", role: "Assistant Project Manager & ICT Personnel", bioKey: "about.team2.bio" },
+  { initials: "CM", name: "Chloella Munezero", role: "Technical Expert, Financial Reporting and M&E", bioKey: "about.team3.bio" },
 ];
 
-const APPROACH_POINTS = [
-  "Farmer priorities shape which services are developed first",
-  "Equipment access and practical training work together",
-  "Women's participation is built into every programme, not added on",
-];
-
-const TEAM = [
-  {
-    initials: "SM",
-    name: "Simeon Musabende Umunyempuhwe",
-    role: "Project Manager",
-    bio: "Coordinates implementation, farmer support, service planning and partner engagement. Works with local Rings and institutions to turn farmers' needs into practical activities.",
-    featured: true,
-  },
-  {
-    initials: "EN",
-    name: "Eric Niyonzima",
-    role: "Assistant Project Manager & ICT Personnel",
-    bio: "Supports field coordination, local boards, service planning and recordkeeping, including using digital tools to organise information and support communication.",
-    featured: false,
-  },
-  {
-    initials: "CM",
-    name: "Chloella Munezero",
-    role: "Technical Expert, Financial Reporting and M&E",
-    bio: "Supports financial administration, activity monitoring and reporting, plus support for women's savings groups, financial literacy and organisational skills.",
-    featured: false,
-  },
-];
-
-const PARTNERS = [
-  "GIZ Rwanda",
-];
-
-const JOIN_CARDS = [
-  {
-    title: "Joining a Machinery Ring",
-    body: "Contact our team or a local Ring representative to learn about membership, the applicable conditions and available services. Non-members may also enquire about services and the terms that apply to them.",
-    linkLabel: "Contact us",
-  },
-  {
-    title: "Work with us",
-    body: "We welcome discussions about suitable agricultural machinery, farmer training, women's participation and local service development. Contact us with the location, farming need and proposed area of collaboration.",
-    linkLabel: "Start a conversation",
-  },
+const JOIN_CARDS: { titleKey: StringKey; bodyKey: StringKey; linkLabelKey: StringKey }[] = [
+  { titleKey: "about.join1.title", bodyKey: "about.join1.body", linkLabelKey: "shared.contactUs" },
+  { titleKey: "about.join2.title", bodyKey: "about.join2.body", linkLabelKey: "about.startConversation" },
 ];
 
 function Check({ dark = false }: { dark?: boolean }) {
@@ -117,6 +70,7 @@ function Check({ dark = false }: { dark?: boolean }) {
 
 export default function AboutPage({ loaderData }: Route.ComponentProps) {
   const { rings } = loaderData;
+  const t = useT();
 
   return (
     <div>
@@ -139,27 +93,24 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               <Link to="/" className="hover:text-white">
                 Home
               </Link>
-              &nbsp;/&nbsp;About Us
+              &nbsp;/&nbsp;{t("nav.about")}
             </span>
             <h1 className="font-display text-4xl font-extrabold leading-tight text-white md:text-[50px]">
-              Farmer-led machinery cooperation in Rwanda
+              {t("about.hero.title")}
             </h1>
-            <p className="text-[16.5px] leading-[1.7] text-[#CDE8D6]">
-              We work with local farmer groups to coordinate machinery access, practical skills and the organisation
-              needed to manage agricultural activities — together.
-            </p>
+            <p className="text-[16.5px] leading-[1.7] text-[#CDE8D6]">{t("about.hero.body")}</p>
             <div className="flex flex-wrap gap-3.5 pt-1">
               <Link
                 to="/contact"
                 className="rounded-lg bg-brand-600 px-6 py-3.5 text-base font-semibold text-white hover:bg-brand-500"
               >
-                Get in touch
+                {t("about.hero.cta1")}
               </Link>
               <Link
                 to="/our-work"
                 className="rounded-lg border border-white/25 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20"
               >
-                See our work
+                {t("about.hero.cta2")}
               </Link>
             </div>
           </div>
@@ -170,10 +121,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       <section className="bg-white">
         <Container className="py-14 md:py-16">
           <p className="mx-auto max-w-[46em] text-center text-[18px] leading-[1.8] text-ink-soft md:text-[20px]">
-            <strong className="text-brand-700">817 farmers</strong> across five local Rings are changing how
-            agricultural machinery is accessed in Rwanda — through{" "}
-            <strong className="text-ink">cooperation, not individual ownership.</strong> No single household needs
-            to buy every machine it needs.
+            {t("about.quote")}
           </p>
         </Container>
       </section>
@@ -183,9 +131,9 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       <section className="bg-white">
         <Container className="py-16 md:py-20">
           <SectionHeading
-            eyebrow="What is a Machinery Ring"
-            title="How it works in three steps"
-            description="A Machinery Ring is a local, farmer-led self-help organisation. Members share equipment access so every farm benefits from mechanisation without every farm owning every machine."
+            eyebrow={t("about.howEyebrow")}
+            title={t("about.howTitle")}
+            description={t("about.howDescription")}
             className="mb-12 max-w-[40em]"
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
@@ -194,8 +142,8 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
                 <span className="font-display text-[52px] font-extrabold leading-none text-white/20">
                   {step.num}
                 </span>
-                <h3 className="text-[17px] font-bold text-white">{step.title}</h3>
-                <p className="text-[14.5px] leading-[1.7] text-[#A9CFB6]">{step.body}</p>
+                <h3 className="text-[17px] font-bold text-white">{t(step.titleKey)}</h3>
+                <p className="text-[14.5px] leading-[1.7] text-[#A9CFB6]">{t(step.bodyKey)}</p>
               </div>
             ))}
           </div>
@@ -208,38 +156,32 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             {/* Left: Our mission */}
             <div className="flex flex-col gap-5">
-              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">Our mission</span>
+              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">{t("about.missionEyebrow")}</span>
               <h2 className="font-display text-[28px] font-extrabold leading-tight text-white">
-                Strengthen access to machinery, skills and coordination
+                {t("about.missionTitle")}
               </h2>
-              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">
-                Our purpose is to ensure farmers in Gashora have reliable access to the equipment, knowledge and
-                organisational support they need to farm productively.
-              </p>
+              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">{t("about.missionBody")}</p>
               <ul className="flex flex-col gap-3 pt-1">
-                {MISSION_POINTS.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
+                {MISSION_POINTS.map((key) => (
+                  <li key={key} className="flex items-start gap-3">
                     <Check dark />
-                    <span className="text-[14.5px] text-[#CDE8D6]">{item}</span>
+                    <span className="text-[14.5px] text-[#CDE8D6]">{t(key)}</span>
                   </li>
                 ))}
               </ul>
             </div>
             {/* Right: Our approach */}
             <div className="flex flex-col gap-5 md:border-l md:border-white/10 md:pl-16">
-              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">Our approach</span>
+              <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">{t("about.approachEyebrow")}</span>
               <h2 className="font-display text-[28px] font-extrabold leading-tight text-white">
-                Local participation shapes every activity
+                {t("about.approachTitle")}
               </h2>
-              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">
-                Services and programmes are built around what local Rings and farmers say they need, not the other
-                way around. Coordination means listening first.
-              </p>
+              <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">{t("about.approachBody")}</p>
               <ul className="flex flex-col gap-3 pt-1">
-                {APPROACH_POINTS.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
+                {APPROACH_POINTS.map((key) => (
+                  <li key={key} className="flex items-start gap-3">
                     <Check dark />
-                    <span className="text-[14.5px] text-[#CDE8D6]">{item}</span>
+                    <span className="text-[14.5px] text-[#CDE8D6]">{t(key)}</span>
                   </li>
                 ))}
               </ul>
@@ -252,17 +194,9 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       <section className="bg-white">
         <Container className="py-16 md:py-20">
           <div className="mb-8 flex flex-col gap-3 max-w-[36em]">
-            <span className="text-[13px] font-bold uppercase tracking-wide text-brand-700">
-              Our development in Rwanda
-            </span>
-            <h2 className="font-display text-[30px] font-extrabold leading-tight text-ink">
-              Growing from 2024 through a Kenya–Rwanda project
-            </h2>
-            <p className="text-[15.5px] leading-[1.75] text-ink-soft">
-              Implementation in Rwanda began in 2024, focusing on establishing local Rings, introducing equipment,
-              organising training and developing demonstration farms. Machinery Ring Rwanda obtained legal recognition
-              in 2025. Local participation helps shape which services are developed and how they are organised.
-            </p>
+            <span className="text-[13px] font-bold uppercase tracking-wide text-brand-700">{t("about.devEyebrow")}</span>
+            <h2 className="font-display text-[30px] font-extrabold leading-tight text-ink">{t("about.devTitle")}</h2>
+            <p className="text-[15.5px] leading-[1.75] text-ink-soft">{t("about.devBody")}</p>
           </div>
           {/* Full-width wide image */}
           <div className="relative overflow-hidden rounded-2xl">
@@ -273,9 +207,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/70 to-transparent px-7 pb-5 pt-12">
-              <span className="text-[13px] font-medium text-white">
-                Field activities across Gashora Sector — the foundation of practical Ring work.
-              </span>
+              <span className="text-[13px] font-medium text-white">{t("about.devCaption")}</span>
             </div>
           </div>
         </Container>
@@ -286,9 +218,9 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
         <section className="bg-[#F7F9F7]">
           <Container className="py-16">
             <SectionHeading
-              eyebrow="Our local Rings"
-              title="Our established network in Gashora Sector, Bugesera District"
-              description="Local boards and trained farmer facilitators support communication, group activities and service coordination in each Ring. Join a Ring's WhatsApp group below, or contact us if you're not sure which one covers your area."
+              eyebrow={t("about.ringsEyebrow")}
+              title={t("about.ringsTitle")}
+              description={t("about.ringsDescription")}
               className="mb-9 max-w-[44em]"
             />
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -312,10 +244,10 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
                         className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-brand-700 hover:text-brand-900"
                       >
                         <WhatsAppIcon size={14} />
-                        Join on WhatsApp
+                        {t("shared.joinWhatsapp")}
                       </a>
                     ) : (
-                      <span className="text-[12px] text-muted-2">Join link coming soon</span>
+                      <span className="text-[12px] text-muted-2">{t("shared.joinLinkSoon")}</span>
                     )}
                   </div>
                 );
@@ -329,9 +261,9 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       <section className="bg-white">
         <Container className="py-16">
           <SectionHeading
-            eyebrow="Our team"
-            title="Coordinating activities and supporting local Rings"
-            description="The project team coordinates activities, supports local Rings and works with technical and development partners."
+            eyebrow={t("about.teamEyebrow")}
+            title={t("about.teamTitle")}
+            description={t("about.teamDescription")}
             className="mb-10 max-w-[40em]"
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
@@ -345,7 +277,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
                   <h3 className="text-[17px] font-bold text-ink">{TEAM[0].name}</h3>
                   <span className="text-[13px] font-semibold text-brand-700">{TEAM[0].role}</span>
                 </div>
-                <p className="text-[13.5px] leading-[1.7] text-muted">{TEAM[0].bio}</p>
+                <p className="text-[13.5px] leading-[1.7] text-muted">{t(TEAM[0].bioKey)}</p>
               </div>
             </div>
             {/* Two compact stacked cards */}
@@ -360,7 +292,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
                       <h3 className="text-[14.5px] font-bold text-ink">{person.name}</h3>
                       <span className="text-[12px] font-semibold text-brand-700">{person.role}</span>
                     </div>
-                    <p className="text-[13px] leading-[1.6] text-muted">{person.bio}</p>
+                    <p className="text-[13px] leading-[1.6] text-muted">{t(person.bioKey)}</p>
                   </div>
                 </div>
               ))}
@@ -369,37 +301,15 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
         </Container>
       </section>
 
-      {/* ── Our partners ── */}
-      <section className="bg-[#F7F9F7]">
-        <Container className="py-16">
-          <SectionHeading
-            eyebrow="Our partners"
-            title="Who we work with"
-            description="The Machinery Ring Foundation Rwanda is supported by GIZ Rwanda under the German Development Cooperation."
-            className="mb-8 max-w-[42em]"
-          />
-          <div className="flex flex-wrap gap-3">
-            {PARTNERS.map((partner) => (
-              <div
-                key={partner}
-                className="rounded-xl border border-line bg-white px-6 py-3.5 text-[14px] font-semibold text-ink"
-              >
-                {partner}
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
       {/* ── Joining / Work with us ── */}
       <section className="bg-white">
         <Container className="grid gap-6 py-14 md:grid-cols-2">
           {JOIN_CARDS.map((card) => (
-            <div key={card.title} className="flex flex-col gap-3 rounded-2xl border border-line bg-[#F7F9F7] p-8">
-              <h3 className="text-lg font-bold text-ink">{card.title}</h3>
-              <p className="text-[14.5px] text-muted">{card.body}</p>
+            <div key={card.titleKey} className="flex flex-col gap-3 rounded-2xl border border-line bg-[#F7F9F7] p-8">
+              <h3 className="text-lg font-bold text-ink">{t(card.titleKey)}</h3>
+              <p className="text-[14.5px] text-muted">{t(card.bodyKey)}</p>
               <ArrowLink to="/contact" className="mt-1.5">
-                {card.linkLabel}
+                {t(card.linkLabelKey)}
               </ArrowLink>
             </div>
           ))}
@@ -407,11 +317,11 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       </section>
 
       <CtaBand
-        title="Ready to get involved?"
-        description="Contact us about joining a local Ring, requesting a service, or working with us on farmer training and development."
+        title={t("about.cta.title")}
+        description={t("about.cta.description")}
         actions={[
-          { label: "Contact us", to: "/contact" },
-          { label: "See our services", to: "/services", variant: "secondary" },
+          { label: t("shared.contactUs"), to: "/contact" },
+          { label: t("cta.seeServices"), to: "/services", variant: "secondary" },
         ]}
       />
     </div>

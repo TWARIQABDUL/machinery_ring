@@ -6,6 +6,7 @@ import Container from "../components/container";
 import FilterChip from "../components/filter-chip";
 import StatusBadge from "../components/status-badge";
 import CtaBand from "../components/cta-band";
+import { cached } from "../lib/cache.server";
 import type { Route } from "./+types/marketplacepage";
 
 export function meta({}: Route.MetaArgs) {
@@ -34,10 +35,13 @@ type ItemRow = {
 };
 
 export async function loader() {
-  const { rows } = await pool.query<ItemRow>(
-    "SELECT slug, name, description, category, condition, price, price_unit, image_path, status FROM marketplace_items WHERE is_published = true ORDER BY sort_order, name"
-  );
-  return { items: rows };
+  const items = await cached("marketplace:published", 60_000, async () => {
+    const { rows } = await pool.query<ItemRow>(
+      "SELECT slug, name, description, category, condition, price, price_unit, image_path, status FROM marketplace_items WHERE is_published = true ORDER BY sort_order, name"
+    );
+    return rows;
+  });
+  return { items };
 }
 
 function formatPrice(row: ItemRow) {

@@ -3,6 +3,7 @@ import { Form, useActionData } from "react-router";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { saveUploadedImage, deletePublicImage } from "../lib/uploads.server";
+import { invalidateCache } from "../lib/cache.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
@@ -45,6 +46,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     const { rows } = await pool.query("SELECT image_path FROM gallery_items WHERE id = $1", [id]);
     await pool.query("DELETE FROM gallery_items WHERE id = $1", [id]);
     if (rows[0]) await deletePublicImage(rows[0].image_path);
+    invalidateCache();
     return { success: true };
   }
 
@@ -69,6 +71,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
         [caption, category, isPublished, sortOrder, id]
       );
     }
+    invalidateCache();
     return { success: true };
   }
 
@@ -77,6 +80,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     "INSERT INTO gallery_items (image_path, caption, category, is_published, sort_order) VALUES ($1,$2,$3,$4,$5)",
     [uploadedPath, caption, category, isPublished, sortOrder]
   );
+  invalidateCache();
   return { success: true };
 }
 

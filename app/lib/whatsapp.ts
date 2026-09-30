@@ -1,5 +1,5 @@
-// +250 781 707 587, in wa.me format (no leading +/0s).
-export const WHATSAPP_NUMBER = "250781707587";
+// +250 781 444 069, in wa.me format (no leading +/0s).
+export const WHATSAPP_NUMBER = "250781444069";
 
 export type ServiceRequestMessageInput = {
   id: number;

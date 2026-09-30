@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, useActionData } from "react-router";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
+import { invalidateCache } from "../lib/cache.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
@@ -34,6 +35,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
   if (intent === "delete") {
     const id = Number(get("id"));
     await pool.query("DELETE FROM rings WHERE id = $1", [id]);
+    invalidateCache();
     return { success: true };
   }
 
@@ -62,6 +64,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     throw err;
   }
 
+  invalidateCache();
   return { success: true };
 }
 
