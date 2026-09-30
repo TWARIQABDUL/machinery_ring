@@ -5,6 +5,7 @@ import { requireUserSession } from "../../db/session.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
+import SubmitButton from "../components/submit-button";
 import { TextField, CheckboxField, btnPrimary, btnGhost, btnSm } from "../components/admin/field";
 import type { Route } from "./+types/dashboard-rings";
 
@@ -155,9 +156,9 @@ function RingForm({ ring, onCancel }: { ring?: RingRow; onCancel?: () => void })
       <CheckboxField label="Active (selectable on the Contact form)" name="is_active" defaultChecked={ring?.is_active ?? true} />
 
       <div className="flex gap-3">
-        <button type="submit" className={btnPrimary}>
+        <SubmitButton pendingText={ring ? "Saving…" : "Adding…"} className={btnPrimary}>
           {ring ? "Save changes" : "Add Ring"}
-        </button>
+        </SubmitButton>
         {onCancel && (
           <button type="button" onClick={onCancel} className={btnGhost}>
             Cancel

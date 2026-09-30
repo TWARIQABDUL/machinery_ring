@@ -7,6 +7,7 @@ import { saveUploadedImage, deletePublicImage } from "../lib/uploads.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
+import SubmitButton from "../components/submit-button";
 import { TextField, TextAreaField, SelectField, btnPrimary, btnGhost, btnSm } from "../components/admin/field";
 import type { Route } from "./+types/dashboard-blog";
 
@@ -177,9 +178,9 @@ function PostForm({ post, onCancel }: { post?: BlogRow; onCancel?: () => void })
       />
 
       <div className="flex gap-3">
-        <button type="submit" className={btnPrimary}>
+        <SubmitButton pendingText={post ? "Saving…" : "Publishing…"} className={btnPrimary}>
           {post ? "Save changes" : "Add post"}
-        </button>
+        </SubmitButton>
         {onCancel && (
           <button type="button" onClick={onCancel} className={btnGhost}>
             Cancel

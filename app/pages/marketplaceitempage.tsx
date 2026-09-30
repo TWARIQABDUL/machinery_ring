@@ -4,6 +4,7 @@ import pool from "../../db";
 import Container from "../components/container";
 import StatusBadge from "../components/status-badge";
 import WhatsAppIcon from "../components/whatsapp-icon";
+import SubmitButton from "../components/submit-button";
 import { buildMarketplaceInquiryWhatsAppUrl } from "../lib/whatsapp";
 import { cn } from "../lib/cn";
 import type { Route } from "./+types/marketplaceitempage";
@@ -263,9 +264,12 @@ export default function MarketplaceItemPage({ loaderData, actionData }: Route.Co
                     <input type="checkbox" name="consent" required className="mt-0.5 h-[18px] w-[18px] shrink-0 rounded border-[#B9CBBE] accent-brand-600" />
                     I agree that Machinery Ring Rwanda may use these details to contact me about this inquiry.
                   </label>
-                  <button type="submit" className="rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700">
+                  <SubmitButton
+                    pendingText="Sending…"
+                    className="rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700"
+                  >
                     Send inquiry
-                  </button>
+                  </SubmitButton>
                 </form>
               )}
             </div>

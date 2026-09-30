@@ -2,6 +2,7 @@ import pool from "../../db"
 import { Form, redirect, useActionData } from "react-router";
 import { getSession, commitSession } from "../../db/session.server";
 import bcrypt from "bcrypt";
+import SubmitButton from "../components/submit-button";
 import type { Route } from "./+types/loginpage";
 
 export async function action({request}:Route.ActionArgs) {
@@ -70,12 +71,12 @@ export default function LoginPage() {
                         className="rounded-lg border border-line px-3.5 py-2.5 text-sm text-ink focus:border-brand-600 focus:outline-none"
                     />
                 </label>
-                <button
-                    type="submit"
+                <SubmitButton
+                    pendingText="Logging in…"
                     className="mt-1 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
                 >
                     Log in
-                </button>
+                </SubmitButton>
             </Form>
         </div>
     );

@@ -174,3 +174,16 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .lightbox-pop { animation: none; }
 }
+
+/* Top progress bar: an indeterminate sweep shown while any navigation, loader or action is in flight. */
+@keyframes progress-bar-sweep {
+  0% { transform: translateX(-100%); }
+  60% { transform: translateX(150%); }
+  100% { transform: translateX(150%); }
+}
+.progress-bar-sweep {
+  animation: progress-bar-sweep 1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar-sweep { animation: none; width: 100%; }
+}

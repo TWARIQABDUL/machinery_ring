@@ -1,9 +1,11 @@
 import { Form } from "react-router";
+import { useFormStatus } from "react-dom";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
+import SubmitButton from "../components/submit-button";
 import { btnSm } from "../components/admin/field";
 import { REQUEST_STATUSES, REQUEST_STATUS_TONE } from "../lib/request-status";
 import { buildServiceRequestWhatsAppUrl } from "../lib/whatsapp";
@@ -156,18 +158,7 @@ export default function DashboardRequests({ loaderData }: Route.ComponentProps) 
                       <Form method="post">
                         <input type="hidden" name="id" value={req.id} />
                         <input type="hidden" name="intent" value="update_status" />
-                        <select
-                          name="status"
-                          defaultValue={req.status}
-                          onChange={(event) => event.currentTarget.form?.requestSubmit()}
-                          className="rounded-lg border border-line bg-white px-2.5 py-1.5 text-[13px] font-semibold capitalize text-ink focus:border-brand-600 focus:outline-none"
-                        >
-                          {REQUEST_STATUSES.map((status) => (
-                            <option key={status} value={status}>
-                              {status}
-                            </option>
-                          ))}
-                        </select>
+                        <StatusSelect status={req.status} />
                       </Form>
                       <a href={whatsappUrl} target="_blank" rel="noreferrer" className={btnSm}>
                         Open in WhatsApp
@@ -176,9 +167,9 @@ export default function DashboardRequests({ loaderData }: Route.ComponentProps) 
                         <Form method="post">
                           <input type="hidden" name="id" value={req.id} />
                           <input type="hidden" name="intent" value="mark_whatsapp_sent" />
-                          <button type="submit" className={btnSm}>
+                          <SubmitButton pendingText="Marking…" className={btnSm}>
                             Mark sent
-                          </button>
+                          </SubmitButton>
                         </Form>
                       )}
                       <Form method="post">
@@ -214,5 +205,27 @@ export default function DashboardRequests({ loaderData }: Route.ComponentProps) 
         )}
       </Panel>
     </div>
+  );
+}
+
+function StatusSelect({ status }: { status: string }) {
+  const { pending } = useFormStatus();
+  return (
+    <select
+      name="status"
+      defaultValue={status}
+      disabled={pending}
+      onChange={(event) => event.currentTarget.form?.requestSubmit()}
+      className={cn(
+        "rounded-lg border border-line bg-white px-2.5 py-1.5 text-[13px] font-semibold capitalize text-ink focus:border-brand-600 focus:outline-none",
+        pending && "cursor-wait opacity-60"
+      )}
+    >
+      {REQUEST_STATUSES.map((s) => (
+        <option key={s} value={s}>
+          {s}
+        </option>
+      ))}
+    </select>
   );
 }

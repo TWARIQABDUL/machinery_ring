@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import TopProgressBar from "./components/top-progress-bar";
 import type { Route } from "./+types/root";
 import "./app.css";
 
@@ -52,6 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <div>
+    <TopProgressBar />
     <Outlet />
   </div>;
 }

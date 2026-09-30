@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, useActionData } from "react-router";
+import { useFormStatus } from "react-dom";
 import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { slugify } from "../lib/slugify";
@@ -8,6 +9,8 @@ import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
 import MediaPicker from "../components/admin/media-picker";
+import SubmitButton from "../components/submit-button";
+import { cn } from "../lib/cn";
 import {
   TextField,
   TextAreaField,
@@ -385,9 +388,9 @@ function ItemForm({ item, onCancel }: { item?: ItemRow; onCancel?: () => void })
       <CheckboxField label="Published on the public Marketplace page" name="is_published" defaultChecked={item?.is_published ?? true} />
 
       <div className="flex gap-3">
-        <button type="submit" className={btnPrimary}>
+        <SubmitButton pendingText={item ? "Saving…" : "Adding…"} className={btnPrimary}>
           {item ? "Save changes" : "Add item"}
-        </button>
+        </SubmitButton>
         {onCancel && (
           <button type="button" onClick={onCancel} className={btnGhost}>
             Cancel
@@ -430,24 +433,14 @@ function MediaManager({ item, media }: { item: ItemRow; media: MediaRow[] }) {
                     <input type="hidden" name="intent" value="set_primary_media" />
                     <input type="hidden" name="item_id" value={item.id} />
                     <input type="hidden" name="media_id" value={m.id} />
-                    <button type="submit" className="text-[10.5px] font-semibold text-brand-700 hover:text-brand-900">
-                      Set main
-                    </button>
+                    <SetMainButton />
                   </Form>
                 )}
                 <Form method="post">
                   <input type="hidden" name="intent" value="delete_media" />
                   <input type="hidden" name="item_id" value={item.id} />
                   <input type="hidden" name="media_id" value={m.id} />
-                  <button
-                    type="submit"
-                    onClick={(event) => {
-                      if (!confirm("Remove this photo/video?")) event.preventDefault();
-                    }}
-                    className="text-[10.5px] font-semibold text-red-700 hover:text-red-900"
-                  >
-                    Remove
-                  </button>
+                  <RemoveMediaButton />
                 </Form>
               </div>
             </div>
@@ -459,10 +452,39 @@ function MediaManager({ item, media }: { item: ItemRow; media: MediaRow[] }) {
         <input type="hidden" name="intent" value="add_media" />
         <input type="hidden" name="item_id" value={item.id} />
         <MediaPicker hint="Add more photos, or a video." />
-        <button type="submit" className={btnSm + " w-fit"}>
+        <SubmitButton pendingText="Uploading…" className={btnSm + " w-fit"}>
           Upload
-        </button>
+        </SubmitButton>
       </Form>
     </div>
+  );
+}
+
+function SetMainButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className={cn("text-[10.5px] font-semibold text-brand-700 hover:text-brand-900", pending && "cursor-wait opacity-60")}
+    >
+      {pending ? "Setting…" : "Set main"}
+    </button>
+  );
+}
+
+function RemoveMediaButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      onClick={(event) => {
+        if (!confirm("Remove this photo/video?")) event.preventDefault();
+      }}
+      className={cn("text-[10.5px] font-semibold text-red-700 hover:text-red-900", pending && "cursor-wait opacity-60")}
+    >
+      {pending ? "Removing…" : "Remove"}
+    </button>
   );
 }

@@ -4,6 +4,7 @@ import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import InitialsAvatar from "../components/initials-avatar";
 import WhatsAppIcon from "../components/whatsapp-icon";
+import SubmitButton from "../components/submit-button";
 import { buildServiceRequestWhatsAppUrl } from "../lib/whatsapp";
 import type { Route } from "./+types/contactpage";
 
@@ -337,9 +338,12 @@ function RequestForm({
         I agree that Machinery Ring Rwanda may use these details to contact me and handle this request. Your details will be shared only with the Machinery Ring Rwanda team and used solely to respond to and follow up on your request.
       </label>
 
-      <button type="submit" className="mt-1 rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700">
+      <SubmitButton
+        pendingText="Sending…"
+        className="mt-1 rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700"
+      >
         Send request
-      </button>
+      </SubmitButton>
     </form>
   );
 }
