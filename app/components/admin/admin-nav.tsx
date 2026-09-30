@@ -29,9 +29,24 @@ const TABS = [
     ),
   },
   {
+    to: "/dashboard/marketplace-inquiries",
+    label: "Inquiries",
+    icon: <path d="M4 4h16v11H9l-4 4.5V4Z" />,
+  },
+  {
     to: "/dashboard/services",
     label: "Services",
     icon: <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8Z" />,
+  },
+  {
+    to: "/dashboard/marketplace",
+    label: "Marketplace",
+    icon: (
+      <>
+        <path d="M5 8h14l-1 12H6L5 8Z" />
+        <path d="M9 8a3 3 0 0 1 6 0" />
+      </>
+    ),
   },
   {
     to: "/dashboard/gallery",

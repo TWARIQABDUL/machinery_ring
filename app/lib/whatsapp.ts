@@ -31,3 +31,28 @@ export function buildServiceRequestWhatsAppUrl(input: ServiceRequestMessageInput
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
+
+export type MarketplaceInquiryMessageInput = {
+  id: number;
+  fullName: string;
+  phone: string;
+  location?: string | null;
+  itemName: string;
+  quantity?: string | null;
+  additionalInfo?: string | null;
+};
+
+/** Builds the same pre-filled wa.me message wherever a marketplace inquiry needs to be sent on WhatsApp. */
+export function buildMarketplaceInquiryWhatsAppUrl(input: MarketplaceInquiryMessageInput): string {
+  const lines = [
+    `Marketplace inquiry #${input.id} — Machinery Ring Rwanda website`,
+    `Item: ${input.itemName}`,
+    `Name: ${input.fullName}`,
+    `Phone: ${input.phone}`,
+    input.location ? `Location: ${input.location}` : null,
+    input.quantity ? `Quantity: ${input.quantity}` : null,
+    input.additionalInfo ? `Notes: ${input.additionalInfo}` : null,
+  ].filter(Boolean);
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}

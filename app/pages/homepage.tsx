@@ -3,6 +3,7 @@ import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
 import CtaBand from "../components/cta-band";
+import { cn } from "../lib/cn";
 import type { Route } from "./+types/homepage";
 
 export function meta({}: Route.MetaArgs) {
@@ -64,6 +65,13 @@ const EXPLORE_LINKS = [
     body: "Updates from local Rings, field days and training.",
     image: "https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280",
     imageAlt: "Women farmers harvesting in the field",
+  },
+  {
+    to: "/marketplace",
+    title: "Browse the marketplace",
+    body: "Equipment, spare parts and inputs the cooperative can source or arrange.",
+    image: "https://images.pexels.com/photos/13387076/pexels-photo-13387076.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Tractor working in a field under a bright sky",
   },
 ];
 
@@ -265,11 +273,14 @@ export default function HomePage() {
             className="mb-10 max-w-[38em]"
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {EXPLORE_LINKS.map((item) => (
+            {EXPLORE_LINKS.map((item, i) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className="group relative overflow-hidden rounded-2xl"
+                className={cn(
+                  "group relative overflow-hidden rounded-2xl",
+                  i === EXPLORE_LINKS.length - 1 && "sm:col-span-2"
+                )}
               >
                 <img
                   src={item.image}

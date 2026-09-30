@@ -38,6 +38,7 @@ const NAV_ITEMS = [
   { to: "/our-work", label: "Our Work" },
   { to: "/gallery", label: "Gallery" },
   { to: "/blog", label: "Blog" },
+  { to: "/marketplace", label: "Marketplace" },
   { to: "/contact", label: "Contact" },
 ];
 

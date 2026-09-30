@@ -28,6 +28,7 @@ const FOOTER_COLUMNS = [
       { to: "/our-work", label: "Field updates" },
       { to: "/gallery", label: "Gallery" },
       { to: "/blog", label: "Blog" },
+      { to: "/marketplace", label: "Marketplace" },
     ],
   },
 ];

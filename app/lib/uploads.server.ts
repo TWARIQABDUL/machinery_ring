@@ -26,6 +26,25 @@ export async function saveUploadedImage(file: FormDataEntryValue | null, subdir:
   return publicUrlFor(objectName);
 }
 
+export type UploadedMedia = { path: string; type: "image" | "video" };
+
+/**
+ * Saves every file from a multi-file field (e.g. `formData.getAll("media")`)
+ * into MinIO, same as saveUploadedImage, and reports back which of them are
+ * images vs. videos so the caller can decide things like "which one is the
+ * default main photo" without re-inspecting file objects itself.
+ */
+export async function saveUploadedFiles(files: FormDataEntryValue[], subdir: string): Promise<UploadedMedia[]> {
+  const results: UploadedMedia[] = [];
+  for (const file of files) {
+    if (!(file instanceof File) || file.size === 0) continue;
+    const path = await saveUploadedImage(file, subdir);
+    if (!path) continue;
+    results.push({ path, type: file.type.startsWith("video/") ? "video" : "image" });
+  }
+  return results;
+}
+
 /**
  * Best-effort removal of a previously saved image, given whatever URL/path is
  * stored for it. Handles both MinIO object URLs (current uploads) and the
