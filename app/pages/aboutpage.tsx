@@ -210,11 +210,12 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
             <div className="flex flex-col gap-5">
               <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">Our mission</span>
               <h2 className="font-display text-[28px] font-extrabold leading-tight text-white">
-                Strengthen access to machinery, skills and coordination
+                Help farmers improve productivity and livelihoods
               </h2>
               <p className="text-[15.5px] leading-[1.75] text-[#CDE8D6]">
-                Our purpose is to ensure farmers in Gashora have reliable access to the equipment, knowledge and
-                organisational support they need to farm productively.
+                Our mission is to help farmers in Rwanda improve productivity and livelihoods through affordable shared
+                machinery services, practical training and stronger farmer cooperation, while promoting sustainable
+                farming practices.
               </p>
               <ul className="flex flex-col gap-3 pt-1">
                 {MISSION_POINTS.map((item) => (
@@ -267,14 +268,13 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           {/* Full-width wide image */}
           <div className="relative overflow-hidden rounded-2xl">
             <img
-              src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt="Farmers working together in the field — activities that form the basis of Ring work in Rwanda"
+              src="/images/gallery/9L9A7764.JPG"
+              alt="Machinery Ring Rwanda farmers and staff gathered together at a field day — the cooperative spirit at the heart of Ring work"
               className="aspect-[21/9] w-full object-cover"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/70 to-transparent px-7 pb-5 pt-12">
               <span className="text-[13px] font-medium text-white">
-                Field activities across Gashora Sector — the foundation of practical Ring work.
+                Machinery Ring Rwanda farmers and staff — the community behind the cooperative.
               </span>
             </div>
           </div>
