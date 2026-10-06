@@ -3,6 +3,8 @@ import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
 import CtaBand from "../components/cta-band";
+import { cn } from "../lib/cn";
+import { useT, type StringKey } from "../lib/i18n";
 import type { Route } from "./+types/homepage";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,20 +18,20 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const SUPPORT_PILLARS = [
+const SUPPORT_PILLARS: { titleKey: StringKey; bodyKey: StringKey; icon: React.ReactNode }[] = [
   {
-    title: "Agricultural services",
-    body: "Planting support, maize shelling and rice threshing, with availability and arrangements confirmed for each request.",
+    titleKey: "home.pillar1.title",
+    bodyKey: "home.pillar1.body",
     icon: <path d="M12 21v-9M12 13c1-4 4-6 7-6-1 4-4 6-7 6ZM12 15c-1-3-3.5-5-6.5-5 1 3 3.5 5 6.5 5Z" />,
   },
   {
-    title: "Practical learning",
-    body: "Training and demonstrations on machinery use, farming practices, post-harvest handling and farm-business skills.",
+    titleKey: "home.pillar2.title",
+    bodyKey: "home.pillar2.body",
     icon: <path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1V5ZM12 6v13" />,
   },
   {
-    title: "Farmer organisation",
-    body: "Support for local leadership, group coordination and women's participation across the five local Rings.",
+    titleKey: "home.pillar3.title",
+    bodyKey: "home.pillar3.body",
     icon: (
       <path d="M9 8a3.2 3.2 0 1 0 0 6.4A3.2 3.2 0 0 0 9 8ZM3 20c0-3.6 2.7-6 6-6s6 2.4 6 6M17.5 9a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8ZM15.3 20c.3-2.7 2-4.7 4.7-5.1" />
     ),
@@ -65,6 +67,13 @@ const EXPLORE_LINKS = [
     image: "/images/gallery/SAGA0314.jpg",
     imageAlt: "Farmers and partners engaged at a Machinery Ring Rwanda machinery demonstration event",
   },
+  {
+    to: "/marketplace",
+    title: "Browse the marketplace",
+    body: "Equipment, spare parts and inputs the cooperative can source or arrange.",
+    image: "https://images.pexels.com/photos/13387076/pexels-photo-13387076.jpeg?auto=compress&cs=tinysrgb&w=1280",
+    imageAlt: "Tractor working in a field under a bright sky",
+  },
 ];
 
 const STATS = [
@@ -75,6 +84,7 @@ const STATS = [
 ];
 
 export default function HomePage() {
+  const t = useT();
   return (
     <div>
       {/* ── Hero ── */}
@@ -86,24 +96,21 @@ export default function HomePage() {
               Farmer&#8209;led cooperation &middot; Gashora Sector, Bugesera
             </span>
             <h1 className="font-display text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              Access agricultural machinery through farmer cooperation
+              {t("home.title")}
             </h1>
-            <p className="max-w-[32em] text-lg text-muted">
-              Machinery Ring Rwanda brings farmers together to access agricultural machinery, practical training and
-              coordinated services, so no household has to buy and maintain every machine it needs.
-            </p>
+            <p className="max-w-[32em] text-lg text-muted">{t("home.body")}</p>
             <div className="flex flex-wrap gap-3.5">
               <Link
                 to="/contact#request"
                 className="rounded-lg bg-brand-600 px-6 py-3.5 text-base font-semibold text-white hover:bg-brand-700"
               >
-                Request a service
+                {t("cta.requestService")}
               </Link>
               <Link
                 to="/services"
                 className="rounded-lg border-[1.5px] border-brand-200 bg-white px-6 py-3.5 text-base font-semibold text-brand-700 hover:bg-brand-50"
               >
-                See our services
+                {t("cta.seeServices")}
               </Link>
             </div>
           </div>
@@ -198,7 +205,7 @@ export default function HomePage() {
       <section className="bg-white">
         <Container className="py-16 md:py-20">
           <SectionHeading
-            eyebrow="How we support farmers"
+            eyebrow={t("home.supportEyebrow")}
             title="Machinery, learning and organisation. Together."
             className="mb-10 max-w-[40em]"
           />
@@ -240,12 +247,12 @@ export default function HomePage() {
             <div className="flex flex-col gap-4">
               {SUPPORT_PILLARS.map((pillar) => (
                 <div
-                  key={pillar.title}
+                  key={pillar.titleKey}
                   className="flex flex-col gap-2.5 rounded-2xl border border-line bg-[#F7F9F7] p-6"
                 >
                   <IconBadge size="sm">{pillar.icon}</IconBadge>
-                  <h3 className="text-base font-bold text-ink">{pillar.title}</h3>
-                  <p className="text-[13.5px] text-muted">{pillar.body}</p>
+                  <h3 className="text-base font-bold text-ink">{t(pillar.titleKey)}</h3>
+                  <p className="text-[13.5px] text-muted">{t(pillar.bodyKey)}</p>
                 </div>
               ))}
             </div>
@@ -262,11 +269,14 @@ export default function HomePage() {
             className="mb-10 max-w-[38em]"
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {EXPLORE_LINKS.map((item) => (
+            {EXPLORE_LINKS.map((item, i) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className="group relative overflow-hidden rounded-2xl"
+                className={cn(
+                  "group relative overflow-hidden rounded-2xl",
+                  i === EXPLORE_LINKS.length - 1 && "sm:col-span-2"
+                )}
               >
                 <img
                   src={item.image}
@@ -304,8 +314,8 @@ export default function HomePage() {
         title="Tell us what you need"
         description="Contact us with your location, crop, required service and preferred timing. We will discuss availability, cost and the next steps."
         actions={[
-          { label: "Request a service", to: "/contact#request" },
-          { label: "Call +250 781 707 587", href: "tel:+250781707587", variant: "secondary" },
+          { label: t("cta.requestService"), to: "/contact#request" },
+          { label: "Call +250 781 444 069", href: "tel:+250781444069", variant: "secondary" },
         ]}
       />
     </div>

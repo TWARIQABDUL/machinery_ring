@@ -4,9 +4,11 @@ import pool from "../../db";
 import { requireUserSession } from "../../db/session.server";
 import { slugify } from "../lib/slugify";
 import { saveUploadedImage, deletePublicImage } from "../lib/uploads.server";
+import { invalidateCache } from "../lib/cache.server";
 import Panel from "../components/admin/panel";
 import StatusBadge from "../components/status-badge";
 import DeleteButton from "../components/admin/delete-button";
+import SubmitButton from "../components/submit-button";
 import { TextField, TextAreaField, SelectField, CheckboxField, btnPrimary, btnGhost, btnSm } from "../components/admin/field";
 import type { Route } from "./+types/dashboard-services";
 
@@ -42,6 +44,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     const { rows } = await pool.query("SELECT image_path FROM services WHERE id = $1", [id]);
     await pool.query("DELETE FROM services WHERE id = $1", [id]);
     if (rows[0]) await deletePublicImage(rows[0].image_path);
+    invalidateCache();
     return { success: true };
   }
 
@@ -81,6 +84,7 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
     throw err;
   }
 
+  invalidateCache();
   return { success: true };
 }
 
@@ -237,9 +241,9 @@ function ServiceForm({ service, onCancel }: { service?: ServiceRow; onCancel?: (
       <CheckboxField label="Published on the public Services page" name="is_published" defaultChecked={service?.is_published ?? true} />
 
       <div className="flex gap-3">
-        <button type="submit" className={btnPrimary}>
+        <SubmitButton pendingText={service ? "Saving…" : "Adding…"} className={btnPrimary}>
           {service ? "Save changes" : "Add service"}
-        </button>
+        </SubmitButton>
         {onCancel && (
           <button type="button" onClick={onCancel} className={btnGhost}>
             Cancel

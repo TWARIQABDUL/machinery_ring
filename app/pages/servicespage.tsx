@@ -5,6 +5,8 @@ import Container from "../components/container";
 import IconBadge from "../components/icon-badge";
 import StatusBadge from "../components/status-badge";
 import { cn } from "../lib/cn";
+import { useT } from "../lib/i18n";
+import { cached } from "../lib/cache.server";
 import type { Route } from "./+types/servicespage";
 
 export function meta({}: Route.MetaArgs) {
@@ -29,9 +31,12 @@ type ServiceRow = {
 };
 
 export async function loader() {
-  const { rows } = await pool.query<ServiceRow>(
-    "SELECT slug, name, description, status, price, price_unit, image_path FROM services WHERE is_published = true ORDER BY sort_order, name"
-  );
+  const rows = await cached("services:published", 60_000, async () => {
+    const result = await pool.query<ServiceRow>(
+      "SELECT slug, name, description, status, price, price_unit, image_path FROM services WHERE is_published = true ORDER BY sort_order, name"
+    );
+    return result.rows;
+  });
   return {
     available: rows.filter((row) => row.status === "available"),
     developing: rows.filter((row) => row.status === "in_development"),
@@ -76,14 +81,11 @@ function buildSliderSlides<T>(items: T[], slotCount = 4): T[] {
 export default function ServicesPage({ loaderData }: Route.ComponentProps) {
   const { available, developing } = loaderData;
   const sliderSlides = buildSliderSlides(available);
+  const t = useT();
 
   return (
     <div>
-      <PageHeader
-        crumb="Services"
-        title="Our Services"
-        intro="We coordinate agricultural services and practical support through our local network. Tell us what you need so we can check the equipment, operator, location and timing before confirming the work and price."
-      />
+      <PageHeader crumb={t("nav.services")} title={t("services.title")} intro={t("services.intro")} />
 
       {sliderSlides.length > 0 && (
         <section className="bg-white">
@@ -120,8 +122,8 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
         <section className="bg-white">
           <Container className="py-14">
             <div className="mb-9 flex items-center gap-2.5">
-              <StatusBadge tone="solid">Available now</StatusBadge>
-              <span className="text-sm text-muted">Requests assessed and confirmed individually</span>
+              <StatusBadge tone="solid">{t("services.availableNow")}</StatusBadge>
+              <span className="text-sm text-muted">{t("services.availableNote")}</span>
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {available.map((service) => {
@@ -149,8 +151,8 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
         <section className="bg-[#F7F9F7]">
           <Container className="py-14">
             <div className="mb-7 flex items-center gap-2.5">
-              <StatusBadge tone="amber">In development</StatusBadge>
-              <span className="text-sm text-muted">Register interest. Dates depend on confirmed capacity.</span>
+              <StatusBadge tone="amber">{t("services.inDevelopment")}</StatusBadge>
+              <span className="text-sm text-muted">{t("services.developingNote")}</span>
             </div>
             <div className="flex flex-col">
               {developing.map((service, i) => (
@@ -174,17 +176,13 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
       <section className="bg-white">
         <Container className="py-16">
           <div className="flex flex-col gap-3.5 rounded-2xl border border-line bg-brand-50 p-9">
-            <h2 className="font-display text-[22px] font-extrabold text-ink">Prices and confirmation</h2>
-            <p className="text-[15.5px] leading-[1.7] text-ink-soft">
-              Contact us for the applicable rate. The team will explain the unit charged, any member or non-member rate
-              and additional costs before you agree to the work. A service request becomes a booking only after
-              availability, timing and price have been confirmed with you.
-            </p>
+            <h2 className="font-display text-[22px] font-extrabold text-ink">{t("services.pricesTitle")}</h2>
+            <p className="text-[15.5px] leading-[1.7] text-ink-soft">{t("services.pricesBody")}</p>
             <Link
               to="/contact#request"
               className="mt-2 w-fit rounded-lg bg-brand-600 px-6 py-3 text-[15px] font-semibold text-white hover:bg-brand-700"
             >
-              Request a service
+              {t("cta.requestService")}
             </Link>
           </div>
         </Container>

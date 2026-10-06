@@ -1,9 +1,12 @@
 import { Link } from "react-router";
 import Container from "./container";
+import BrandMark from "./brand-mark";
+import { useT, type StringKey } from "../lib/i18n";
 
-const FOOTER_COLUMNS = [
+const FOOTER_COLUMNS: { heading: string; headingKey?: StringKey; links: { to: string; label: string }[] }[] = [
   {
     heading: "Services",
+    headingKey: "nav.services",
     links: [
       { to: "/services", label: "Maize & bean planting" },
       { to: "/services", label: "Shelling & threshing" },
@@ -14,42 +17,45 @@ const FOOTER_COLUMNS = [
   },
   {
     heading: "About",
+    headingKey: "footer.about",
     links: [
       { to: "/about", label: "Who we are" },
       { to: "/about", label: "Our local Rings" },
       { to: "/about", label: "Our team" },
-      { to: "/about", label: "Our partners" },
     ],
   },
   {
     heading: "Our Work",
+    headingKey: "nav.ourWork",
     links: [
       { to: "/our-work", label: "The project" },
-      { to: "/our-work", label: "Field updates" },
       { to: "/gallery", label: "Gallery" },
       { to: "/blog", label: "Blog" },
+      { to: "/marketplace", label: "Marketplace" },
     ],
   },
 ];
 
 export default function SiteFooter() {
+  const t = useT();
   return (
     <footer className="bg-navy text-[14px] text-[#A9CFB6]">
       <Container className="pt-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex flex-col gap-4 lg:col-span-1">
-            <div className="inline-block rounded-lg bg-white px-3 py-2">
-              <img src="/logo.png" alt="Maschinenring Foundation Rwanda" className="h-8 w-auto" />
+            <div className="flex items-center">
+              <div className="rounded-lg bg-white px-3 py-2">
+                <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-14 w-auto" />
+              </div>
             </div>
-            <p className="max-w-[24em] text-[13.5px] text-[#8FB8A0]">
-              Farmers accessing agricultural machinery, practical training and coordinated services through cooperation in
-              Gashora Sector, Bugesera District.
-            </p>
+            <p className="max-w-[24em] text-[13.5px] text-[#8FB8A0]">{t("footer.tagline")}</p>
           </div>
 
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.heading} className="flex flex-col gap-2.5">
-              <span className="text-[13px] font-bold uppercase tracking-wide text-white">{column.heading}</span>
+              <span className="text-[13px] font-bold uppercase tracking-wide text-white">
+                {column.headingKey ? t(column.headingKey) : column.heading}
+              </span>
               {column.links.map((link) => (
                 <Link key={link.label} to={link.to} className="hover:text-white">
                   {link.label}
@@ -63,9 +69,7 @@ export default function SiteFooter() {
             <p className="text-[13.5px] leading-[1.7] text-[#8FBF9F]">
               Gashora Sector, Bugesera District, Rwanda
               <br />
-              +250 781 707 587
-              <br />
-              simeon.musabende@machineryrings.org
+              +250 781 444 069
             </p>
           </div>
         </div>
@@ -74,7 +78,7 @@ export default function SiteFooter() {
           <span>&copy; {new Date().getFullYear()} Machinery Ring Rwanda.</span>
           <div className="flex items-center gap-4">
             <Link to="/contact" className="hover:text-white">
-              Privacy
+              {t("footer.privacy")}
             </Link>
             <a
               href="https://www.linkedin.com/company/109160918/"

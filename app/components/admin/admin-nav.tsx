@@ -29,9 +29,24 @@ const TABS = [
     ),
   },
   {
+    to: "/dashboard/marketplace-inquiries",
+    label: "Inquiries",
+    icon: <path d="M4 4h16v11H9l-4 4.5V4Z" />,
+  },
+  {
     to: "/dashboard/services",
     label: "Services",
     icon: <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8Z" />,
+  },
+  {
+    to: "/dashboard/marketplace",
+    label: "Marketplace",
+    icon: (
+      <>
+        <path d="M5 8h14l-1 12H6L5 8Z" />
+        <path d="M9 8a3 3 0 0 1 6 0" />
+      </>
+    ),
   },
   {
     to: "/dashboard/gallery",
@@ -89,8 +104,8 @@ export default function AdminNav() {
       {/* Desktop sidebar */}
       <nav
         className={cn(
-          "hidden shrink-0 flex-col gap-1 rounded-2xl border border-line bg-white p-3 transition-[width] duration-200 md:sticky md:top-8 md:flex",
-          collapsed ? "md:w-[64px]" : "md:w-56"
+          "hidden shrink-0 flex-col gap-1 rounded-2xl border border-line bg-white p-2 transition-[width] duration-200 md:sticky md:top-8 md:flex",
+          collapsed ? "md:w-[56px]" : "md:w-48"
         )}
       >
         <button
@@ -123,7 +138,7 @@ export default function AdminNav() {
             {({ isActive }) => (
               <span
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-semibold transition",
+                  "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-semibold transition",
                   collapsed && "justify-center px-0",
                   isActive ? "bg-brand-600 text-white" : "text-ink-soft group-hover:bg-brand-50"
                 )}
@@ -157,7 +172,7 @@ export default function AdminNav() {
             end={tab.end}
             className={({ isActive }) =>
               cn(
-                "rounded-lg px-3.5 py-2 text-sm font-semibold transition",
+                "rounded-lg px-3 py-1.5 text-sm font-semibold transition",
                 isActive ? "bg-brand-600 text-white" : "text-ink-soft hover:bg-brand-50"
               )
             }

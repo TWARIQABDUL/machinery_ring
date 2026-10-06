@@ -7,6 +7,7 @@ import FilterChip from "../components/filter-chip";
 import StatusBadge from "../components/status-badge";
 import CtaBand from "../components/cta-band";
 import GalleryLightbox from "../components/gallery-lightbox";
+import { cached } from "../lib/cache.server";
 import type { Route } from "./+types/gallerypage";
 
 export function meta({}: Route.MetaArgs) {
@@ -23,9 +24,12 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export async function loader() {
-  const { rows } = await pool.query(
-    "SELECT image_path, caption, category FROM gallery_items WHERE is_published = true ORDER BY sort_order, created_at DESC"
-  );
+  const rows = await cached("gallery:published", 60_000, async () => {
+    const result = await pool.query(
+      "SELECT image_path, caption, category FROM gallery_items WHERE is_published = true ORDER BY sort_order, created_at DESC"
+    );
+    return result.rows;
+  });
   return {
     photos: rows.map((row) => ({
       tag: CATEGORY_LABELS[row.category as string] ?? "Gallery",

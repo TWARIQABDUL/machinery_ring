@@ -7,6 +7,8 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import TopProgressBar from "./components/top-progress-bar";
+import { LanguageProvider } from "./lib/i18n";
 import type { Route } from "./+types/root";
 import "./app.css";
 
@@ -31,15 +33,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.googleTranslateElementInit=function(){new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'en,rw',autoDisplay:false},'google_translate_element');};`,
-          }}
-        />
-        <script
-          async
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        />
       </head>
       <body>
         {children}
@@ -51,9 +44,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <div>
-    <Outlet />
-  </div>;
+  return (
+    <LanguageProvider>
+      <div>
+        <TopProgressBar />
+        <Outlet />
+      </div>
+    </LanguageProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

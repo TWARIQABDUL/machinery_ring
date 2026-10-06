@@ -4,6 +4,9 @@ import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import InitialsAvatar from "../components/initials-avatar";
 import WhatsAppIcon from "../components/whatsapp-icon";
+import SubmitButton from "../components/submit-button";
+import { useT, type StringKey } from "../lib/i18n";
+import { cached } from "../lib/cache.server";
 import { buildServiceRequestWhatsAppUrl } from "../lib/whatsapp";
 import type { Route } from "./+types/contactpage";
 
@@ -12,11 +15,17 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const { rows: services } = await pool.query(
-    "SELECT id, name FROM services WHERE status = 'available' AND is_published = true ORDER BY sort_order, name"
-  );
-  const { rows: rings } = await pool.query("SELECT id, name FROM rings WHERE is_active = true ORDER BY sort_order, name");
-  return { services, rings } as { services: { id: number; name: string }[]; rings: { id: number; name: string }[] };
+  const services = await cached("services:available-names", 60_000, async () => {
+    const { rows } = await pool.query(
+      "SELECT id, name FROM services WHERE status = 'available' AND is_published = true ORDER BY sort_order, name"
+    );
+    return rows as { id: number; name: string }[];
+  });
+  const rings = await cached("rings:active-names", 60_000, async () => {
+    const { rows } = await pool.query("SELECT id, name FROM rings WHERE is_active = true ORDER BY sort_order, name");
+    return rows as { id: number; name: string }[];
+  });
+  return { services, rings };
 }
 
 type ActionResult =
@@ -114,23 +123,11 @@ export async function action({ request }: Route.ActionArgs): Promise<ActionResul
   return { success: true, whatsappUrl };
 }
 
-const FAQS = [
-  {
-    q: "Can non-members enquire?",
-    a: "Yes. Contact us to discuss availability and the applicable terms, including any difference in rates.",
-  },
-  {
-    q: "Can I request a specific date?",
-    a: "Yes. Give your preferred date or period. The team will confirm what can be arranged.",
-  },
-  {
-    q: "Are transport and inputs included?",
-    a: "The team will explain what the quoted price covers. Any additional charges and input responsibilities must be agreed before the work.",
-  },
-  {
-    q: "Can farmers outside Gashora contact us?",
-    a: "Yes. Contact us to discuss your location and needs. Support outside the established area depends on what can be arranged.",
-  },
+const FAQS: { qKey: StringKey; aKey: StringKey }[] = [
+  { qKey: "contact.faq1.q", aKey: "contact.faq1.a" },
+  { qKey: "contact.faq2.q", aKey: "contact.faq2.a" },
+  { qKey: "contact.faq3.q", aKey: "contact.faq3.a" },
+  { qKey: "contact.faq4.q", aKey: "contact.faq4.a" },
 ];
 
 const inputClass =
@@ -140,14 +137,11 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
   const { services, rings } = loaderData;
   const result = actionData as ActionResult | undefined;
   const values = result && !result.success ? result.values : {};
+  const t = useT();
 
   return (
     <div>
-      <PageHeader
-        crumb="Contact"
-        title="Contact Machinery Ring Rwanda"
-        intro="For services, membership, training or partnership enquiries, contact our team and tell us how we can help."
-      />
+      <PageHeader crumb={t("nav.contact")} title={t("contact.title")} intro={t("contact.intro")} />
 
       <section className="bg-white">
         <Container className="grid gap-10 py-14 md:grid-cols-[0.85fr_1.15fr] md:items-start">
@@ -160,11 +154,8 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
                 <span className="text-[13px] font-semibold text-brand-700">Project Manager</span>
               </div>
               <div className="flex flex-col gap-2.5 text-[14.5px] text-ink-soft">
-                <a href="tel:+250781707587" className="hover:text-brand-700">
-                  +250 781 707 587
-                </a>
-                <a href="mailto:simeon.musabende@machineryrings.org" className="hover:text-brand-700">
-                  simeon.musabende@machineryrings.org
+                <a href="tel:+250781444069" className="hover:text-brand-700">
+                  +250 781 444 069
                 </a>
                 <span>Gashora Sector, Bugesera District, Rwanda</span>
               </div>
@@ -180,11 +171,8 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
             {result?.success ? (
               <div className="flex flex-col gap-5">
                 <div className="flex flex-col gap-2 rounded-xl border border-brand-200 bg-brand-50 p-6">
-                  <span className="text-xs font-bold uppercase tracking-wide text-brand-700">Request received</span>
-                  <p className="text-[15px] text-ink-soft">
-                    Your request has been received. Our team will contact you to confirm availability, timing and
-                    cost. Your booking is confirmed only after the arrangements have been agreed with you.
-                  </p>
+                  <span className="text-xs font-bold uppercase tracking-wide text-brand-700">{t("form.received.title")}</span>
+                  <p className="text-[15px] text-ink-soft">{t("form.received.body")}</p>
                 </div>
                 <a
                   href={result.whatsappUrl}
@@ -213,9 +201,9 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
           <SectionHeading eyebrow="Common questions" title="Before you get in touch" className="mb-9" />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {FAQS.map((faq) => (
-              <div key={faq.q} className="flex flex-col gap-2 rounded-2xl bg-navy p-6">
-                <h3 className="text-base font-bold text-white">{faq.q}</h3>
-                <p className="text-[14.5px] text-[#A9CFB6]">{faq.a}</p>
+              <div key={faq.qKey} className="flex flex-col gap-2 rounded-2xl bg-navy p-6">
+                <h3 className="text-base font-bold text-white">{t(faq.qKey)}</h3>
+                <p className="text-[14.5px] text-[#A9CFB6]">{t(faq.aKey)}</p>
               </div>
             ))}
           </div>
@@ -236,10 +224,11 @@ function RequestForm({
   values: Record<string, string>;
   error?: string;
 }) {
+  const t = useT();
   return (
     <form method="post" className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <h2 className="font-display text-2xl font-extrabold text-ink">Request a service</h2>
+        <h2 className="font-display text-2xl font-extrabold text-ink">{t("cta.requestService")}</h2>
         <p className="text-[14.5px] text-muted">
           Tell us the service you need and where your farm is located. Our team will contact you to discuss
           availability, timing and cost. Submitting a request does not confirm a booking.
@@ -250,11 +239,11 @@ function RequestForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Full name
+          {t("form.fullName")}
           <input name="full_name" required defaultValue={values.full_name} className={inputClass} />
         </label>
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Telephone number
+          {t("form.phone")}
           <input name="phone" required placeholder="e.g. 078X XXX XXX" defaultValue={values.phone} className={inputClass} />
         </label>
       </div>
@@ -262,18 +251,18 @@ function RequestForm({
       <div className="flex flex-col gap-2">
         <span className="text-[13px] font-semibold text-ink">Farm location</span>
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-          <input name="district" placeholder="District" defaultValue={values.district} className={inputClass} />
-          <input name="sector" placeholder="Sector" defaultValue={values.sector} className={inputClass} />
-          <input name="cell" placeholder="Cell" defaultValue={values.cell} className={inputClass} />
-          <input name="village" placeholder="Village" defaultValue={values.village} className={inputClass} />
+          <input name="district" placeholder={t("form.district")} defaultValue={values.district} className={inputClass} />
+          <input name="sector" placeholder={t("form.sector")} defaultValue={values.sector} className={inputClass} />
+          <input name="cell" placeholder={t("form.cell")} defaultValue={values.cell} className={inputClass} />
+          <input name="village" placeholder={t("form.village")} defaultValue={values.village} className={inputClass} />
         </div>
       </div>
 
       <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-        Local Ring or membership status
+        {t("form.localRing")}
         <select name="membership" defaultValue={values.membership ?? ""} className={inputClass}>
-          <option value="">Unsure</option>
-          <option value="non_member">Non-member</option>
+          <option value="">{t("form.unsure")}</option>
+          <option value="non_member">{t("form.nonMember")}</option>
           {rings.map((ring) => (
             <option key={ring.id} value={ring.id}>
               {ring.name}
@@ -284,7 +273,7 @@ function RequestForm({
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Service needed
+          {t("form.serviceNeeded")}
           <select name="service_id" defaultValue={values.service_id ?? ""} className={inputClass}>
             <option value="">Select a service</option>
             {services.map((service) => (
@@ -295,14 +284,14 @@ function RequestForm({
           </select>
         </label>
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Crop
+          {t("form.crop")}
           <input name="crop" placeholder="e.g. maize, rice, beans" defaultValue={values.crop} className={inputClass} />
         </label>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Area or quantity
+          {t("form.areaOrQuantity")}
           <input
             name="area_or_quantity"
             placeholder="e.g. 2 ha, or 500 kg"
@@ -311,7 +300,7 @@ function RequestForm({
           />
         </label>
         <label className="flex flex-col gap-1.5 text-[13px] font-semibold text-ink">
-          Preferred date or period
+          {t("form.preferredTiming")}
           <input
             name="preferred_timing"
             placeholder="e.g. 12–16 October 2026"
@@ -337,9 +326,12 @@ function RequestForm({
         I agree that Machinery Ring Rwanda may use these details to contact me and handle this request. Your details will be shared only with the Machinery Ring Rwanda team and used solely to respond to and follow up on your request.
       </label>
 
-      <button type="submit" className="mt-1 rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700">
-        Send request
-      </button>
+      <SubmitButton
+        pendingText="Sending…"
+        className="mt-1 rounded-lg bg-brand-600 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-700"
+      >
+        {t("form.sendRequest")}
+      </SubmitButton>
     </form>
   );
 }

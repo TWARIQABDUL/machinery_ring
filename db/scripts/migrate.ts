@@ -11,12 +11,15 @@ const MIGRATIONS_DIR = path.join(__dirname, "../migrations");
 
 async function runMigrations() {
 
+    const isRemote = process.env.DB_HOST && !process.env.DB_HOST.includes("localhost");
+
     const client = new Client({
         user: process.env.DB_USER,
         host: process.env.DB_HOST,
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT) || 5432,
+        ...(isRemote ? { ssl: { rejectUnauthorized: false } } : {}),
     });
     try {
         await client.connect();

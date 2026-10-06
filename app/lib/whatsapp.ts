@@ -1,5 +1,5 @@
-// +250 781 707 587, in wa.me format (no leading +/0s).
-export const WHATSAPP_NUMBER = "250781707587";
+// +250 781 444 069, in wa.me format (no leading +/0s).
+export const WHATSAPP_NUMBER = "250781444069";
 
 export type ServiceRequestMessageInput = {
   id: number;
@@ -26,6 +26,31 @@ export function buildServiceRequestWhatsAppUrl(input: ServiceRequestMessageInput
     input.crop ? `Crop: ${input.crop}` : null,
     input.areaOrQuantity ? `Area or quantity: ${input.areaOrQuantity}` : null,
     input.preferredTiming ? `Preferred timing: ${input.preferredTiming}` : null,
+    input.additionalInfo ? `Notes: ${input.additionalInfo}` : null,
+  ].filter(Boolean);
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
+export type MarketplaceInquiryMessageInput = {
+  id: number;
+  fullName: string;
+  phone: string;
+  location?: string | null;
+  itemName: string;
+  quantity?: string | null;
+  additionalInfo?: string | null;
+};
+
+/** Builds the same pre-filled wa.me message wherever a marketplace inquiry needs to be sent on WhatsApp. */
+export function buildMarketplaceInquiryWhatsAppUrl(input: MarketplaceInquiryMessageInput): string {
+  const lines = [
+    `Marketplace inquiry #${input.id} — Machinery Ring Rwanda website`,
+    `Item: ${input.itemName}`,
+    `Name: ${input.fullName}`,
+    `Phone: ${input.phone}`,
+    input.location ? `Location: ${input.location}` : null,
+    input.quantity ? `Quantity: ${input.quantity}` : null,
     input.additionalInfo ? `Notes: ${input.additionalInfo}` : null,
   ].filter(Boolean);
 

@@ -8,6 +8,8 @@ export default [
         route("our-work", "pages/ourworkpage.tsx"),
         route("gallery", "pages/gallerypage.tsx"),
         route("blog", "pages/blogpage.tsx"),
+        route("marketplace", "pages/marketplacepage.tsx"),
+        route("marketplace/:slug", "pages/marketplaceitempage.tsx"),
         route("contact", "pages/contactpage.tsx"),
     ]),
 
@@ -18,6 +20,8 @@ export default [
         route("gallery", "routes/dashboard-gallery.tsx"),
         route("blog", "routes/dashboard-blog.tsx"),
         route("rings", "routes/dashboard-rings.tsx"),
+        route("marketplace", "routes/dashboard-marketplace.tsx"),
+        route("marketplace-inquiries", "routes/dashboard-marketplace-inquiries.tsx"),
         route("logout", "routes/dashboard-logout.tsx"),
     ]),
 

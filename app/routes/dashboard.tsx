@@ -3,6 +3,7 @@ import { requireUserSession } from "../../db/session.server";
 import Container from "../components/container";
 import BrandMark from "../components/brand-mark";
 import AdminNav from "../components/admin/admin-nav";
+import SubmitButton from "../components/submit-button";
 import type { Route } from "./+types/dashboard";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -21,12 +22,12 @@ export default function Dashboard() {
             <span className="font-semibold text-muted-2">&middot; Admin</span>
           </span>
           <Form method="post" action="/dashboard/logout">
-            <button
-              type="submit"
+            <SubmitButton
+              pendingText="Logging out…"
               className="rounded-lg border border-line px-4 py-2 text-sm font-semibold text-ink-soft hover:bg-brand-50"
             >
               Log out
-            </button>
+            </SubmitButton>
           </Form>
         </Container>
       </header>

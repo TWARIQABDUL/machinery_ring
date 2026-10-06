@@ -4,6 +4,7 @@ import pool from '../../db';
 import bcrypt from "bcrypt";
 import { commitSession, getSession } from '../../db/session.server';
 import { Form, redirect, useActionData } from 'react-router';
+import SubmitButton from '../components/submit-button';
 
 
 export async function action({request}:Route.ActionArgs) {
@@ -75,12 +76,12 @@ function RegisterPage() {
             className="rounded-lg border border-line px-3.5 py-2.5 text-sm text-ink focus:border-brand-600 focus:outline-none"
           />
         </label>
-        <button
-          type="submit"
+        <SubmitButton
+          pendingText="Creating account…"
           className="mt-1 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
         >
           Register
-        </button>
+        </SubmitButton>
       </Form>
     </div>
   )
