@@ -43,29 +43,29 @@ const EXPLORE_LINKS = [
     to: "/services",
     title: "Explore our services",
     body: "Planting, shelling, threshing, training and more.",
-    image: "https://images.pexels.com/photos/12835164/pexels-photo-12835164.jpeg?auto=compress&cs=tinysrgb&w=1280",
-    imageAlt: "Crops growing on productive agricultural land",
+    image: "/images/gallery/9L9A1980.JPG",
+    imageAlt: "Machinery Ring Rwanda equipment displayed at a field day — tractors, shellers and planting machines",
   },
   {
     to: "/our-work",
     title: "See our work",
     body: "The Kenya–Rwanda project, demonstration farms and field updates.",
-    image: "https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280",
-    imageAlt: "Farmers working together in the field",
+    image: "/images/gallery/SAGA0271.jpg",
+    imageAlt: "Farmers and trainers gathered around machinery during a Machinery Ring Rwanda demonstration",
   },
   {
     to: "/gallery",
     title: "Browse the gallery",
     body: "Photos from field days, training and equipment demonstrations.",
-    image: "https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280",
-    imageAlt: "Lush green agricultural fields",
+    image: "/images/gallery/9L9A7910.JPG",
+    imageAlt: "Farmer demonstrating a seeder to a crowd of participants at a Machinery Ring Rwanda field day",
   },
   {
     to: "/blog",
     title: "Read the blog",
     body: "Updates from local Rings, field days and training.",
-    image: "https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280",
-    imageAlt: "Women farmers harvesting in the field",
+    image: "/images/gallery/SAGA0314.jpg",
+    imageAlt: "Farmers and partners engaged at a Machinery Ring Rwanda machinery demonstration event",
   },
   {
     to: "/marketplace",
@@ -135,14 +135,13 @@ export default function HomePage() {
 
               <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
                 <img
-                  src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280"
-                  alt="Farmers working together in the field during a cooperative farming activity"
+                  src="/images/gallery/SAGA0271.jpg"
+                  alt="Farmers and trainers gathered around machinery during a Machinery Ring Rwanda training event"
                   className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
                   <span className="text-[13px] font-medium text-white">
-                    Farmers working together — the cooperative model MR Rwanda is built on.
+                    Hands-on training — farmers learning to use shared machinery across the Ring.
                   </span>
                 </div>
               </div>
@@ -163,14 +162,13 @@ export default function HomePage() {
 
               <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
                 <img
-                  src="https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280"
-                  alt="Women farmers harvesting crops together in verdant fields"
+                  src="/images/gallery/9L9A7764.JPG"
+                  alt="Machinery Ring Rwanda farmers celebrating together at a field day with shared equipment"
                   className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
                   <span className="text-[13px] font-medium text-white">
-                    Women farmers at harvest — a priority focus of our participation and training work.
+                    The Machinery Ring Rwanda community — farmers and partners united through shared access.
                   </span>
                 </div>
               </div>
@@ -215,10 +213,9 @@ export default function HomePage() {
             {/* Large image card */}
             <div className="relative min-h-[320px] overflow-hidden rounded-2xl md:min-h-0">
               <img
-                src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1280"
-                alt="Farmers working together in the field"
+                src="/images/gallery/SAGA0306.jpg"
+                alt="Farmers gathered at a Machinery Ring Rwanda demonstration and training event"
                 className="absolute inset-0 h-full w-full object-cover"
-                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-900/85 via-brand-900/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-3 p-7">

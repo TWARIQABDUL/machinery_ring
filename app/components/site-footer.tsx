@@ -43,11 +43,10 @@ export default function SiteFooter() {
       <Container className="pt-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex flex-col gap-4 lg:col-span-1">
-            <div className="flex items-center gap-2.5">
-              <BrandMark size="lg" />
-              <span className="whitespace-nowrap font-display text-lg font-extrabold tracking-tight text-white">
-                Machinery Ring <span className="text-brand-600">Rwanda</span>
-              </span>
+            <div className="flex items-center">
+              <div className="rounded-lg bg-white px-3 py-2">
+                <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-14 w-auto" />
+              </div>
             </div>
             <p className="max-w-[24em] text-[13.5px] text-[#8FB8A0]">{t("footer.tagline")}</p>
           </div>

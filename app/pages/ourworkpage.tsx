@@ -72,10 +72,9 @@ export default function OurWorkPage() {
         {/* Right: full-height image */}
         <div className="relative min-h-[320px] md:min-h-0">
           <img
-            src="https://images.pexels.com/photos/39662345/pexels-photo-39662345.jpeg?auto=compress&cs=tinysrgb&w=1280"
-            alt="Farmers working together across Ring activities"
+            src="/images/gallery/SAGA0299.jpg"
+            alt="Machinery Ring Rwanda event — farmers and partners gathered for a machinery demonstration day"
             className="absolute inset-0 h-full w-full object-cover"
-            referrerPolicy="no-referrer"
           />
         </div>
       </section>

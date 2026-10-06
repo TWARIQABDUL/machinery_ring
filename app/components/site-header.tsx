@@ -69,11 +69,8 @@ export default function SiteHeader() {
       {/* Header */}
       <header className="relative border-b border-line bg-white">
         <Container className="flex items-center justify-between gap-5 py-5">
-          <NavLink to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
-            <BrandMark size="xl" />
-            <span className="whitespace-nowrap font-display text-2xl font-extrabold tracking-tight text-ink">
-              Machinery Ring <span className="text-brand-600">Rwanda</span>
-            </span>
+          <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
+            <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-24 w-auto" />
           </NavLink>
 
           <nav className="hidden items-center gap-5 whitespace-nowrap text-[14.5px] font-medium lg:flex">

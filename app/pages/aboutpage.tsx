@@ -201,10 +201,9 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           {/* Full-width wide image */}
           <div className="relative overflow-hidden rounded-2xl">
             <img
-              src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt="Farmers working together in the field — activities that form the basis of Ring work in Rwanda"
+              src="/images/gallery/9L9A7764.JPG"
+              alt="Machinery Ring Rwanda farmers and staff gathered together at a field day — the cooperative spirit at the heart of Ring work"
               className="aspect-[21/9] w-full object-cover"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/70 to-transparent px-7 pb-5 pt-12">
               <span className="text-[13px] font-medium text-white">{t("about.devCaption")}</span>
