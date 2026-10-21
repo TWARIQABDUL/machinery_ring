@@ -13,8 +13,8 @@ function LanguageSelect() {
       aria-label="Select language"
       className="cursor-pointer appearance-none rounded border border-[rgba(255,255,255,0.18)] bg-transparent px-2.5 py-1 text-[12.5px] font-semibold text-[#CDE4D5] hover:border-[rgba(255,255,255,0.35)] hover:text-white focus:outline-none"
     >
-      <option value="en" style={{ background: "#1A2B45" }}>EN / English</option>
-      <option value="rw" style={{ background: "#1A2B45" }}>RW / Kinyarwanda</option>
+      <option value="en" style={{ background: "#0F2A1A" }}>EN / English</option>
+      <option value="rw" style={{ background: "#0F2A1A" }}>RW / Kinyarwanda</option>
     </select>
   );
 }
@@ -140,7 +140,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
   return (
     <div>
       {/* Utility bar */}
-      <div className="bg-navy text-[#CDE4D5] text-[13px]">
+      <div className="bg-deep text-[#CDE4D5] text-[13px]">
         <Container className="flex flex-wrap items-center justify-between gap-1.5 py-2.5">
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2">

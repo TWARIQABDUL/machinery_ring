@@ -75,7 +75,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
   return (
     <div>
       {/* ── Full-bleed image hero ── */}
-      <section className="relative min-h-[580px] overflow-hidden bg-brand-900">
+      <section className="relative min-h-[580px] overflow-hidden bg-deep">
         <img
           src="https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt=""
@@ -84,8 +84,8 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           referrerPolicy="no-referrer"
         />
         {/* Diagonal gradient: dark on left, fades to image on right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/95 via-brand-900/75 to-brand-900/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-deep/95 via-deep/75 to-deep/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-deep/60 to-transparent" />
 
         <Container className="relative z-10 flex min-h-[580px] flex-col justify-end pb-16 md:justify-center md:py-24">
           <div className="flex max-w-[28em] flex-col gap-5">
@@ -138,7 +138,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {HOW_IT_WORKS.map((step) => (
-              <div key={step.num} className="flex flex-col gap-4 rounded-2xl bg-navy p-7">
+              <div key={step.num} className="flex flex-col gap-4 rounded-2xl bg-deep p-7">
                 <span className="font-display text-[52px] font-extrabold leading-none text-white/20">
                   {step.num}
                 </span>
@@ -151,7 +151,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
       </section>
 
       {/* ── Mission + Approach — side-by-side dual text columns ── */}
-      <section className="bg-navy">
+      <section className="bg-deep">
         <Container className="py-16 md:py-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             {/* Left: Our mission */}
@@ -205,7 +205,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               alt="Machinery Ring Rwanda farmers and staff gathered together at a field day — the cooperative spirit at the heart of Ring work"
               className="aspect-[21/9] w-full object-cover"
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/70 to-transparent px-7 pb-5 pt-12">
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/70 to-transparent px-7 pb-5 pt-12">
               <span className="text-[13px] font-medium text-white">{t("about.devCaption")}</span>
             </div>
           </div>
@@ -268,7 +268,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
           <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
             {/* Featured card — horizontal, large */}
             <div className="flex gap-6 overflow-hidden rounded-2xl border border-line bg-[#F7F9F7] p-7">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-brand-900">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-deep">
                 <span className="font-display text-2xl font-extrabold text-white">{TEAM[0].initials}</span>
               </div>
               <div className="flex flex-col gap-2">
@@ -283,7 +283,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
             <div className="flex flex-col gap-4">
               {TEAM.slice(1).map((person) => (
                 <div key={person.initials} className="flex gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-900">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-deep">
                     <span className="font-display text-sm font-extrabold text-white">{person.initials}</span>
                   </div>
                   <div className="flex flex-col gap-1.5">

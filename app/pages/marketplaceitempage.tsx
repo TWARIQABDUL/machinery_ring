@@ -135,14 +135,14 @@ export default function MarketplaceItemPage({ loaderData, actionData }: Route.Co
 
   return (
     <div>
-      <section className="border-b border-[#E7EFE9] bg-brand-50">
+      <section className="border-b border-line bg-cream">
         <Container className="flex flex-col gap-3.5 py-10">
           <span className="text-[13px] text-muted-2">
-            <Link to="/" className="text-muted-2 hover:text-brand-700">
+            <Link to="/" className="text-muted-2 hover:text-deep">
               Home
             </Link>
             &nbsp;/&nbsp;
-            <Link to="/marketplace" className="text-muted-2 hover:text-brand-700">
+            <Link to="/marketplace" className="text-muted-2 hover:text-deep">
               Marketplace
             </Link>
             &nbsp;/&nbsp;{item.name}

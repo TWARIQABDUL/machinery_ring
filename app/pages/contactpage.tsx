@@ -198,7 +198,7 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
           <SectionHeading eyebrow="Common questions" title="Before you get in touch" className="mb-9" />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {FAQS.map((faq) => (
-              <div key={faq.qKey} className="flex flex-col gap-2 rounded-2xl bg-navy p-6">
+              <div key={faq.qKey} className="flex flex-col gap-2 rounded-2xl bg-deep p-6">
                 <h3 className="text-base font-bold text-white">{t(faq.qKey)}</h3>
                 <p className="text-[14.5px] text-[#A9CFB6]">{t(faq.aKey)}</p>
               </div>

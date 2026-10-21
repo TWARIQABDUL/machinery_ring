@@ -39,7 +39,7 @@ const FOOTER_COLUMNS: { heading: string; headingKey?: StringKey; links: { to: st
 export default function SiteFooter() {
   const t = useT();
   return (
-    <footer className="bg-navy text-[14px] text-[#A9CFB6]">
+    <footer className="bg-deep text-[14px] text-[#A9CFB6]">
       <Container className="pt-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex flex-col gap-4 lg:col-span-1">

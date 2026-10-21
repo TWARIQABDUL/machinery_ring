@@ -43,7 +43,7 @@ export default function OurWorkPage() {
       {/* ── Split-panel hero ── */}
       <section className="grid min-h-[560px] md:grid-cols-2">
         {/* Left: solid dark panel */}
-        <div className="flex flex-col justify-center gap-6 bg-navy px-8 py-16 md:px-14 md:py-24">
+        <div className="flex flex-col justify-center gap-6 bg-deep px-8 py-16 md:px-14 md:py-24">
           <span className="text-[13px] text-[#8FBF9F]">
             <Link to="/" className="hover:text-white">
               Home
@@ -80,7 +80,7 @@ export default function OurWorkPage() {
       </section>
 
       {/* ── Large stats — huge numbers ── */}
-      <section className="bg-navy">
+      <section className="bg-deep">
         <Container className="py-14 md:py-16">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-10">
             {STATS.map((stat) => (
@@ -146,7 +146,7 @@ export default function OurWorkPage() {
           className="absolute inset-0 h-full w-full object-cover"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/97 via-brand-900/85 to-brand-900/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-deep/97 via-deep/85 to-deep/50" />
         <Container className="relative z-10 py-20 md:py-24">
           <div className="flex max-w-[36em] flex-col gap-5">
             <span className="text-[13px] font-bold uppercase tracking-wide text-[#8FBF9F]">{t("ourwork.women.eyebrow")}</span>
