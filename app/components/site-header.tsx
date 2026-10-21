@@ -51,11 +51,11 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
     return (
       <header className="relative">
         <Container className="flex items-center justify-between gap-6 border-b border-white/15 pb-5">
-          <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
+          <NavLink to="/" className="mr-4 flex shrink-0 items-center" onClick={() => setMenuOpen(false)}>
             <img src="/logo_MR_light.png" alt="Machinery Ring Rwanda" className="h-8 w-auto md:h-9" />
           </NavLink>
 
-          <nav className="hidden items-center gap-7 whitespace-nowrap text-[14px] font-medium lg:flex">
+          <nav className="hidden items-center gap-5 whitespace-nowrap text-[14px] font-medium lg:flex">
             {NAV_ITEMS.map((item) => (
               <NavLink key={item.to} to={item.to} end={item.end} className={overlayNavLinkClass}>
                 {({ isActive }) => (
@@ -158,7 +158,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
       {/* Header */}
       <header className="relative border-b border-line bg-white">
         <Container className="flex items-center justify-between gap-5 py-5">
-          <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
+          <NavLink to="/" className="mr-4 flex shrink-0 items-center" onClick={() => setMenuOpen(false)}>
             <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-10 w-auto md:h-11" />
           </NavLink>
 
