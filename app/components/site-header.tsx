@@ -35,8 +35,8 @@ const NAV_ITEMS: NavItem[] = [
 
 function navLinkClass({ isActive }: { isActive: boolean }) {
   return isActive
-    ? "text-brand-600 font-bold"
-    : "text-ink-soft hover:text-brand-600";
+    ? "font-bold text-deep"
+    : "text-ink-soft hover:text-deep";
 }
 
 function overlayNavLinkClass({ isActive }: { isActive: boolean }) {
@@ -169,7 +169,12 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
           <nav className="hidden items-center gap-5 whitespace-nowrap text-[14.5px] font-medium lg:flex">
             {NAV_ITEMS.map((item) => (
               <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
-                {item.key ? t(item.key) : item.label}
+                {({ isActive }) => (
+                  <span className="inline-flex items-center gap-1.5">
+                    {isActive && <span className="h-1.5 w-1.5 rounded-full bg-lime" />}
+                    {item.key ? t(item.key) : item.label}
+                  </span>
+                )}
               </NavLink>
             ))}
           </nav>
@@ -177,7 +182,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
           <div className="flex items-center gap-3">
             <NavLink
               to="/contact#request"
-              className="hidden whitespace-nowrap rounded-lg bg-brand-600 px-[19px] py-[11px] text-[14.5px] font-semibold text-white hover:bg-brand-700 sm:inline-block"
+              className="hidden whitespace-nowrap rounded-full bg-deep px-[19px] py-[11px] text-[14.5px] font-semibold text-white hover:bg-forest sm:inline-block"
               onClick={() => setMenuOpen(false)}
             >
               {t("cta.requestService")}
@@ -208,7 +213,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
             <NavLink
               to="/contact#request"
               onClick={() => setMenuOpen(false)}
-              className="mt-4 block rounded-lg bg-brand-600 px-4 py-3 text-center text-[15px] font-semibold text-white sm:hidden"
+              className="mt-4 block rounded-full bg-deep px-4 py-3 text-center text-[15px] font-semibold text-white sm:hidden"
             >
               {t("cta.requestService")}
             </NavLink>
