@@ -2,7 +2,6 @@ import pool from "../../db";
 import PageHeader from "../components/page-header";
 import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
-import InitialsAvatar from "../components/initials-avatar";
 import WhatsAppIcon from "../components/whatsapp-icon";
 import SubmitButton from "../components/submit-button";
 import { useT, type StringKey } from "../lib/i18n";
@@ -148,9 +147,7 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
           {/* Contact card */}
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-4 rounded-2xl border border-line bg-brand-50 p-7">
-              <InitialsAvatar initials="SM" className="text-base" />
               <div>
-                <h3 className="text-lg font-bold text-ink">Simeon Musabende Umunyempuhwe</h3>
                 <span className="text-[13px] font-semibold text-brand-700">Project Manager</span>
               </div>
               <div className="flex flex-col gap-2.5 text-[14.5px] text-ink-soft">
@@ -184,7 +181,7 @@ export default function ContactPage({ loaderData, actionData }: Route.ComponentP
                   Send these details on WhatsApp
                 </a>
                 <p className="text-center text-[13px] text-muted-2">
-                  Optional. Opens WhatsApp with the details above pre-filled to Simeon's number. Your request is
+                  Optional. Opens WhatsApp with the details above pre-filled. Your request is
                   already saved either way.
                 </p>
               </div>

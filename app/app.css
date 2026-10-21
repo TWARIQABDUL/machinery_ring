@@ -19,10 +19,55 @@
   --color-muted: #5A6B60;
   --color-muted-2: #8A978F;
   --color-line: #E2E9E3;
+
+  /* Smart-agriculture design system additions */
+  --color-deep: #0F2A1A;
+  --color-forest: #1E3B26;
+  --color-cream: #FAFAF1;
+  --color-cream-2: #F2F4E4;
+  --color-lime: #7ED33A;
+  --color-star: #F5A623;
+}
+
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.typing-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.85em;
+  margin-left: 2px;
+  vertical-align: -0.1em;
+  background: currentColor;
+  opacity: 1;
+}
+/* Solid while a character is actively being typed/deleted. */
+.typing-caret--idle {
+  animation: caret-blink 1s step-end infinite;
+}
+/* A couple of deliberate blinks during the pause between words. */
+.typing-caret--beep {
+  animation-name: caret-blink;
+  animation-timing-function: step-end;
+  animation-iteration-count: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typing-caret--idle,
+  .typing-caret--beep { animation: none; }
+}
+
+.accent-word {
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 html,
 body {
+  font-size: 17.5px;
   background: #ffffff;
   color: var(--color-ink);
 }
@@ -136,6 +181,54 @@ body {
 .svc-dot:nth-child(2) { animation-delay: 4s; }
 .svc-dot:nth-child(3) { animation-delay: 8s; }
 .svc-dot:nth-child(4) { animation-delay: 12s; }
+
+/*
+ * Homepage hero slideshow: a true crossfade. Each slide's fade-out window
+ * exactly overlaps the next slide's fade-in window, so one photo dissolves
+ * into the next instead of both briefly going transparent at once.
+ */
+@keyframes hero-fade {
+  0%     { opacity: 0; }
+  9.4%   { opacity: 1; }
+  25%    { opacity: 1; }
+  34.4%  { opacity: 0; }
+  100%   { opacity: 0; }
+}
+@keyframes hero-fade-dot {
+  0%     { background: rgba(255, 255, 255, 0.4); }
+  9.4%   { background: #ffffff; }
+  25%    { background: #ffffff; }
+  34.4%  { background: rgba(255, 255, 255, 0.4); }
+  100%   { background: rgba(255, 255, 255, 0.4); }
+}
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: hero-fade 16s ease-in-out infinite;
+}
+.hero-fade:nth-child(1) { animation-delay: 0s; }
+.hero-fade:nth-child(2) { animation-delay: 4s; }
+.hero-fade:nth-child(3) { animation-delay: 8s; }
+.hero-fade:nth-child(4) { animation-delay: 12s; }
+.hero-fade-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  animation: hero-fade-dot 16s ease-in-out infinite;
+}
+.hero-fade-dot:nth-child(1) { animation-delay: 0s; }
+.hero-fade-dot:nth-child(2) { animation-delay: 4s; }
+.hero-fade-dot:nth-child(3) { animation-delay: 8s; }
+.hero-fade-dot:nth-child(4) { animation-delay: 12s; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade { animation: none !important; opacity: 0 !important; }
+  .hero-fade:first-child { opacity: 1 !important; }
+  .hero-fade-dot { animation: none !important; background: rgba(255, 255, 255, 0.4) !important; }
+  .hero-fade-dot:first-child { background: #ffffff !important; }
+}
 
 /* Partners marquee: one duplicated row scrolling continuously. */
 .marquee-mask {

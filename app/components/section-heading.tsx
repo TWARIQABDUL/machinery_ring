@@ -16,7 +16,7 @@ export default function SectionHeading({
   className,
 }: {
   eyebrow: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   tone?: "light" | "dark";
   action?: { to: string; label: string };
@@ -25,7 +25,7 @@ export default function SectionHeading({
   const intro = (
     <div className={cn("flex max-w-[38em] flex-col gap-3", className)}>
       <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
-      <h2 className={cn("font-display text-2xl font-extrabold md:text-[28px]", tone === "dark" ? "text-white" : "text-ink")}>
+      <h2 className={cn("font-display text-2xl font-normal tracking-[-0.01em] md:text-[28px]", tone === "dark" ? "text-white" : "text-ink")}>
         {title}
       </h2>
       {description && <p className={cn("text-[15.5px]", tone === "dark" ? "text-[#CDE8D6]" : "text-muted")}>{description}</p>}

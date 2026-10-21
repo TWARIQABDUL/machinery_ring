@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import SiteHeader from "../components/site-header";
 import Container from "../components/container";
 import SectionHeading from "../components/section-heading";
 import IconBadge from "../components/icon-badge";
@@ -6,6 +8,93 @@ import CtaBand from "../components/cta-band";
 import { cn } from "../lib/cn";
 import { useT, type StringKey } from "../lib/i18n";
 import type { Route } from "./+types/homepage";
+
+// Loops `text` through type → pause → delete → pause. Typing advances word
+// by word: a word's letters appear, then at the space the caret stops and
+// blinks twice — like someone pausing between words — before the next word
+// starts. Restarts whenever `text` changes (e.g. the language toggle
+// switches home.title to its Kinyarwanda translation).
+function TypewriterText({
+  text,
+  typingSpeed = 58,
+  beepDuration = 420,
+  deletingSpeed = 20,
+  pauseAfterTyped = 1800,
+  pauseAfterDeleted = 500,
+}: {
+  text: string;
+  typingSpeed?: number;
+  beepDuration?: number;
+  deletingSpeed?: number;
+  pauseAfterTyped?: number;
+  pauseAfterDeleted?: number;
+}) {
+  const [shown, setShown] = useState("");
+  const [caretMode, setCaretMode] = useState<"solid" | "beep" | "idle">("solid");
+  const [beepKey, setBeepKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    function typeFrom(i: number) {
+      if (cancelled) return;
+      setShown(text.slice(0, i));
+
+      if (i >= text.length) {
+        setCaretMode("idle");
+        timeoutId = setTimeout(() => deleteFrom(text.length), pauseAfterTyped);
+        return;
+      }
+
+      if (i > 0 && text[i - 1] === " ") {
+        // Just finished a word: beep the caret twice, then type the next one.
+        setCaretMode("beep");
+        setBeepKey((k) => k + 1);
+        timeoutId = setTimeout(() => {
+          setCaretMode("solid");
+          typeFrom(i + 1);
+        }, beepDuration * 2);
+        return;
+      }
+
+      setCaretMode("solid");
+      timeoutId = setTimeout(() => typeFrom(i + 1), typingSpeed);
+    }
+
+    function deleteFrom(i: number) {
+      if (cancelled) return;
+      setShown(text.slice(0, i));
+      if (i > 0) {
+        setCaretMode("solid");
+        timeoutId = setTimeout(() => deleteFrom(i - 1), deletingSpeed);
+      } else {
+        setCaretMode("idle");
+        timeoutId = setTimeout(() => typeFrom(0), pauseAfterDeleted);
+      }
+    }
+
+    typeFrom(0);
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [text, typingSpeed, beepDuration, deletingSpeed, pauseAfterTyped, pauseAfterDeleted]);
+
+  return (
+    <>
+      <span aria-hidden="true">
+        {shown}
+        <span
+          key={caretMode === "beep" ? `beep-${beepKey}` : caretMode}
+          className={cn("typing-caret", caretMode !== "solid" && `typing-caret--${caretMode}`)}
+          style={caretMode === "beep" ? { animationDuration: `${beepDuration}ms` } : undefined}
+        />
+      </span>
+      <span className="sr-only">{text}</span>
+    </>
+  );
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -85,128 +174,112 @@ const STATS = [
 
 export default function HomePage() {
   const t = useT();
+
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-white">
-        <Container className="grid gap-14 py-16 md:grid-cols-2 md:items-center md:py-20">
-          <div className="flex flex-col gap-5">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[13px] font-semibold text-brand-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
-              Farmer&#8209;led cooperation &middot; Gashora Sector, Bugesera
-            </span>
-            <h1 className="font-display text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              {t("home.title")}
+      <section className="bg-deep px-3 pb-3 pt-3 md:px-6 md:pb-6 md:pt-6">
+        <div className="relative overflow-hidden rounded-[24px] border border-white/10">
+          {/* Crossfading photo slideshow — these four images paint first, so the
+              content below (added after them in markup) layers on top without
+              needing z-index. */}
+          <img
+            src="https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            alt="Aerial view of farmland across the hills — the landscape Machinery Ring Rwanda farmers work every season"
+            className="hero-fade h-full w-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <img
+            src="/images/gallery/SAGA0306.jpg"
+            alt="Farmers gathered at a Machinery Ring Rwanda demonstration and training event"
+            className="hero-fade h-full w-full object-cover"
+          />
+          <img
+            src="/images/gallery/SAGA0271.jpg"
+            alt="Farmers and trainers gathered around machinery during a Machinery Ring Rwanda training event"
+            className="hero-fade h-full w-full object-cover"
+          />
+          <img
+            src="/images/gallery/9L9A7764.JPG"
+            alt="Machinery Ring Rwanda farmers celebrating together at a field day with shared equipment"
+            className="hero-fade h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(15,42,26,0.35)] to-[rgba(15,42,26,0.85)]" />
+
+          <div className="relative flex min-h-[560px] flex-col px-6 pb-8 pt-5 md:min-h-[600px] md:px-10 md:pb-10 md:pt-6">
+            <div className="sticky top-0 z-50 -mx-6 -mt-5 bg-deep/90 px-6 pt-5 backdrop-blur-sm md:-mx-10 md:-mt-6 md:px-10 md:pt-6">
+              <SiteHeader variant="overlay" />
+            </div>
+
+            <h1 className="mt-10 max-w-[640px] font-display text-[30px] font-normal leading-[1.2] tracking-[-0.01em] text-white md:mt-12 md:text-[44px]">
+              <TypewriterText text={t("home.title")} />
             </h1>
-            <p className="max-w-[32em] text-lg text-muted">{t("home.body")}</p>
-            <div className="flex flex-wrap gap-3.5">
-              <Link
-                to="/contact#request"
-                className="rounded-lg bg-brand-600 px-6 py-3.5 text-base font-semibold text-white hover:bg-brand-700"
-              >
-                {t("cta.requestService")}
-              </Link>
-              <Link
-                to="/services"
-                className="rounded-lg border-[1.5px] border-brand-200 bg-white px-6 py-3.5 text-base font-semibold text-brand-700 hover:bg-brand-50"
-              >
-                {t("cta.seeServices")}
-              </Link>
+
+            <div className="mt-auto max-w-[420px] self-end text-right">
+              <p className="text-[14px] leading-relaxed text-white/85">{t("home.body")}</p>
+              <div className="mt-4 flex flex-wrap justify-end gap-3">
+                <Link
+                  to="/contact#request"
+                  className="rounded-full bg-white px-5 py-2.5 text-[13px] font-semibold text-deep hover:bg-cream"
+                >
+                  {t("cta.requestService")}
+                </Link>
+                <Link
+                  to="/services"
+                  className="rounded-full border border-white/50 px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-white/10"
+                >
+                  {t("cta.seeServices")}
+                </Link>
+              </div>
             </div>
-          </div>
 
-          {/* Sliding image stack */}
-          <div className="relative py-6 pr-6 md:pr-12">
-            <div className="absolute right-0 top-2 h-[92%] w-[82%] rounded-[22px] bg-brand-50" />
-            <div className="relative aspect-[3/2]">
-              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <img
-                  src="https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280"
-                  alt="Lush green fields stretching across the hills — the kind of landscape Machinery Ring Rwanda farmers work every season"
-                  className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
-                  <span className="text-[13px] font-medium text-white">
-                    Green fields across the growing season — the landscape MR Rwanda farmers work together.
-                  </span>
+            <div className="mt-auto flex justify-end pt-14">
+              <div className="flex shrink-0 items-center gap-6">
+                <div className="hidden items-center gap-1.5 md:flex" aria-hidden="true">
+                  <span className="hero-fade-dot" />
+                  <span className="hero-fade-dot" />
+                  <span className="hero-fade-dot" />
+                  <span className="hero-fade-dot" />
                 </div>
-              </div>
-
-              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <img
-                  src="/images/gallery/SAGA0271.jpg"
-                  alt="Farmers and trainers gathered around machinery during a Machinery Ring Rwanda training event"
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
-                  <span className="text-[13px] font-medium text-white">
-                    Hands-on training — farmers learning to use shared machinery across the Ring.
+                <a
+                  href="#support"
+                  className="flex items-center gap-2.5 text-[13px] font-medium text-white/80 hover:text-white"
+                >
+                  Explore More
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-lime text-deep">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M7 17 17 7M9 7h8v8" />
+                    </svg>
                   </span>
-                </div>
-              </div>
-
-              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <img
-                  src="https://images.pexels.com/photos/12835164/pexels-photo-12835164.jpeg?auto=compress&cs=tinysrgb&w=1280"
-                  alt="Crops growing on a plantation, showing productive agricultural land under cultivation"
-                  className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
-                  <span className="text-[13px] font-medium text-white">
-                    Productive land under cultivation — supported by shared machinery access.
-                  </span>
-                </div>
-              </div>
-
-              <div className="hero-slide overflow-hidden rounded-2xl bg-brand-900 shadow-[0_20px_45px_-20px_rgba(15,61,36,0.45)]">
-                <img
-                  src="/images/gallery/9L9A7764.JPG"
-                  alt="Machinery Ring Rwanda farmers celebrating together at a field day with shared equipment"
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-4.5 pb-3.5 pt-5">
-                  <span className="text-[13px] font-medium text-white">
-                    The Machinery Ring Rwanda community — farmers and partners united through shared access.
-                  </span>
-                </div>
-              </div>
-
-              <div className="absolute inset-x-0 -bottom-6 z-10 flex justify-center gap-1.5">
-                <span className="hero-dot" />
-                <span className="hero-dot" />
-                <span className="hero-dot" />
-                <span className="hero-dot" />
+                </a>
               </div>
             </div>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* ── Stats strip ── */}
-      <section className="bg-navy">
-        <Container>
-          <div className="grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
-            {STATS.map((stat, i) => (
-              <div
-                key={stat.label}
-                className={`flex flex-col gap-1 py-8 ${i === 0 ? "pr-6" : i === STATS.length - 1 ? "pl-6" : "px-6"}`}
-              >
-                <span className="font-display text-[30px] font-extrabold text-brand-600">{stat.value}</span>
-                <span className="text-[13px] text-[#A9CFB6]">{stat.label}</span>
+      {/* ── Stats pill — floats over the seam between the hero and the next section ── */}
+      <div className="relative z-10 flex justify-center px-4">
+        <div className="-mt-9 grid grid-cols-2 gap-x-8 gap-y-4 rounded-2xl border border-line bg-white px-7 py-5 shadow-[0_24px_48px_-20px_rgba(15,42,26,0.35)] sm:gap-x-12 md:-mt-11 md:flex md:gap-0 md:divide-x md:divide-line md:rounded-full md:px-3 md:py-1.5">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="flex flex-col items-center gap-0.5 text-center md:px-9 md:py-3.5">
+                <span className="font-display text-[20px] font-bold text-deep md:text-[26px]">{stat.value}</span>
+                <span className="text-[11px] text-muted md:whitespace-nowrap md:text-[12px]">{stat.label}</span>
               </div>
             ))}
-          </div>
-        </Container>
-      </section>
+        </div>
+      </div>
 
       {/* ── How we support farmers ── */}
-      <section className="bg-white">
+      <section id="support" className="bg-white">
         <Container className="py-16 md:py-20">
           <SectionHeading
             eyebrow={t("home.supportEyebrow")}
-            title="Machinery, learning and organisation. Together."
+            title={
+              <>
+                Machinery, learning and organisation. <em className="accent-word">Together.</em>
+              </>
+            }
             className="mb-10 max-w-[40em]"
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
@@ -217,7 +290,7 @@ export default function HomePage() {
                 alt="Farmers gathered at a Machinery Ring Rwanda demonstration and training event"
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-900/85 via-brand-900/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-deep/85 via-deep/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-3 p-7">
                 <p className="text-[22px] font-bold leading-snug text-white">
                   Farmers working together, every season
@@ -248,7 +321,7 @@ export default function HomePage() {
               {SUPPORT_PILLARS.map((pillar) => (
                 <div
                   key={pillar.titleKey}
-                  className="flex flex-col gap-2.5 rounded-2xl border border-line bg-[#F7F9F7] p-6"
+                  className="flex flex-col gap-2.5 rounded-2xl border border-line bg-cream-2 p-6"
                 >
                   <IconBadge size="sm">{pillar.icon}</IconBadge>
                   <h3 className="text-base font-bold text-ink">{t(pillar.titleKey)}</h3>
@@ -261,11 +334,15 @@ export default function HomePage() {
       </section>
 
       {/* ── Explore ── */}
-      <section className="bg-[#F7F9F7]">
+      <section className="bg-cream-2">
         <Container className="py-16 md:py-20">
           <SectionHeading
             eyebrow="Explore"
-            title="Everything Machinery Ring Rwanda does"
+            title={
+              <>
+                <em className="accent-word">Everything</em> Machinery Ring Rwanda does
+              </>
+            }
             className="mb-10 max-w-[38em]"
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -311,7 +388,11 @@ export default function HomePage() {
       </section>
 
       <CtaBand
-        title="Tell us what you need"
+        title={
+          <>
+            Tell us what you <em className="accent-word">need</em>
+          </>
+        }
         description="Contact us with your location, crop, required service and preferred timing. We will discuss availability, cost and the next steps."
         actions={[
           { label: t("cta.requestService"), to: "/contact#request" },

@@ -14,11 +14,12 @@ export default function Eyebrow({
   return (
     <span
       className={cn(
-        "text-[13px] font-bold uppercase tracking-wide",
-        tone === "dark" ? "text-[#9FD3AE]" : "text-brand-700",
+        "inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wide",
+        tone === "dark" ? "text-[#9FD3AE]" : "text-muted",
         className
       )}
     >
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-lime" />
       {children}
     </span>
   );
