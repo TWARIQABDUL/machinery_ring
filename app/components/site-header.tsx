@@ -161,7 +161,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
       <header className="relative border-b border-line bg-white">
         <Container className="flex items-center justify-between gap-5 py-5">
           <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
-            <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-24 w-auto" />
+            <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-10 w-auto md:h-11" />
           </NavLink>
 
           <nav className="hidden items-center gap-5 whitespace-nowrap text-[14.5px] font-medium lg:flex">

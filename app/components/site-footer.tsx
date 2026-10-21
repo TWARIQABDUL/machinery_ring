@@ -45,7 +45,7 @@ export default function SiteFooter() {
           <div className="flex flex-col gap-4 lg:col-span-1">
             <div className="flex items-center">
               <div className="rounded-lg bg-white px-3 py-2">
-                <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-14 w-auto" />
+                <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-7 w-auto" />
               </div>
             </div>
             <p className="max-w-[24em] text-[13.5px] text-[#8FB8A0]">{t("footer.tagline")}</p>
