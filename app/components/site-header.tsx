@@ -52,11 +52,9 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
       <header className="relative">
         <Container className="flex items-center justify-between gap-6 border-b border-white/15 pb-5">
           <NavLink to="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
-            <img
-              src="/logo_MR.png"
-              alt="Machinery Ring Rwanda"
-              className="h-12 w-auto rounded-md md:h-14"
-            />
+            <span className="inline-flex items-center rounded-lg bg-white px-3 py-2">
+              <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-7 w-auto md:h-8" />
+            </span>
           </NavLink>
 
           <nav className="hidden items-center gap-7 whitespace-nowrap text-[14px] font-medium lg:flex">
