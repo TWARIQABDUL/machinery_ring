@@ -85,10 +85,10 @@ export default function OurWorkPage() {
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-10">
             {STATS.map((stat) => (
               <div key={stat.labelKey} className="flex flex-col gap-3">
-                <span className="font-display text-[52px] font-extrabold leading-none text-brand-600 md:text-[64px]">
+                <span className="font-display text-[52px] font-extrabold leading-none text-white md:text-[64px]">
                   {stat.value}
                 </span>
-                <div className="h-[3px] w-10 rounded-full bg-brand-600" />
+                <div className="h-[3px] w-10 rounded-full bg-lime" />
                 <span className="text-[13.5px] text-[#A9CFB6]">{t(stat.labelKey)}</span>
               </div>
             ))}

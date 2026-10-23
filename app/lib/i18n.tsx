@@ -208,7 +208,7 @@ export const STRINGS = {
   },
 
   // ── Our Work page ───────────────────────────────────────────────────────
-  "ourwork.hero.title": { en: "How we work with farmers across five local Rings", rw: "Uko dukorana n'abahinzi mu matsinda atanu yo mu gace" },
+  "ourwork.hero.title": { en: "Our Work and Impact", rw: "Ibikorwa byacu n'Umusaruro byagezweho" },
   "ourwork.hero.body": {
     en: "Our work combines farmer organisation, machinery access and practical learning. Local Rings bring requests together, while training and field activities build the skills needed to use and manage equipment.",
     rw: "Ibikorwa byacu bihuza imiterere y'abahinzi, uburyo bwo kubona imashini n'amahugurwa ngiro. Amatsinda yo mu gace ahuza ubusabe, mu gihe amahugurwa n'ibikorwa byo mu murima bibaka ubumenyi bukenewe mu gukoresha no gucunga imashini.",
