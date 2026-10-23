@@ -163,7 +163,7 @@ export const STRINGS = {
     rw: "Ibikorwa mu Rwanda byatangiye mu 2024, byibanda ku gushinga amatsinda yo mu gace, kuzana imashini, gutegura amahugurwa no gukora imirima y'ibyerekanwa. Machinery Ring Rwanda yemejwe n'amategeko mu 2025. Uruhare rw'abo mu gace rufasha kugena serivisi ziteza imbere n'uko zitunganywa.",
   },
   "about.devCaption": {
-    en: "Machinery Ring Rwanda farmers and staff — the community behind the cooperative.",
+    en: "Machinery Ring Rwanda farmers and staff — the community behind the organisation.",
     rw: "Abahinzi n'abakozi ba Machinery Ring Rwanda — umuryango ushyigikira ubufatanye.",
   },
   "about.ringsEyebrow": { en: "Our local Rings", rw: "Amatsinda yacu yo mu gace" },

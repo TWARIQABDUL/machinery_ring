@@ -159,7 +159,7 @@ const EXPLORE_LINKS = [
   {
     to: "/marketplace",
     title: "Browse the marketplace",
-    body: "Equipment, spare parts and inputs the cooperative can source or arrange.",
+    body: "Equipment, spare parts and inputs Machinery Ring Rwanda can source or arrange.",
     image: "https://images.pexels.com/photos/13387076/pexels-photo-13387076.jpeg?auto=compress&cs=tinysrgb&w=1280",
     imageAlt: "Tractor working in a field under a bright sky",
   },
@@ -204,36 +204,36 @@ export default function HomePage() {
             alt="Machinery Ring Rwanda farmers celebrating together at a field day with shared equipment"
             className="hero-fade h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(15,42,26,0.35)] to-[rgba(15,42,26,0.85)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[rgba(15,42,26,0.12)] to-[rgba(15,42,26,0.58)]" />
 
           <div className="relative flex min-h-[560px] flex-col px-6 pb-8 pt-5 md:min-h-[600px] md:px-10 md:pb-10 md:pt-6">
             <div className="sticky top-0 z-50 -mx-6 -mt-5 bg-deep/90 px-6 pt-5 backdrop-blur-sm md:-mx-10 md:-mt-6 md:px-10 md:pt-6">
               <SiteHeader variant="overlay" />
             </div>
 
-            <h1 className="mt-10 max-w-[640px] font-display text-[30px] font-normal leading-[1.2] tracking-[-0.01em] text-white md:mt-12 md:text-[44px]">
-              <TypewriterText text={t("home.title")} />
-            </h1>
-
-            <div className="mt-auto max-w-[420px] self-end text-right">
-              <p className="text-[14px] leading-relaxed text-white/85">{t("home.body")}</p>
-              <div className="mt-4 flex flex-wrap justify-end gap-3">
+            {/* Headline, description and CTAs grouped as one left-aligned block. */}
+            <div className="mt-auto flex max-w-[640px] flex-col gap-5">
+              <h1 className="font-display text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-white md:text-[48px]">
+                <TypewriterText text={t("home.title")} />
+              </h1>
+              <p className="max-w-[46em] text-[15px] leading-relaxed text-white/85 md:text-base">{t("home.body")}</p>
+              <div className="flex flex-wrap gap-4 pt-1">
                 <Link
                   to="/contact#request"
-                  className="rounded-full bg-white px-5 py-2.5 text-[13px] font-semibold text-deep hover:bg-cream"
+                  className="rounded-full bg-white px-7 py-4 text-[15px] font-semibold text-deep hover:bg-cream"
                 >
                   {t("cta.requestService")}
                 </Link>
                 <Link
                   to="/services"
-                  className="rounded-full border border-white/50 px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-white/10"
+                  className="rounded-full border border-white/50 px-7 py-4 text-[15px] font-semibold text-white hover:bg-white/10"
                 >
                   {t("cta.seeServices")}
                 </Link>
               </div>
             </div>
 
-            <div className="mt-auto flex justify-end pt-14">
+            <div className="mt-10 flex justify-end">
               <div className="flex shrink-0 items-center gap-6">
                 <div className="hidden items-center gap-1.5 md:flex" aria-hidden="true">
                   <span className="hero-fade-dot" />
@@ -275,11 +275,7 @@ export default function HomePage() {
         <Container className="py-16 md:py-20">
           <SectionHeading
             eyebrow={t("home.supportEyebrow")}
-            title={
-              <>
-                Machinery, learning and organisation. <em className="accent-word">Together.</em>
-              </>
-            }
+            title="How MR Rwanda Supports Farmers"
             className="mb-10 max-w-[40em]"
           />
           <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
@@ -297,7 +293,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   to="/our-work"
-                  className="inline-flex w-fit items-center gap-1.5 border-b border-white/40 pb-0.5 text-sm font-semibold text-white"
+                  className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-deep hover:bg-cream"
                 >
                   See our work
                   <svg

@@ -55,7 +55,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
             <img src="/logo_MR_white.png" alt="Machinery Ring Rwanda" className="h-8 w-auto md:h-9" />
           </NavLink>
 
-          <nav className="hidden items-center gap-5 whitespace-nowrap text-[14px] font-medium lg:flex">
+          <nav className="hidden items-center gap-6 whitespace-nowrap text-[15.5px] font-medium lg:flex">
             {NAV_ITEMS.map((item) => (
               <NavLink key={item.to} to={item.to} end={item.end} className={overlayNavLinkClass}>
                 {({ isActive }) => (
@@ -162,7 +162,7 @@ export default function SiteHeader({ variant = "default" }: { variant?: "default
             <img src="/logo_MR.png" alt="Machinery Ring Rwanda" className="h-10 w-auto md:h-11" />
           </NavLink>
 
-          <nav className="hidden items-center gap-5 whitespace-nowrap text-[14.5px] font-medium lg:flex">
+          <nav className="hidden items-center gap-6 whitespace-nowrap text-[15.5px] font-medium lg:flex">
             {NAV_ITEMS.map((item) => (
               <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
                 {({ isActive }) => (

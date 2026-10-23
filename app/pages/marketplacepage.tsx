@@ -63,7 +63,7 @@ export default function MarketplacePage({ loaderData }: Route.ComponentProps) {
       <PageHeader
         crumb="Marketplace"
         title="Marketplace"
-        intro="Equipment, spare parts and inputs the cooperative sources or has arranged access to. Browse what's available, then send an inquiry — a request here doesn't confirm a purchase until we've discussed availability and price with you."
+        intro="Equipment, spare parts and inputs Machinery Ring Rwanda sources or has arranged access to. Browse what's available, then send an inquiry — a request here doesn't confirm a purchase until we've discussed availability and price with you."
       />
 
       <section className="bg-white">
