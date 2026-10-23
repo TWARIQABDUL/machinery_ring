@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import SiteHeader from "../components/site-header";
 import Container from "../components/container";
@@ -8,93 +7,6 @@ import CtaBand from "../components/cta-band";
 import { cn } from "../lib/cn";
 import { useT, type StringKey } from "../lib/i18n";
 import type { Route } from "./+types/homepage";
-
-// Loops `text` through type → pause → delete → pause. Typing advances word
-// by word: a word's letters appear, then at the space the caret stops and
-// blinks twice — like someone pausing between words — before the next word
-// starts. Restarts whenever `text` changes (e.g. the language toggle
-// switches home.title to its Kinyarwanda translation).
-function TypewriterText({
-  text,
-  typingSpeed = 58,
-  beepDuration = 420,
-  deletingSpeed = 20,
-  pauseAfterTyped = 1800,
-  pauseAfterDeleted = 500,
-}: {
-  text: string;
-  typingSpeed?: number;
-  beepDuration?: number;
-  deletingSpeed?: number;
-  pauseAfterTyped?: number;
-  pauseAfterDeleted?: number;
-}) {
-  const [shown, setShown] = useState("");
-  const [caretMode, setCaretMode] = useState<"solid" | "beep" | "idle">("solid");
-  const [beepKey, setBeepKey] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    function typeFrom(i: number) {
-      if (cancelled) return;
-      setShown(text.slice(0, i));
-
-      if (i >= text.length) {
-        setCaretMode("idle");
-        timeoutId = setTimeout(() => deleteFrom(text.length), pauseAfterTyped);
-        return;
-      }
-
-      if (i > 0 && text[i - 1] === " ") {
-        // Just finished a word: beep the caret twice, then type the next one.
-        setCaretMode("beep");
-        setBeepKey((k) => k + 1);
-        timeoutId = setTimeout(() => {
-          setCaretMode("solid");
-          typeFrom(i + 1);
-        }, beepDuration * 2);
-        return;
-      }
-
-      setCaretMode("solid");
-      timeoutId = setTimeout(() => typeFrom(i + 1), typingSpeed);
-    }
-
-    function deleteFrom(i: number) {
-      if (cancelled) return;
-      setShown(text.slice(0, i));
-      if (i > 0) {
-        setCaretMode("solid");
-        timeoutId = setTimeout(() => deleteFrom(i - 1), deletingSpeed);
-      } else {
-        setCaretMode("idle");
-        timeoutId = setTimeout(() => typeFrom(0), pauseAfterDeleted);
-      }
-    }
-
-    typeFrom(0);
-    return () => {
-      cancelled = true;
-      clearTimeout(timeoutId);
-    };
-  }, [text, typingSpeed, beepDuration, deletingSpeed, pauseAfterTyped, pauseAfterDeleted]);
-
-  return (
-    <>
-      <span aria-hidden="true">
-        {shown}
-        <span
-          key={caretMode === "beep" ? `beep-${beepKey}` : caretMode}
-          className={cn("typing-caret", caretMode !== "solid" && `typing-caret--${caretMode}`)}
-          style={caretMode === "beep" ? { animationDuration: `${beepDuration}ms` } : undefined}
-        />
-      </span>
-      <span className="sr-only">{text}</span>
-    </>
-  );
-}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -214,7 +126,7 @@ export default function HomePage() {
             {/* Headline, description and CTAs grouped as one left-aligned block. */}
             <div className="mt-auto flex max-w-[640px] flex-col gap-5">
               <h1 className="font-display text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-white md:text-[48px]">
-                <TypewriterText text={t("home.title")} />
+                {t("home.title")}
               </h1>
               <p className="max-w-[46em] text-[15px] leading-relaxed text-white/85 md:text-base">{t("home.body")}</p>
               <div className="flex flex-wrap gap-4 pt-1">

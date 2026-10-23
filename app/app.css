@@ -29,35 +29,6 @@
   --color-star: #F5A623;
 }
 
-@keyframes caret-blink {
-  0%, 45% { opacity: 1; }
-  50%, 95% { opacity: 0; }
-  100% { opacity: 1; }
-}
-.typing-caret {
-  display: inline-block;
-  width: 2px;
-  height: 0.85em;
-  margin-left: 2px;
-  vertical-align: -0.1em;
-  background: currentColor;
-  opacity: 1;
-}
-/* Solid while a character is actively being typed/deleted. */
-.typing-caret--idle {
-  animation: caret-blink 1s step-end infinite;
-}
-/* A couple of deliberate blinks during the pause between words. */
-.typing-caret--beep {
-  animation-name: caret-blink;
-  animation-timing-function: step-end;
-  animation-iteration-count: 2;
-}
-@media (prefers-reduced-motion: reduce) {
-  .typing-caret--idle,
-  .typing-caret--beep { animation: none; }
-}
-
 .accent-word {
   font-style: italic;
   text-decoration: underline;
