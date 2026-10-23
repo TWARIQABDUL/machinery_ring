@@ -119,16 +119,16 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-[rgba(15,42,26,0.12)] to-[rgba(15,42,26,0.58)]" />
 
           <div className="relative flex min-h-[560px] flex-col px-6 pb-8 pt-5 md:min-h-[600px] md:px-10 md:pb-10 md:pt-6">
-            <div className="sticky top-0 z-50 -mx-6 -mt-5 bg-deep/90 px-6 pt-5 backdrop-blur-sm md:-mx-10 md:-mt-6 md:px-10 md:pt-6">
+            <div className="sticky top-0 z-50 -mx-6 -mt-5 bg-gradient-to-b from-deep/85 from-60% to-transparent px-6 pb-6 pt-5 md:-mx-10 md:-mt-6 md:px-10 md:pt-6">
               <SiteHeader variant="overlay" />
             </div>
 
             {/* Headline, description and CTAs grouped as one left-aligned block. */}
             <div className="mt-auto flex max-w-[640px] flex-col gap-5">
-              <h1 className="font-display text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-white md:text-[48px]">
+              <h1 className="font-display text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.6)] md:text-[48px]">
                 {t("home.title")}
               </h1>
-              <p className="max-w-[46em] text-[15px] leading-relaxed text-white/85 md:text-base">{t("home.body")}</p>
+              <p className="max-w-[46em] text-[15px] leading-relaxed text-white/90 [text-shadow:0_1px_10px_rgba(0,0,0,0.55)] md:text-base">{t("home.body")}</p>
               <div className="flex flex-wrap gap-4 pt-1">
                 <Link
                   to="/contact#request"
