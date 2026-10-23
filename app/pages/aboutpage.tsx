@@ -99,6 +99,14 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               {t("about.hero.title")}
             </h1>
             <p className="text-[16.5px] leading-[1.7] text-[#CDE8D6]">{t("about.hero.body")}</p>
+            <ul className="flex flex-col gap-2.5">
+              {MISSION_POINTS.map((key) => (
+                <li key={key} className="flex items-start gap-3">
+                  <Check dark />
+                  <span className="text-[14.5px] text-[#CDE8D6]">{t(key)}</span>
+                </li>
+              ))}
+            </ul>
             <div className="flex flex-wrap gap-3.5 pt-1">
               <Link
                 to="/contact"
@@ -265,37 +273,24 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
             description={t("about.teamDescription")}
             className="mb-10 max-w-[40em]"
           />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-[3fr_2fr]">
-            {/* Featured card — horizontal, large */}
-            <div className="flex gap-6 overflow-hidden rounded-2xl border border-line bg-[#F7F9F7] p-7">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-deep">
-                <span className="font-display text-2xl font-extrabold text-white">{TEAM[0].initials}</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <div>
-                  <h3 className="text-[17px] font-bold text-ink">{TEAM[0].name}</h3>
-                  <span className="text-[13px] font-semibold text-brand-700">{TEAM[0].role}</span>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {TEAM.map((person) => (
+              <div
+                key={person.initials}
+                className="flex flex-col gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-6"
+              >
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-deep">
+                  <span className="font-display text-lg font-extrabold text-white">{person.initials}</span>
                 </div>
-                <p className="text-[13.5px] leading-[1.7] text-muted">{t(TEAM[0].bioKey)}</p>
-              </div>
-            </div>
-            {/* Two compact stacked cards */}
-            <div className="flex flex-col gap-4">
-              {TEAM.slice(1).map((person) => (
-                <div key={person.initials} className="flex gap-4 rounded-2xl border border-line bg-[#F7F9F7] p-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-deep">
-                    <span className="font-display text-sm font-extrabold text-white">{person.initials}</span>
+                <div className="flex flex-col gap-1.5">
+                  <div>
+                    <h3 className="text-[15.5px] font-bold text-ink">{person.name}</h3>
+                    <span className="text-[12.5px] font-semibold text-brand-700">{person.role}</span>
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <div>
-                      <h3 className="text-[14.5px] font-bold text-ink">{person.name}</h3>
-                      <span className="text-[12px] font-semibold text-brand-700">{person.role}</span>
-                    </div>
-                    <p className="text-[13px] leading-[1.6] text-muted">{t(person.bioKey)}</p>
-                  </div>
+                  <p className="text-[13.5px] leading-[1.65] text-muted">{t(person.bioKey)}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </Container>
       </section>

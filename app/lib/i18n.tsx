@@ -106,10 +106,10 @@ export const STRINGS = {
   "shared.joinLinkSoon": { en: "Join link coming soon", rw: "Ihuza ryo kwinjira riraza vuba" },
 
   // ── About page ──────────────────────────────────────────────────────────
-  "about.hero.title": { en: "Farmer-led machinery cooperation in Rwanda", rw: "Ubufatanye bw'abahinzi mu ikoreshwa ry'imashini mu Rwanda" },
+  "about.hero.title": { en: "About Machinery Ring Rwanda", rw: "Ibyerekeye Machinery Ring Rwanda" },
   "about.hero.body": {
-    en: "We work with local farmer groups to coordinate machinery access, practical skills and the organisation needed to manage agricultural activities — together.",
-    rw: "Dukorana n'amatsinda y'abahinzi yo mu gace kugira ngo duhuze uburyo bwo kubona imashini, ubumenyi ngiro n'imiterere ikenewe mu gucunga ibikorwa by'ubuhinzi, dufatanyije.",
+    en: "Our mission is to help farmers in Rwanda improve productivity and livelihoods through affordable shared machinery services, practical training and stronger farmer cooperation, while promoting sustainable farming practices.",
+    rw: "Intego yacu ni ugufasha abahinzi bo mu Rwanda kongera umusaruro no guteza imbere imibereho yabo, binyuze muri serivisi zisangiwe z'imashini zihendutse, amahugurwa ngiro n'ubufatanye bukomeye bw'abahinzi, mu gihe dushyigikira uburyo bwo guhinga burambye.",
   },
   "about.hero.cta1": { en: "Get in touch", rw: "Twandikire" },
   "about.hero.cta2": { en: "See our work", rw: "Reba ibikorwa byacu" },
