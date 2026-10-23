@@ -197,6 +197,7 @@ export default function HomePage() {
                 src="/images/gallery/SAGA0306.jpg"
                 alt="Farmers gathered at a Machinery Ring Rwanda demonstration and training event"
                 className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep/85 via-deep/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-3 p-7">
@@ -267,6 +268,7 @@ export default function HomePage() {
                   src={item.image}
                   alt={item.imageAlt}
                   className="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[rgba(9,38,22,0.88)] via-[rgba(9,38,22,0.35)] to-transparent" />

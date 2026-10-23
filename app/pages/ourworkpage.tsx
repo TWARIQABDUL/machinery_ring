@@ -128,6 +128,7 @@ export default function OurWorkPage() {
                   src={img.src}
                   alt={img.alt}
                   className="aspect-[3/4] w-full object-cover md:aspect-[4/5]"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -144,6 +145,7 @@ export default function OurWorkPage() {
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="lazy"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-deep/97 via-deep/85 to-deep/50" />

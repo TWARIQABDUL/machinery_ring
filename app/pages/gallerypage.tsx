@@ -92,6 +92,7 @@ export default function GalleryPage({ loaderData }: Route.ComponentProps) {
                     src={photo.src}
                     alt={photo.caption}
                     className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    loading="lazy"
                   />
                   <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 bg-gradient-to-t from-[rgba(9,38,22,0.82)] to-transparent px-3.5 py-3">
                     <StatusBadge tone="overlay" size="sm">

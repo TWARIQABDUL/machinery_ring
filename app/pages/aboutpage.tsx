@@ -212,6 +212,7 @@ export default function AboutPage({ loaderData }: Route.ComponentProps) {
               src="/images/gallery/9L9A7764.JPG"
               alt="Machinery Ring Rwanda farmers and staff gathered together at a field day — the cooperative spirit at the heart of Ring work"
               className="aspect-[21/9] w-full object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-deep/70 to-transparent px-7 pb-5 pt-12">
               <span className="text-[13px] font-medium text-white">{t("about.devCaption")}</span>

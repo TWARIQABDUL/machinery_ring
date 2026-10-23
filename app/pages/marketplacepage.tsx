@@ -104,6 +104,7 @@ export default function MarketplacePage({ loaderData }: Route.ComponentProps) {
                         src={item.image_path}
                         alt={item.name}
                         className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center">

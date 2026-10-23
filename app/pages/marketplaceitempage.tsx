@@ -188,7 +188,7 @@ export default function MarketplaceItemPage({ loaderData, actionData }: Route.Co
                         <span className="text-[8px] font-semibold uppercase">Video</span>
                       </div>
                     ) : (
-                      <img src={m.media_path} alt="" className="h-full w-full object-cover" />
+                      <img src={m.media_path} alt="" className="h-full w-full object-cover" loading="lazy" />
                     )}
                   </button>
                 ))}

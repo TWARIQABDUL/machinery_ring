@@ -77,6 +77,7 @@ export default function BlogPage() {
                   src={post.image}
                   alt={post.imageAlt}
                   className="aspect-[16/10] w-full object-cover"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
                 <div className="flex flex-col gap-2 p-6">
