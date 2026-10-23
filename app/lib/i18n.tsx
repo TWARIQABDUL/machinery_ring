@@ -262,7 +262,7 @@ export const STRINGS = {
     en: "We coordinate agricultural services and practical support through our local network. Tell us what you need so we can check the equipment, operator, location and timing before confirming the work and price.",
     rw: "Duhuza serivisi z'ubuhinzi n'ubufasha ngiro binyuze mu rusobe rwacu rwo mu gace. Tubwire icyo ukeneye kugira ngo tugenzure imashini, uyikoresha, aho uherereye n'igihe mbere yo kwemeza akazi n'igiciro.",
   },
-  "services.availableNow": { en: "Available now", rw: "Ihari ubu" },
+  "services.availableNow": { en: "Services currently offered", rw: "Serivisi zitangwa ubu" },
   "services.availableNote": { en: "Requests assessed and confirmed individually", rw: "Ubusabe busuzumwa kandi bukemezwa bumwe bumwe" },
   "services.inDevelopment": { en: "In development", rw: "Iri gutunganywa" },
   "services.developingNote": { en: "Register interest. Dates depend on confirmed capacity.", rw: "Iyandikishe. Amatariki aterwa n'ubushobozi buremejwe." },

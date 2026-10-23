@@ -48,6 +48,40 @@ function formatPrice(row: ServiceRow) {
   return `RWF ${Number(row.price).toLocaleString()}${row.price_unit ? ` ${row.price_unit}` : ""}`;
 }
 
+// The `services` table has no category column yet, so we group "available"
+// services for display by matching keywords in their name/description. This
+// keeps mechanization work visually separate from training/advisory
+// activities per client feedback, without a schema change — if the client
+// wants admins to set this directly, add a `category` column instead.
+type ServiceCategoryKey = "mechanization" | "training" | "advisory";
+
+const SERVICE_CATEGORIES: { key: ServiceCategoryKey; title: string; description: string }[] = [
+  {
+    key: "mechanization",
+    title: "Mechanization Services",
+    description:
+      "Planting support uses available planting equipment, including hand-held planters. Seed, fertiliser and other input arrangements are agreed separately.",
+  },
+  {
+    key: "training",
+    title: "Training & Capacity Building",
+    description:
+      "Practical learning on machinery use, crop establishment, soil health, spraying practices, post-harvest handling and farm-business skills.",
+  },
+  {
+    key: "advisory",
+    title: "Agricultural Advisory Support",
+    description: "Guidance to help farmers plan ahead and make the most of the services and training above.",
+  },
+];
+
+function categorizeService(service: ServiceRow): ServiceCategoryKey {
+  const text = `${service.name} ${service.description ?? ""}`.toLowerCase();
+  if (text.includes("advisory") || text.includes("advice")) return "advisory";
+  if (text.includes("training") || text.includes("learning") || text.includes("capacity")) return "training";
+  return "mechanization";
+}
+
 const FALLBACK_IMAGES = [
   {
     src: "https://images.pexels.com/photos/34594551/pexels-photo-34594551.jpeg?auto=compress&cs=tinysrgb&w=1280",
@@ -125,19 +159,38 @@ export default function ServicesPage({ loaderData }: Route.ComponentProps) {
               <StatusBadge tone="solid">{t("services.availableNow")}</StatusBadge>
               <span className="text-sm text-muted">{t("services.availableNote")}</span>
             </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {available.map((service) => {
-                const price = formatPrice(service);
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {SERVICE_CATEGORIES.map((category) => {
+                const items = available.filter((service) => categorizeService(service) === category.key);
+                if (items.length === 0) return null;
                 return (
-                  <div key={service.slug} className="flex flex-col gap-3.5 rounded-2xl border border-line bg-white p-7">
-                    <IconBadge>{SERVICE_ICON}</IconBadge>
-                    <h3 className="text-lg font-bold text-ink">{service.name}</h3>
-                    {service.description && <p className="text-[15px] text-muted">{service.description}</p>}
-                    {price && (
-                      <span className="w-fit rounded-full bg-brand-50 px-3 py-1 text-[13px] font-semibold text-brand-700">
-                        {price}
-                      </span>
-                    )}
+                  <div key={category.key} className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <h3 className="text-lg font-bold text-ink">{category.title}</h3>
+                      <p className="text-[13.5px] leading-[1.6] text-muted">{category.description}</p>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      {items.map((service) => {
+                        const price = formatPrice(service);
+                        return (
+                          <div
+                            key={service.slug}
+                            className="flex flex-col gap-2.5 rounded-2xl border border-line bg-white p-6"
+                          >
+                            <IconBadge size="sm">{SERVICE_ICON}</IconBadge>
+                            <h4 className="text-[15px] font-bold text-ink">{service.name}</h4>
+                            {service.description && (
+                              <p className="text-[13.5px] text-muted">{service.description}</p>
+                            )}
+                            {price && (
+                              <span className="w-fit rounded-full bg-brand-50 px-3 py-1 text-[12.5px] font-semibold text-brand-700">
+                                {price}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
               })}
